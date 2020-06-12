@@ -17,18 +17,6 @@
 % * https://www.grc.nasa.gov/WWW/K-12/airplane/atmosmet.html
 % * https://www.kaymont.com/habphotography
 
-%% Definitions   
-%   m_payload     mass of the payload - CONTROL INPUT
-%   m_helium      mass of helium in balloon - CONTROL INPUT
-%   n_helium      number of moles of helium in balloon
-%   vol_balloon   volume of air displaced by the balloon
-%   rho_helium    density of helium in balloon
-%   temp_helium   temperature of helium in balloon
-%   pres_helium   pressure of helium in balloon
-%   rho_air       density of air around balloon as a function of altitude
-%   temp_air      temperature of air around balloon as a function of altitude
-%   pres_air      pressure of air around balloon as a function of altitutde
-
 %% Setup
 addpath('../atmo_model'); % import NASA Earth Atmosphere Model functions
 addpath('../balloon_model'); % import balloon configuration files
@@ -45,6 +33,7 @@ balloon_burst_diameter = balloon_parameters.spec.diameter_burst.value; % [m] Mis
 balloon_burst_volume = (4/3) * pi() * (balloon_burst_diameter / 2)^3; % [m^3]
 balloon_release_volume = balloon_parameters.spec.volume_release.value; % [m^3]
 M = molar_mass(lift_gas); % [kg/mol] molar mass of lifting gas
+
 %% Defining the system of equations
 % First compute the ideal gas properties of the balloon filled with gas as
 % a function of altitude, assuming the gas inside the balloon has the same
@@ -59,11 +48,14 @@ Fg_payload = @(altitude, m_payload) (m_payload .* -g(altitude));
 
 F_net = @(altitude, m_gas, m_balloon, m_payload) (F_buoyancy(altitude, m_gas) + Fg_balloon(altitude, m_balloon) + Fg_payload(altitude, m_payload));
 
-%% Sanity Check
+%% Sanity Check - Closed system, check over altitude range
 % Now let's sanity check with some plots, assuming a closed system.
+%   altitude      estimated vertical flight range
+%   m_payload     mass of the payload - CONTROL INPUT
+%   m_gas         mass of lifting gas in balloon - CONTROL INPUT
 altitude = 0:35000; % [m]
 m_payload = 2; % [kg] initial mass of the payload
-m_gas = get_recommended_launch_lifting_mass(altitude(1), balloon_release_volume, M); % [kg] initial helium mass
+m_gas = get_recommended_launch_lifting_mass(altitude(1), balloon_release_volume, M); % [kg] initial lifting mass added to balloon
 
 [T_a, P_a, rho_a] = atmo_model(altitude);
 [~,index_closest_altitude_to_burst_pressure] = min(abs(balloon_burst_pressure - P_a));
