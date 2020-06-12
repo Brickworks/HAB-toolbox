@@ -22,7 +22,7 @@
 % * Atmosphere is a static fluid (no convection or winds)
 % * Atmospheric conditions only vary with altitude
 
-function rho = atmo_density(altitude)
+function density = atmo_density(altitude)
 % ATMO_DENSITY  Density of the atmosphere (kg/m^3) at a given altitude (m).
 % Depends on ATMO_PRES in kPa, ATMO_TEMP in K
 if nargin < 1 || isempty(altitude)
@@ -30,11 +30,11 @@ if nargin < 1 || isempty(altitude)
     altitude = 0:85000; % [m] altitude
 end
 
-rho = (atmo_pres(altitude) ./ 1000) ./ (0.2869 .* atmo_temp(altitude));
+density = rho(atmo_temp(altitude), atmo_pres(altitude), molar_mass('air'));
 
 if nargin < 1 || isempty(altitude)
     % Sample behavior -- output not assigned to variable
-    plot(altitude, atmo_density(altitude))
+    plot(altitude, density)
     xlabel('Altitude (m)');
     ylabel('Density (kg / m^3)')
     title('Earth Atmosphere Model - Density');

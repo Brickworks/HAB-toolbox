@@ -15,6 +15,8 @@ function M = molar_mass(gas)
 %   Xe  Xenon
 %   CH4 Methane
 switch lower(gas)
+    case {'air'}
+        M = 0.02897;
     case {'he', 'helium'}
         M = 0.0040026;
     case {'h2', 'hydrogen'}

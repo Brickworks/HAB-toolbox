@@ -94,3 +94,8 @@ plot(altitude, balloon_volume, 'r', 'DisplayName', 'Balloon Volume');
 xlabel('Altitude'); ylabel('Volume (m^3)');
 hold off;
 legend();
+
+%% Next steps - Model ascent rate
+% * Drag force, ascent rate, and other parameters as functions of time
+% * Open system, balloon and payload lose mass over time
+% * Control loop with bleeding ballast/lift gas as control inputs
