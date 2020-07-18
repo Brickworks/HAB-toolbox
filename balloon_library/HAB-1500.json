@@ -1,0 +1,82 @@
+{
+    "name": "HAB-1500",
+    "datasheet": "https://f02c6e65-2400-409c-b83f-d95f5ff89a44.filesusr.com/ugd/a13aac_012a1170f66e4225a5fefbf4b3d4fa17.pdf",
+    "part_number": [
+        {
+            "manufacturer": "Kaymont",
+            "model": "KCI-1500"
+        },
+        {
+            "manufacturer": "Kaymont",
+            "model": "HAB-1500"
+        },
+        {
+            "manufacturer": "Totex",
+            "model": "TA1500"
+        }
+    ],
+    "spec": {
+        "lifting_gas": "Helium",
+        "drag_coefficient": 0.25,
+        "mass": {
+            "value": 1.500,
+            "unit": "kg"
+        },
+        "neck_diameter": {
+            "value": 0.03,
+            "unit": "m"
+        },
+        "neck_length": {
+            "value": 0.12,
+            "unit": "m"
+        },
+        "flaccid_length": {
+            "value": 2.53,
+            "unit": "m"
+        },
+        "diameter_barely_inflated": {
+            "value": 1.61,
+            "unit": "m"
+        },
+        "payload": {
+            "value": 1.050,
+            "unit": "kg"
+        },
+        "free_lift_recommended": {
+            "value": 1.280,
+            "unit": "kg"
+        },
+        "nozzle_lift": {
+            "value": 2.330,
+            "unit": "kg"
+        },
+        "gross_lift": {
+            "value": 3.830,
+            "unit": "kg"
+        },
+        "diameter_release": {
+            "value": 1.85,
+            "unit": "m"
+        },
+        "volume_release": {
+            "value": 3.33,
+            "unit": "m^3"
+        },
+        "ascent_rate": {
+            "value": 5.333,
+            "unit": "m/s"
+        },
+        "diameter_burst": {
+            "value": 9.44,
+            "unit": "m"
+        },
+        "altitude_burst": {
+            "value": 34200,
+            "unit": "m"
+        },
+        "pressure_burst": {
+            "value": 630,
+            "unit": "Pa"
+        }
+    }
+}
