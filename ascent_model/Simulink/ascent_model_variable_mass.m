@@ -13,7 +13,7 @@
 % * Ignore dynamics of the balloon-payload system and treat it as a blob
 
 %% Setup
-addpath('../../../balloon_library'); % import balloon configuration files
+addpath('../../balloon_library'); % import balloon configuration files
 clear; % clear workspace variables
 
 % Import balloon parameters
@@ -67,8 +67,8 @@ Kn = 1e-0; % Derivative Filter Gain
 
 %% Model Configuration
 dt = 1; % [s] simulation step time
-initial_altitude = 18400; % [m] initial altitude above sea level
-initial_velocity = 5.126; % [m/s] initial vertical velocity
+initial_altitude = 0;%18400; % [m] initial altitude above sea level
+initial_velocity = 0;%5.126; % [m/s] initial vertical velocity
 noisy_atmosphere = false; % choose whether to simulate actual atmosphere variations
 noisy_measurements = true; % choose whether to simulate noisy measurements
 
@@ -93,7 +93,7 @@ end
 tout = sim('simulink_ascent_model_variable_mass_displayorganization');
 
 %% Plots
-figure(1); clf;
+figure(3); clf;
 subplot(2,2,1);
 yyaxis left; grid on;
 plot(altitude, atmo_temp);
@@ -144,7 +144,7 @@ xlabel('Time (s)'); ylabel('Force (N)');
 hold off;
 legend();
 
-figure(2); clf;
+figure(4); clf;
 subplot(5,1,1); hold on;  grid on;
 title(sprintf('%s | %s', lift_gas, balloon_name));
 plot(tout, altitude, 'DisplayName', 'Altitude');
