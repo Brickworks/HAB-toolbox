@@ -6,8 +6,6 @@
 
 import logging
 import os
-import json
-from collections import namedtuple
 
 log = logging.getLogger()
 

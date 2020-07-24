@@ -1,0 +1,49 @@
+{
+    "units": "kg/mol",
+    "gas_properties": [
+        {
+            "species": ["air"],
+            "molar_mass": 0.02897
+        },
+        {
+            "species": ["he", "helium"],
+            "molar_mass": 0.0040026
+        },
+        {
+            "species": ["h2", "hydrogen"],
+            "molar_mass": 0.00201594
+        },
+        {
+            "species": ["n2", "nitrogen"],
+            "molar_mass": 0.0280134
+        },
+        {
+            "species": ["o2", "oxygen"],
+            "molar_mass": 0.0319988
+        },
+        {
+            "species": ["ar", "argon"],
+            "molar_mass": 0.039948
+        },
+        {
+            "species": ["co2", "carbon dioxide"],
+            "molar_mass": 0.04400995
+        },
+        {
+            "species": ["ne", "neon"],
+            "molar_mass": 0.020183
+        },
+        {
+            "species": ["kr", "krypton"],
+            "molar_mass": 0.08380
+        },
+        {
+            "species": ["xe", "xenon"],
+            "molar_mass": 0.13130
+        },
+        {
+            "species": ["ch4", "methane"],
+            "molar_mass": 0.01604303
+        }
+    ]
+}
