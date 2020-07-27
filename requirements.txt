@@ -1,5 +1,4 @@
 numpy
-scipy
-scikit-aero
+ambiance
 matplotlib
 Click

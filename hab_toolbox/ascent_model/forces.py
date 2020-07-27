@@ -1,5 +1,4 @@
 import logging
-from skaero.atmosphere import coesa
 from ascent_model.ideal_physics import gravity
 import numpy as np
 
@@ -13,21 +12,21 @@ def weight(altitude, total_mass):
     return gravity(altitude) * total_mass
 
 
-def buoyancy(altitude, gas):
-    ''' Buoyancy force (N) from air displaced by lift gas.
+def buoyancy(altitude, gas, atmosphere):
+    ''' Buoyancy force (N) from air displaced by lift gas at a given 
+    geometric altitude (m).
     '''
-    gas.match_ambient(altitude)
-    atmo_density = coesa.table(altitude)[3]
-    density_diff = gas.density - atmo_density
+    gas.match_ambient(atmosphere)
+    density_diff = gas.density - atmosphere.density
     displaced_air = gas.volume * density_diff
     return gravity(altitude) * displaced_air
 
 
-def drag(altitude, ascent_rate, gas, balloon):
+def drag(ascent_rate, gas, balloon, atmosphere):
     ''' Drag force (N) from air against the windward cross-sectional area (m^2)
+    at a given geometric altitude (m).
     '''
     Cd = balloon.spec['drag_coefficient']
     area = balloon.projected_area(gas.volume)
-    atmo_density = coesa.table(altitude)[3]
     direction = -np.sign(ascent_rate)  # always oppose direction of motion
-    return direction * (1/2) * Cd * area * ascent_rate ** 2 * atmo_density
+    return direction * (1/2) * Cd * area * (ascent_rate ** 2) * atmosphere.density

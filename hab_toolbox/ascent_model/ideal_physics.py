@@ -1,7 +1,6 @@
 import logging
 import json
 import os
-from skaero.atmosphere import coesa
 
 
 log = logging.getLogger()
@@ -34,7 +33,7 @@ class Gas():
         for gas in gas_properties:
             for gas_name in gas['species']:
                 known_species[gas_name] = gas['molar_mass']
-            log.debug('Known gas species: %s' % known_species)
+        log.debug('Known gas species: %s' % known_species)
 
         species_of_interest = self.species.lower()
         if species_of_interest in known_species.keys():
@@ -49,20 +48,24 @@ class Gas():
             a given mass (kg) of gas. 
         '''
         moles = (self.mass / self.molar_mass)
-        return moles * (self.temperature / self.pressure)
-    
+        V = moles * R * self.temperature / self.pressure
+        return V
+
     @property
     def density(self):
         ''' Ideal gas density (kg/m^3) from temperature (K) and pressure (Pa).
         '''
         return (self.molar_mass * self.pressure) / (R * self.temperature)
-    
-    def match_ambient(self, altitude):
+
+    def match_ambient(self, atmosphere):
         ''' Update temperature (K), pressure (Pa), and density (kg/m^3) to
         match ambient air conditions at a given geopotential altitude (m).
         '''
-        self.temperature = coesa.table(altitude)[1]
-        self.pressure = coesa.table(altitude)[2]
+        log.debug('Matching %s temperature and pressure to ambient at %s meters (geometric altitude)' % (
+            self.species, atmosphere.h
+        ))
+        self.temperature = atmosphere.temperature
+        self.pressure = atmosphere.pressure
 
     def get_properties(self):
         ''' Return all gas properties as a tuple.
@@ -71,9 +74,9 @@ class Gas():
 
 
 def gravity(altitude):
-    ''' Acceleration due to gravity (m/s^2) as a function of geopotential
+    ''' Acceleration due to gravity (m/s^2) as a function of geometric 
     altitude (m).
-    
+
     Gravity is negative because it assumes positive up coordinate frame.
     '''
     return -STANDARD_GRAVITY * (
