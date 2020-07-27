@@ -16,6 +16,7 @@ def weight(altitude, total_mass):
 def buoyancy(altitude, gas):
     ''' Buoyancy force (N) from air displaced by lift gas.
     '''
+    gas.match_ambient(altitude)
     atmo_density = coesa.table(altitude)[3]
     density_diff = gas.density - atmo_density
     displaced_air = gas.volume * density_diff

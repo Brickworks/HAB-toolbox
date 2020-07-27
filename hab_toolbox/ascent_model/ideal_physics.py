@@ -69,6 +69,7 @@ class Gas():
         '''
         return self.temperature, self.pressure, self.density, self.volume
 
+
 def gravity(altitude):
     ''' Acceleration due to gravity (m/s^2) as a function of geopotential
     altitude (m).

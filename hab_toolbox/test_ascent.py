@@ -12,9 +12,30 @@ log = logging.getLogger()
 
 balloon = Balloon('HAB-3000')
 lift_gas = Gas(balloon.spec['lifting_gas'], mass=2.0)
-altitude = np.linspace(0,10)
+payload_mass = 1 # [kg]
+dt = 0.1
+tspan = np.arange(1,10,step=dt)
+h=0
+v=0
+a=gravity(h)
 
-props = []
-for h in altitude:
-    lift_gas.match_ambient(h)
-    print(lift_gas.get_properties())
+total_mass = balloon.spec['mass']['value'] + payload_mass
+
+altitude=[]
+ascent_rate=[]
+ascent_accel=[]
+for t in tspan:
+    altitude.append(h)
+    ascent_rate.append(v)
+    ascent_accel.append(a)
+
+    f_weight = weight(h, total_mass)
+    f_buoyancy = buoyancy(h, lift_gas)
+    f_drag = drag(h, v, lift_gas, balloon)
+    f_net = f_weight + f_buoyancy + f_drag
+
+    a = f_net/total_mass
+    v += a*dt
+    h += v*dt
+
+plt.plot(tspan, altitude)
