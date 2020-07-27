@@ -8,7 +8,7 @@ log = logging.getLogger()
 
 
 BALLOON_LIBRARY_DIR = os.path.dirname(__file__)
-PI = math.pi()
+PI = math.pi
 
 
 def is_valid_balloon(spec_name):

@@ -1,6 +1,7 @@
 import logging
 import json
 import os
+from skaero.atmosphere import coesa
 
 
 log = logging.getLogger()
@@ -41,7 +42,8 @@ class Gas():
         else:
             log.error('Species %s is not defined in %s' %
                       (self.species, GAS_PROPERTIES_CONFIG))
-    
+
+    @property
     def volume(self):
         ''' Ideal gas volume (m^3) from temperature (K) and pressure (Pa) for
             a given mass (kg) of gas. 
@@ -49,14 +51,27 @@ class Gas():
         moles = (self.mass / self.molar_mass)
         return moles * (self.temperature / self.pressure)
     
-    def density(self, temperature, pressure):
+    @property
+    def density(self):
         ''' Ideal gas density (kg/m^3) from temperature (K) and pressure (Pa).
         '''
         return (self.molar_mass * self.pressure) / (R * self.temperature)
+    
+    def match_ambient(self, altitude):
+        ''' Update temperature (K), pressure (Pa), and density (kg/m^3) to
+        match ambient air conditions at a given geopotential altitude (m).
+        '''
+        self.temperature = coesa.table(altitude)[1]
+        self.pressure = coesa.table(altitude)[2]
 
+    def get_properties(self):
+        ''' Return all gas properties as a tuple.
+        '''
+        return self.temperature, self.pressure, self.density, self.volume
 
 def gravity(altitude):
-    ''' Acceleration due to gravity (m/s^2) as a function of altitude (m).
+    ''' Acceleration due to gravity (m/s^2) as a function of geopotential
+    altitude (m).
     
     Gravity is negative because it assumes positive up coordinate frame.
     '''
