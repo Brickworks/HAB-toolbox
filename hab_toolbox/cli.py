@@ -40,9 +40,10 @@ def test_logger():
 def run(duration, dt):
     if dt > 0 and dt <= 0.5:
         t, x, v, a = test_ascent.run(duration, dt)
-        import matplotlib.pyplot as plt
-        plt.plot(t, x)
-        plt.show()
+        import plot_tools
+        traces = [plot_tools.create_plot_trace(t, x)]
+        plot_tools.plot_traces(traces, xlabel='Time (s)', ylabel='Altitude (m)')
+
     else:
         log.error('Time step must be between 0 and 0.5 seconds.')
 

@@ -39,18 +39,18 @@ def run(duration=3000, dt=0.1):
 
     total_mass = balloon.spec['mass']['value'] + payload_mass
 
-    altitude=[]
-    ascent_rate=[]
-    ascent_accel=[]
+    altitude=np.array([])
+    ascent_rate=np.array([])
+    ascent_accel=np.array([])
     for t in tspan:
-        ascent_accel.append(a)
-        ascent_rate.append(v)
-        altitude.append(h)
+        altitude = np.append(altitude, h)
+        ascent_rate = np.append(ascent_rate, v)
+        ascent_accel = np.append(ascent_accel, a)
 
         log.debug(f'elapsed sim time: {t}s')
         if balloon.burst_threshold_exceeded(lift_gas.volume):
-            log.warning('Balloon burst threshold exceeded: altitude %s m, diameter %s m' % (h, balloon.diameter))
-            tspan = np.transpose(np.where(tspan<=t))
+            log.warning('Balloon burst threshold exceeded: time %s, altitude %s m, diameter %s m' % (t, h, balloon.diameter))
+            tspan = np.transpose(np.where(tspan<t))
             break
         a, dv, dh = step(dt, a, v, h, balloon, lift_gas, total_mass)
         v += dv
@@ -61,6 +61,6 @@ def run(duration=3000, dt=0.1):
 
 if __name__ == '__main__':
     t, x, v, a = run()
-    import matplotlib.pyplot as plt
-    plt.plot(t, x)
-    plt.show()
+    import plot_tools
+    traces = [plot_tools.create_plot_trace(t, x)]
+    plot_tools.plot_traces(traces, xlabel='Time (s)', ylabel='Altitude (m)')
