@@ -1,11 +1,37 @@
 import logging
 import numpy as np
 from balloon_library.balloon import Balloon, Gas
-from ascent_model.forces import weight, buoyancy, drag
 from ambiance.ambiance import Atmosphere
 
 
 log = logging.getLogger()
+np.set_printoptions(formatter={'float': '{:6.4f}'.format})
+
+# All forces assume positive up coordinate frame.
+def weight(atmosphere, total_mass):
+    ''' Weight (N) as a function of gropotential altitude (m) and mass (kg).
+    '''
+    return -atmosphere.grav_accel * total_mass
+
+
+def buoyancy(atmosphere, balloon):
+    ''' Buoyancy force (N) from air displaced by lift gas at a given 
+    geometric altitude (m).
+    '''
+    balloon.lift_gas.match_ambient(atmosphere)
+    density_diff = balloon.lift_gas.density - atmosphere.density
+    displaced_air = balloon.lift_gas.volume * density_diff
+    return -atmosphere.grav_accel * displaced_air
+
+
+def drag(atmosphere, balloon, ascent_rate):
+    ''' Drag force (N) from air against the windward cross-sectional area (m^2)
+    at a given geometric altitude (m).
+    '''
+    Cd = balloon.spec['drag_coefficient']
+    area = balloon.projected_area
+    direction = -np.sign(ascent_rate)  # always oppose direction of motion
+    return direction * (1/2) * Cd * area * (ascent_rate ** 2) * atmosphere.density
 
 
 def step(dt, a, v, h, balloon, total_mass):
@@ -23,7 +49,7 @@ def step(dt, a, v, h, balloon, total_mass):
         f'{a} m/s^2 | {v} m/s | {h} m'
     )
     log.debug(
-        f'f_net {f_net} N | f_weight {f_weight} N | f_buoyancy {f_buoyancy} N | f_drag {f_drag} N'
+        f'f_net {f_net[0]} N | f_weight {f_weight[0]} N | f_buoyancy {f_buoyancy[0]} N | f_drag {f_drag[0]} N'
     )
     return a, dv, dh
 
@@ -68,4 +94,21 @@ def run(sim_config):
         ascent_rate = np.append(ascent_rate, v)
         ascent_accel = np.append(ascent_accel, a)
     
-    return tspan, altitude, ascent_rate, ascent_accel
+    return np.squeeze(tspan), altitude, ascent_rate, ascent_accel
+
+if __name__ == '__main__':
+    import json
+    import os
+    config_file = os.path.dirname(__file__)+'/../sim_config.json'
+    save_output = os.path.dirname(__file__)+'/../test.csv'
+    with open(config_file) as f:
+        sim_config = json.load(f)
+    t, h, v, a = run(sim_config)
+    output_array = np.vstack([t, h, v, a]).T
+    np.savetxt(
+        save_output, output_array, fmt='%.6f', delimiter=',', newline='\n',
+        header='time,altitude,ascent_rate,ascent_accel', footer='', comments='# ', encoding=None
+    )
+    import plot_tools
+    traces = [plot_tools.create_plot_trace(t, h)]
+    plot_tools.plot_traces(traces, xlabel='Time (s)', ylabel='Altitude (m)')

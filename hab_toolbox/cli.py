@@ -3,6 +3,7 @@
 import logging
 import click
 import json
+import numpy as np
 
 from ascent_model import simulation
 
@@ -26,15 +27,25 @@ def cli(verbose, debug):
 
 @cli.command()
 @click.argument('config_file', type=click.File('rb'))
+@click.option('-o', '--save_output', type=click.Path(), 
+    help='Save output to file.'
+)
 @click.option('-p', '--plot', is_flag=True, 
     help='Plot altitude after simulating.'
 )
-def sim(config_file, plot):
+def sim(config_file, save_output, plot):
     sim_config = json.load(config_file)
-    t, x, v, a = simulation.run(sim_config)
+    t, h, v, a = simulation.run(sim_config)
+    if save_output:
+        # vertical stack single rows then transpose so they are columns
+        output_array = np.vstack([t, h, v, a]).T
+        np.savetxt(
+            save_output, output_array, fmt='%.6f', delimiter=',', newline='\n',
+            header='time,altitude,ascent_rate,ascent_accel', footer='', comments='# ', encoding=None
+        )
     if plot:
         import plot_tools
-        traces = [plot_tools.create_plot_trace(t, x)]
+        traces = [plot_tools.create_plot_trace(t, h)]
         plot_tools.plot_traces(traces, xlabel='Time (s)', ylabel='Altitude (m)')
 
 

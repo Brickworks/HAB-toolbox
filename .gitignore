@@ -38,3 +38,6 @@ MANIFEST
 .idea
 .vscode
 venv
+
+# Test Data
+*.csv
