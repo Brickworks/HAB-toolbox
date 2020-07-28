@@ -1,7 +1,7 @@
 # HAB-toolbox
 Software to assist in mechanics calculations, and simulations of high altitude baloon payloads. 
 
-#MaTHs
+# MaTHs
 
 Lagrangian
 
@@ -14,3 +14,12 @@ Runge-Kutta
 [Spherical Pendulum](https://en.wikipedia.org/wiki/Spherical_pendulum)
 
 [Runge-Kutta](https://en.wikipedia.org/wiki/Runge%E2%80%93Kutta_methods)
+
+# Ascent Model
+
+```
+python hab_toolbox/cli.py sim
+```
+```
+python hab_toolbox/cli.py -v sim --duration 10000 --dt 0.5 --plot
+```

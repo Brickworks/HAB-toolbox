@@ -2,9 +2,9 @@
 
 import logging
 import click
+import json
 
-import utils
-import test_ascent
+from ascent_model import simulation
 
 
 FORMAT = '%(asctime)-15s %(levelname)+8s: %(message)s'
@@ -25,31 +25,20 @@ def cli(verbose, debug):
 
 
 @cli.command()
-def test_logger():
-    # test the current logging level
-    utils.test_logger()
-
-
-@cli.command()
-@click.option('-d', '--duration', default=3000, show_default=True,
-    help='Duration of the simulation (seconds)'
+@click.argument('config_file', type=click.File('rb'))
+@click.option('-p', '--plot', is_flag=True, 
+    help='Plot altitude after simulating.'
 )
-@click.option('--dt', default=0.1, show_default=True, 
-    help='Time step of the simulation (seconds) Bounded: 0 < dt < 0.5'
-)
-def run(duration, dt):
-    if dt > 0 and dt <= 0.5:
-        t, x, v, a = test_ascent.run(duration, dt)
+def sim(config_file, plot):
+    sim_config = json.load(config_file)
+    t, x, v, a = simulation.run(sim_config)
+    if plot:
         import plot_tools
         traces = [plot_tools.create_plot_trace(t, x)]
         plot_tools.plot_traces(traces, xlabel='Time (s)', ylabel='Altitude (m)')
 
-    else:
-        log.error('Time step must be between 0 and 0.5 seconds.')
 
-
-cli.add_command(test_logger)
-cli.add_command(run)
+cli.add_command(sim)
 
 if __name__ == '__main__':
     cli()

@@ -1,0 +1,17 @@
+{
+    "balloon": {
+        "type": "HAB-3000",
+        "reserve_mass_kg": 2,
+        "bleed_mass_kg": 0.5
+    },
+    "payload": {
+        "bus_mass_kg": 2,
+        "ballast_mass_kg": 0.5
+    },
+    "simulation": {
+        "duration": 10000,
+        "dt": 0.1,
+        "initial_altitude": 0,
+        "initial_velocity": 0
+    }
+}
