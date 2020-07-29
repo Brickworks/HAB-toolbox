@@ -18,8 +18,8 @@ Runge-Kutta
 # Ascent Model
 
 ```
-python hab_toolbox/cli.py sim
+python hab_toolbox/cli.py sim hab_toolbox/sim_config.json
 ```
 ```
-python hab_toolbox/cli.py -v sim --duration 10000 --dt 0.5 --plot
+python hab_toolbox/cli.py -v sim hab_toolbox/sim_config.json -o test.csv -p
 ```

@@ -5,7 +5,10 @@ from ambiance.ambiance import Atmosphere
 
 
 log = logging.getLogger()
-np.set_printoptions(formatter={'float': '{:6.4f}'.format})
+np.set_printoptions(formatter={'float': '{:8.4f}'.format})
+MAX_ALLOWED_DT = 0.5
+MIN_ALLOWED_DT = 0.001
+
 
 # All forces assume positive up coordinate frame.
 def weight(atmosphere, total_mass):
@@ -45,9 +48,6 @@ def step(dt, a, v, h, balloon, total_mass):
     a = f_net/total_mass
     dv = a*dt
     dh = v*dt
-    log.info(
-        f'{a} m/s^2 | {v} m/s | {h} m'
-    )
     log.debug(
         f'f_net {f_net[0]} N | f_weight {f_weight[0]} N | f_buoyancy {f_buoyancy[0]} N | f_drag {f_drag[0]} N'
     )
@@ -55,6 +55,10 @@ def step(dt, a, v, h, balloon, total_mass):
 
 
 def run(sim_config):
+    altitude=np.array([])
+    ascent_rate=np.array([])
+    ascent_accel=np.array([])
+
     balloon = Balloon(sim_config['balloon']['type'])
     lift_gas_reserve = sim_config['balloon']['reserve_mass_kg']
     lift_gas_bleed = sim_config['balloon']['bleed_mass_kg']
@@ -63,10 +67,16 @@ def run(sim_config):
 
     duration = sim_config['simulation']['duration']
     dt = sim_config['simulation']['dt']
+    if dt < MIN_ALLOWED_DT or dt > MAX_ALLOWED_DT:
+        # solver gets unstable with time steps above 0.5
+        log.error(f'Time step must be between 0.001 and 0.5 seconds, not {dt}')
+        if dt < MIN_ALLOWED_DT:
+            dt = MIN_ALLOWED_DT
+        elif dt > MAX_ALLOWED_DT:
+            dt = MAX_ALLOWED_DT
+        log.warning(f'Using closest allowed time step: {dt} seconds')
+    
     tspan = np.arange(0, duration, step=dt)
-    if dt < 0 or dt >= 0.5:
-        log.error('Time step must be between 0 and 0.5 seconds.')
-        return
 
     h=sim_config['simulation']['initial_altitude']
     v=sim_config['simulation']['initial_velocity']
@@ -77,11 +87,7 @@ def run(sim_config):
     ballast_mass = sim_config['payload']['ballast_mass_kg']
     total_mass = balloon_mass + bus_mass + ballast_mass  # [kg]
 
-    altitude=np.array([])
-    ascent_rate=np.array([])
-    ascent_accel=np.array([])
     for t in tspan:
-        log.debug(f'elapsed sim time: {t}s')
         if balloon.burst_threshold_exceeded:
             log.warning('Balloon burst threshold exceeded: time %s, altitude %s m, diameter %s m' % (t, h, balloon.diameter))
             tspan = np.transpose(np.where(tspan<t))
@@ -89,7 +95,9 @@ def run(sim_config):
         a, dv, dh = step(dt, a, v, h, balloon, total_mass)
         v += dv
         h += dh
-        
+        log.info(
+            f'{t:6.1f} s | {a} m/s^2 | {v} m/s | {h} m'
+        )
         altitude = np.append(altitude, h)
         ascent_rate = np.append(ascent_rate, v)
         ascent_accel = np.append(ascent_accel, a)

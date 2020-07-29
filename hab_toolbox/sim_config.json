@@ -8,9 +8,20 @@
         "bus_mass_kg": 2,
         "ballast_mass_kg": 0.5
     },
+    "pid": {
+        "mode": "continuous",
+        "bleed_rate_kgps": 0.01,
+        "ballast_rate_kgps": 0.01,
+        "gains": {
+            "kp": 0,
+            "ki": 0,
+            "kd": 0,
+            "n": 0
+        }
+    },
     "simulation": {
         "duration": 10000,
-        "dt": 0.1,
+        "dt": 0.5,
         "initial_altitude": 0,
         "initial_velocity": 0
     }

@@ -8,7 +8,7 @@ import numpy as np
 from ascent_model import simulation
 
 
-FORMAT = '%(asctime)-15s %(levelname)+8s: %(message)s'
+FORMAT = '%(module)-10s %(levelname)+8s: %(message)s'
 logging.basicConfig(format=FORMAT, datefmt="%Y-%m-%dT%H:%M:%S%z")
 log = logging.getLogger()
 
@@ -43,10 +43,14 @@ def sim(config_file, save_output, plot):
             save_output, output_array, fmt='%.6f', delimiter=',', newline='\n',
             header='time,altitude,ascent_rate,ascent_accel', footer='', comments='# ', encoding=None
         )
+        log.warning(f'Simulation output saved to {save_output}')
     if plot:
         import plot_tools
-        traces = [plot_tools.create_plot_trace(t, h)]
-        plot_tools.plot_traces(traces, xlabel='Time (s)', ylabel='Altitude (m)')
+        traces = []
+        traces.append(plot_tools.create_plot_trace(t, h, label='Altitude (m)'))
+        traces.append(plot_tools.create_plot_trace(t, v, label='Ascent Rate (m/s)'))
+        traces.append(plot_tools.create_plot_trace(t, a, label='Ascent Rate (m/s^s)'))
+        plot_tools.create_fig_with_subplots(traces)
 
 
 cli.add_command(sim)
