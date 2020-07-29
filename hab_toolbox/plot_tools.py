@@ -8,6 +8,8 @@ fig = go.Figure(
         'showlegend': True,
         'plot_bgcolor': 'rgba(0, 0, 0, 0)',
         'paper_bgcolor': 'rgba(0, 0, 0, 0)',
+        'xaxis': {'showgrid': True, 'gridcolor': 'LightGray'},
+        'yaxis': {'showgrid': True, 'gridcolor': 'LightGray'}
     }
 )
 templated_fig = plotly.io.to_templated(fig)
@@ -24,11 +26,13 @@ def create_plot_trace(x, y, label=''):
         mode='lines+markers',
         marker={
             'size': 0.5,
+            'opacity': 0.5,
+            'line': {'color': 'DarkSlateGrey'},
         }
     )
 
 
-def create_fig_with_traces(traces, xlabel='', ylabel='', title='', showlegend=False):
+def create_figure(traces, xlabel='', ylabel='', title='', showlegend=False):
     ''' Plot all traces on the same axes.
     '''
     layout = {
@@ -37,16 +41,25 @@ def create_fig_with_traces(traces, xlabel='', ylabel='', title='', showlegend=Fa
         'xaxis': {'title': xlabel},
         'yaxis': {'title': ylabel}
     }
-    plotly.offline.iplot({
+    return go.Figure({
         'data': traces,
         'layout': layout
     })
 
 
-def create_fig_with_subplots(traces):
-    ''' Plot each trace on new axes, stacked vertically.
+def create_subplots(traces, rows, cols):
+    ''' Create subplots from plot traces.
+    traces = {
+        'trace': create_plot_trace(blah),
+        'row': row_index,
+        'col': col_index
+    }
     '''
-    fig = plotly.subplots.make_subplots(rows=len(traces), cols=1)
-    for i, trace in enumerate(traces):
-        fig.add_trace(trace, row=i+1, col=1)
+    fig = make_subplots(rows=rows, cols=cols)
+    for trace in traces:
+        fig.add_trace(trace['trace'], row=trace['row'], col=trace['col'])
+    return fig
+
+
+def plot_figure(fig):
     plotly.offline.iplot(fig)

@@ -55,6 +55,31 @@ def step(dt, a, v, h, balloon, total_mass):
 
 
 def run(sim_config):
+    ''' Start a simulation. Specify initial conditions and configurable 
+    parameters with a SIM_CONFIG dictionary.
+
+    "balloon":
+        "type": Part number of the balloon to import from balloon_library
+        "reserve_mass_kg": Mass of lift gas to always keep in balloon (kg)
+        "bleed_mass_kg": Mass of lift gas allowed to be bled from balloon (kg)
+    "payload":
+        "bus_mass_kg": Mass of non-ballast payload mass (kg)
+        "ballast_mass_kg": Mass of ballast material (kg)
+    "pid":
+        "mode": Altitude controller mode. [pwm, continuous]
+        "bleed_rate_kgps": Mass flow rate of lift gas bleed (kg/s)
+        "ballast_rate_kgps": Mass flow rate of ballast release (kg/s)
+        "gains":
+            "kp": Proportional gain
+            "ki": Integral gain
+            "kd": Derivative gain
+            "n":  Filter coefficient
+    "simulation": {
+        "duration": Max time duration of simulation (seconds)
+        "dt": Time step (seconds)
+        "initial_altitude": Altitude at simulation start (m), [-5004 to 80000]
+        "initial_velocity": Velocity at simulation start (m/s)
+    '''
     altitude=np.array([])
     ascent_rate=np.array([])
     ascent_accel=np.array([])
@@ -118,5 +143,25 @@ if __name__ == '__main__':
         header='time,altitude,ascent_rate,ascent_accel', footer='', comments='# ', encoding=None
     )
     import plot_tools
-    traces = [plot_tools.create_plot_trace(t, h)]
-    plot_tools.plot_traces(traces, xlabel='Time (s)', ylabel='Altitude (m)')
+    traces = [
+        {
+            'trace': plot_tools.create_plot_trace(
+                        t, h, label='Altitude (m)'),
+            'row': 1,
+            'col': 1,
+        },
+        {
+            'trace': plot_tools.create_plot_trace(
+                        t, v, label='Ascent Rate (m/s)'),
+            'row': 2,
+            'col': 1,
+        },
+        {
+            'trace': plot_tools.create_plot_trace(
+                        t, a, label='Acceleration (m/s^2)'),
+            'row': 3,
+            'col': 1,
+        },
+    ]
+    fig = plot_tools.create_subplots(traces, 3, 1)
+    plot_tools.plot_figure(fig)

@@ -6,6 +6,7 @@ import json
 import numpy as np
 
 from ascent_model import simulation
+import plot_tools
 
 
 FORMAT = '%(module)-10s %(levelname)+8s: %(message)s'
@@ -45,12 +46,28 @@ def sim(config_file, save_output, plot):
         )
         log.warning(f'Simulation output saved to {save_output}')
     if plot:
-        import plot_tools
-        traces = []
-        traces.append(plot_tools.create_plot_trace(t, h, label='Altitude (m)'))
-        traces.append(plot_tools.create_plot_trace(t, v, label='Ascent Rate (m/s)'))
-        traces.append(plot_tools.create_plot_trace(t, a, label='Ascent Rate (m/s^s)'))
-        plot_tools.create_fig_with_subplots(traces)
+        traces = [
+            {
+                'trace': plot_tools.create_plot_trace(
+                            t, h, label='Altitude (m)'),
+                'row': 1,
+                'col': 1,
+            },
+            {
+                'trace': plot_tools.create_plot_trace(
+                            t, v, label='Ascent Rate (m/s)'),
+                'row': 2,
+                'col': 1,
+            },
+            {
+                'trace': plot_tools.create_plot_trace(
+                            t, a, label='Acceleration (m/s^2)'),
+                'row': 3,
+                'col': 1,
+            },
+        ]
+        fig = plot_tools.create_subplots(traces, 3, 1)
+        plot_tools.plot_figure(fig)
 
 
 cli.add_command(sim)
