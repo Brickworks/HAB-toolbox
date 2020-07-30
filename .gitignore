@@ -4,3 +4,13 @@ desktop.ini
 
 # MATLAB
 *.asv
+*.slxc
+*.slx.autosave
+**/slprj
+**/webview
+*.mat
+
+# Editor
+.idea
+.vscode
+venv
