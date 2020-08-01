@@ -112,6 +112,11 @@ def run(sim_config):
     ballast_mass = sim_config['payload']['ballast_mass_kg']
     total_mass = balloon_mass + bus_mass + ballast_mass  # [kg]
 
+    log.warning(
+        f'Starting simulation: '
+        f'balloon: {balloon.name} | '
+        f'duration: {duration} s | '
+        f'dt: {dt} s')
     for t in tspan:
         if balloon.burst_threshold_exceeded:
             log.warning('Balloon burst threshold exceeded: time %s, altitude %s m, diameter %s m' % (t, h, balloon.diameter))
@@ -136,32 +141,18 @@ if __name__ == '__main__':
     save_output = os.path.dirname(__file__)+'/../test.csv'
     with open(config_file) as f:
         sim_config = json.load(f)
+    log.info(f'Loaded configuration from {config_file}')
+
     t, h, v, a = run(sim_config)
+
     output_array = np.vstack([t, h, v, a]).T
     np.savetxt(
         save_output, output_array, fmt='%.6f', delimiter=',', newline='\n',
         header='time,altitude,ascent_rate,ascent_accel', footer='', comments='# ', encoding=None
     )
+    log.warning(f'Simulation output saved to {save_output}')
+    
     import plot_tools
-    traces = [
-        {
-            'trace': plot_tools.create_plot_trace(
-                        t, h, label='Altitude (m)'),
-            'row': 1,
-            'col': 1,
-        },
-        {
-            'trace': plot_tools.create_plot_trace(
-                        t, v, label='Ascent Rate (m/s)'),
-            'row': 2,
-            'col': 1,
-        },
-        {
-            'trace': plot_tools.create_plot_trace(
-                        t, a, label='Acceleration (m/s^2)'),
-            'row': 3,
-            'col': 1,
-        },
-    ]
-    fig = plot_tools.create_subplots(traces, 3, 1)
-    plot_tools.plot_figure(fig)
+    log.warning('Plotting results...')
+    plot_tools.plot_ascent(t, h, v, a,
+                           title=sim_config['simulation']['id'], show=True)

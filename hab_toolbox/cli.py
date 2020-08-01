@@ -66,6 +66,7 @@ def sim(config_file, save_output, plot):
         "initial_velocity": Velocity at simulation start (m/s)
     '''
     sim_config = json.load(config_file)
+    log.info(f'Loaded configuration from {config_file}')
     t, h, v, a = simulation.run(sim_config)
     if save_output:
         # vertical stack single rows then transpose so they are columns
@@ -76,29 +77,10 @@ def sim(config_file, save_output, plot):
         )
         log.warning(f'Simulation output saved to {save_output}')
     if plot:
-        traces = [
-            {
-                'trace': plot_tools.create_plot_trace(
-                            t, h, label='Altitude (m)'),
-                'row': 1,
-                'col': 1,
-            },
-            {
-                'trace': plot_tools.create_plot_trace(
-                            t, v, label='Ascent Rate (m/s)'),
-                'row': 2,
-                'col': 1,
-            },
-            {
-                'trace': plot_tools.create_plot_trace(
-                            t, a, label='Acceleration (m/s^2)'),
-                'row': 3,
-                'col': 1,
-            },
-        ]
-        fig = plot_tools.create_subplots(traces, 3, 1)
-        plot_tools.plot_figure(fig)
-
+        log.warning('Plotting results...')
+        plot_tools.plot_ascent(t, h, v, a, 
+            title=sim_config['simulation']['id'], show=True)
+    log.warning('Done.')
 
 cli.add_command(sim)
 
