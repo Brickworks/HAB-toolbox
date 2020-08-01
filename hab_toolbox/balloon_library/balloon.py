@@ -106,7 +106,16 @@ class Balloon():
         self.spec = config_data['spec']
         if lift_gas is None:
             self.lift_gas = Gas(self.spec['lifting_gas'])
+        self.cd = self.spec['drag_coefficient']
+        self.mass = self._get_value_from_spec('mass')
+        self.burst_diameter = self._get_value_from_spec('diameter_burst')
+
+    def _get_value_from_spec(self, key):
+        return self.spec[key]['value']
     
+    def _get_unit_from_spec(self, key):
+        return self.spec[key]['unit']
+
     @property
     def volume(self):
         ''' Ideal gas volume (m^3) from temperature (K) and pressure (Pa) for
@@ -135,3 +144,16 @@ class Balloon():
         match ambient air conditions at a given geopotential altitude (m).
         '''
         self.lift_gas.match_ambient(atmosphere)
+
+
+class Payload():
+    ''' The thing carried by a balloon.
+    '''
+
+    def __init__(self, dry_mass=2, ballast_mass=0):
+        self.dry_mass = dry_mass  # [kg] cannot change in flight
+        self.ballast_mass = ballast_mass  # [kg] can be dropped in flight
+
+    @property
+    def total_mass(self):
+        return self.dry_mass + self.ballast_mass

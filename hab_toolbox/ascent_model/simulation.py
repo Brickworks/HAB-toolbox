@@ -1,7 +1,9 @@
 import logging
 import numpy as np
-from balloon_library.balloon import Balloon, Gas
+from scipy.integrate import odeint
 from ambiance.ambiance import Atmosphere
+
+from balloon_library.balloon import Balloon, Gas, Payload
 
 
 log = logging.getLogger()
@@ -31,7 +33,7 @@ def drag(atmosphere, balloon, ascent_rate):
     ''' Drag force (N) from air against the windward cross-sectional area (m^2)
     at a given geometric altitude (m).
     '''
-    Cd = balloon.spec['drag_coefficient']
+    Cd = balloon.cd
     area = balloon.projected_area
     direction = -np.sign(ascent_rate)  # always oppose direction of motion
     return direction * (1/2) * Cd * area * (ascent_rate ** 2) * atmosphere.density
@@ -53,6 +55,31 @@ def step(dt, a, v, h, balloon, total_mass):
     )
     return a, dv, dh
 
+def model(x, t, balloon, payload):
+    ''' function that returns dy/dt
+    '''
+    dxdt = []
+    h = x[0]
+    v = x[1]
+    total_mass = balloon.mass + payload.total_mass
+    atmosphere = Atmosphere(h)
+    balloon.match_ambient(atmosphere)
+    f_weight = weight(atmosphere, total_mass)
+    f_buoyancy = buoyancy(atmosphere, balloon)
+    f_drag = drag(atmosphere, balloon, v)
+    f_net = f_weight + f_buoyancy + f_drag
+    log.debug(' | '.join([
+        f'f_net {f_net[0]} N | '
+        f'f_weight {f_weight[0]} N | '
+        f'f_buoyancy {f_buoyancy[0]} N | '
+        f'f_drag {f_drag[0]} N | '
+        f'bleed {balloon.bleed_mass_kg} kg |'
+        f'ballast {payload.ballast_mass} kg'
+    ]))
+
+    dxdt[0] = x[1]
+    dxdt[1] = f_net/total_mass
+    return dxdt
 
 def run(sim_config):
     ''' Start a simulation. Specify initial conditions and configurable 
@@ -85,10 +112,10 @@ def run(sim_config):
     ascent_accel=np.array([])
 
     balloon = Balloon(sim_config['balloon']['type'])
-    lift_gas_reserve = sim_config['balloon']['reserve_mass_kg']
-    lift_gas_bleed = sim_config['balloon']['bleed_mass_kg']
-    balloon.lift_gas = Gas(balloon.spec['lifting_gas'], 
-        mass=lift_gas_reserve+lift_gas_bleed)
+    balloon.reserve_gas = sim_config['balloon']['reserve_mass_kg']
+    balloon.bleed_gas = sim_config['balloon']['bleed_mass_kg']
+    balloon.lift_gas = Gas(balloon.spec['lifting_gas'],
+                           mass=balloon.reserve_gas+balloon.bleed_gas)
 
     duration = sim_config['simulation']['duration']
     dt = sim_config['simulation']['dt']
@@ -107,10 +134,9 @@ def run(sim_config):
     v=sim_config['simulation']['initial_velocity']
     a=Atmosphere(h).grav_accel
 
-    balloon_mass = balloon.spec['mass']['value']
     bus_mass = sim_config['payload']['bus_mass_kg']
     ballast_mass = sim_config['payload']['ballast_mass_kg']
-    total_mass = balloon_mass + bus_mass + ballast_mass  # [kg]
+    payload = Payload(dry_mass=bus_mass, ballast_mass=ballast_mass)
 
     log.warning(
         f'Starting simulation: '
@@ -119,15 +145,20 @@ def run(sim_config):
         f'dt: {dt} s')
     for t in tspan:
         if balloon.burst_threshold_exceeded:
-            log.warning('Balloon burst threshold exceeded: time %s, altitude %s m, diameter %s m' % (t, h, balloon.diameter))
+            log.warning(
+                f'Balloon burst threshold exceeded: time {t}, '
+                f'altitude {h} m, diameter {balloon.diameter} m')
             tspan = np.transpose(np.where(tspan<t))
             break
-        a, dv, dh = step(dt, a, v, h, balloon, total_mass)
+        a, dv, dh = step(dt, a, v, h, balloon, balloon.mass+payload.total_mass)
         v += dv
         h += dh
-        log.info(
-            f'{t:6.1f} s | {a} m/s^2 | {v} m/s | {h} m'
-        )
+        log.info(' | '.join([
+            f'{t:6.1f} s'
+            f'{a} m/s^2',
+            f'{v} m/s',
+            f'{h} m'
+        ]))
         altitude = np.append(altitude, h)
         ascent_rate = np.append(ascent_rate, v)
         ascent_accel = np.append(ascent_accel, a)
@@ -148,7 +179,8 @@ if __name__ == '__main__':
     output_array = np.vstack([t, h, v, a]).T
     np.savetxt(
         save_output, output_array, fmt='%.6f', delimiter=',', newline='\n',
-        header='time,altitude,ascent_rate,ascent_accel', footer='', comments='# ', encoding=None
+        header='time,altitude,ascent_rate,ascent_accel', footer='', 
+        comments='# ', encoding=None
     )
     log.warning(f'Simulation output saved to {save_output}')
     

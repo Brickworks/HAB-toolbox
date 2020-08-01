@@ -73,7 +73,8 @@ def sim(config_file, save_output, plot):
         output_array = np.vstack([t, h, v, a]).T
         np.savetxt(
             save_output, output_array, fmt='%.6f', delimiter=',', newline='\n',
-            header='time,altitude,ascent_rate,ascent_accel', footer='', comments='# ', encoding=None
+            header='time,altitude,ascent_rate,ascent_accel', footer='', 
+            comments='# ', encoding=None
         )
         log.warning(f'Simulation output saved to {save_output}')
     if plot:
