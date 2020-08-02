@@ -2,7 +2,7 @@ import logging
 import numpy as np
 from ambiance.ambiance import Atmosphere
 
-from ..balloon_library.balloon import Balloon, Gas, Payload
+from hab_toolbox.balloon_library.balloon import Balloon, Gas, Payload
 
 
 log = logging.getLogger()

@@ -5,8 +5,8 @@ import click
 import json
 import numpy as np
 
-from .ascent_model import simulation
-from . import plot_tools
+from hab_toolbox import ascent_model
+from hab_toolbox import plot_tools
 
 
 FORMAT = '%(module)-10s %(levelname)+8s: %(message)s'
@@ -67,7 +67,7 @@ def sim(config_file, save_output, plot):
     '''
     sim_config = json.load(config_file)
     log.info(f'Loaded configuration from {config_file}')
-    t, h, v, a = simulation.run(sim_config)
+    t, h, v, a = ascent_model.run(sim_config)
     if save_output:
         # vertical stack single rows then transpose so they are columns
         output_array = np.vstack([t, h, v, a]).T

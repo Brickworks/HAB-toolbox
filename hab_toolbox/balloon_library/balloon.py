@@ -7,31 +7,103 @@ import math
 log = logging.getLogger()
 PI = math.pi
 BALLOON_LIBRARY_DIR = os.path.dirname(__file__)
-GAS_PROPERTIES_CONFIG = os.path.join(
-    os.path.dirname(__file__), 'gas_properties.json')
 BOLTZMANN_CONSTANT = 1.38e-23  # [J/K]
 AVOGADRO_CONSTANT = 3.022e23  # [1/mol]
 R = BOLTZMANN_CONSTANT * AVOGADRO_CONSTANT  # [J / K mol] Ideal Gas Constant
+STANDARD_TEMPERATURE_K = 273.15
+STANDARD_PRESSURE_Pa = 101.325e3
+GAS_PROPERTIES_CONFIG = {
+    "units": "kg/mol",
+    "gas_properties": [
+        {
+            "species": ["air"],
+            "molar_mass": 0.02897
+        },
+        {
+            "species": ["he", "helium"],
+            "molar_mass": 0.0040026
+        },
+        {
+            "species": ["h2", "hydrogen"],
+            "molar_mass": 0.00201594
+        },
+        {
+            "species": ["n2", "nitrogen"],
+            "molar_mass": 0.0280134
+        },
+        {
+            "species": ["o2", "oxygen"],
+            "molar_mass": 0.0319988
+        },
+        {
+            "species": ["ar", "argon"],
+            "molar_mass": 0.039948
+        },
+        {
+            "species": ["co2", "carbon dioxide"],
+            "molar_mass": 0.04400995
+        },
+        {
+            "species": ["ne", "neon"],
+            "molar_mass": 0.020183
+        },
+        {
+            "species": ["kr", "krypton"],
+            "molar_mass": 0.08380
+        },
+        {
+            "species": ["xe", "xenon"],
+            "molar_mass": 0.13130
+        },
+        {
+            "species": ["ch4", "methane"],
+            "molar_mass": 0.01604303
+        }
+    ]
+}
 
 
 def get_gas_properties():
-    with open(GAS_PROPERTIES_CONFIG) as config_json_data:
-        config_data = json.load(config_json_data)
-    return config_data['gas_properties']
+    ''' Return a dictionary of gas species and their molar mass (kg/mol).
+    '''
+    gas_properties = GAS_PROPERTIES_CONFIG['gas_properties']
+    units = GAS_PROPERTIES_CONFIG['units']
+
+    known_species = {}
+    for gas in gas_properties:
+        for gas_name in gas['species']:
+            known_species[gas_name] = gas['molar_mass']
+    log.debug('Known gas species: %s' % known_species)
+    return known_species, units
+
+
+def list_known_species():
+    known_species, _ = get_gas_properties()
+    return list(known_species.keys())
+
+
+def is_valid_gas(species):
+    return species in list_known_species()
 
 
 def is_valid_balloon(spec_name):
+    ''' Returns true if SPEC_NAME matches the name of a known balloon 
+    definition. SPEC_NAME is case sensitive and does not include the file
+    extension. Only checks against JSON files in the balloon directory.
+    '''
     known_balloons = []
     for f in os.listdir(BALLOON_LIBRARY_DIR):
         if os.path.isfile(os.path.join(BALLOON_LIBRARY_DIR, f)):
             fileparts = os.path.splitext(f)
-            if fileparts[1] == '.json' and fileparts[0] != 'gas_properties':
+            if fileparts[1] == '.json':
                 known_balloons.append(fileparts[0])
     log.debug('Known balloons: %s' % known_balloons)
     return spec_name in known_balloons
 
 
 def get_balloon(spec_name):
+    ''' Get balloon spec sheet definitions as a dictionary.
+    '''
     if is_valid_balloon(spec_name):
         config_filename = '%s.json' % spec_name
         config_path = os.path.join(BALLOON_LIBRARY_DIR, config_filename)
@@ -43,33 +115,35 @@ def get_balloon(spec_name):
 
 
 def _radius_from_volume(volume):
+    if volume < 0:
+        raise ValueError('Cannot have negative volume! (%s)' % volume)
     return (volume / (4/3 * PI)) ** (1/3)
 
 
 class Gas():
     def __init__(self, species, mass=0):
-        self.species = species
+        species = species.lower()
+        if is_valid_gas(species):
+            self.species = species
+        else:
+            raise ValueError(
+                '"%s" is not a member of the list of known gases: %s' % (
+                    species, list_known_species()))
         self.molar_mass = self._set_molar_mass()  # get molar mass from config
-        self.temperature = 273.15  # [K] standard temperature
-        self.pressure = 101.325e3  # [Pa] standard pressure
+        self.temperature = STANDARD_TEMPERATURE_K  # [K] standard temperature
+        self.pressure = STANDARD_PRESSURE_Pa  # [Pa] standard pressure
         self.mass = mass  # [kg] mass
 
     def _set_molar_mass(self):
         ''' Get the molecular weight (kg/mol) of a dry gas.
         '''
-        known_species = {}
-        gas_properties = get_gas_properties()
-        for gas in gas_properties:
-            for gas_name in gas['species']:
-                known_species[gas_name] = gas['molar_mass']
-        log.debug('Known gas species: %s' % known_species)
+        known_species, _ = get_gas_properties()
 
         species_of_interest = self.species.lower()
         if species_of_interest in known_species.keys():
             return known_species[species_of_interest]
         else:
-            log.error('Species %s is not defined in %s' %
-                      (self.species, GAS_PROPERTIES_CONFIG))
+            log.error('Species %s is not defined!' % self.species)
 
     @property
     def volume(self):
@@ -95,6 +169,15 @@ class Gas():
         ))
         self.temperature = atmosphere.temperature
         self.pressure = atmosphere.pressure
+    
+    def match_conditions(self, temperature, pressure):
+        ''' Update temperature (K), pressure (Pa) to match specific values.
+        '''
+        log.debug('Matching %s temperature and pressure to %s K, %s Pa' % (
+            self.species, temperature, pressure
+        ))
+        self.temperature = temperature
+        self.pressure = pressure
 
 
 class Balloon():
@@ -106,13 +189,15 @@ class Balloon():
         self.spec = config_data['spec']
         if lift_gas is None:
             self.lift_gas = Gas(self.spec['lifting_gas'])
+        else:
+            self.lift_gas = lift_gas  # Gas object
         self.cd = self.spec['drag_coefficient']
         self.mass = self._get_value_from_spec('mass')
         self.burst_diameter = self._get_value_from_spec('diameter_burst')
 
     def _get_value_from_spec(self, key):
         return self.spec[key]['value']
-    
+
     def _get_unit_from_spec(self, key):
         return self.spec[key]['unit']
 
@@ -136,14 +221,22 @@ class Balloon():
         ''' Check if the given volume (m^3) is greater than or equal to the 
         burst volume (m^3) from the spec sheet.
         '''
+        burst_diameter = self.spec['diameter_burst']['value']
         self.diameter = 2 * _radius_from_volume(self.volume)
-        return self.diameter >= self.spec['diameter_burst']['value']
+        log.debug('Balloon diameter is %s (burst at %s)' % (
+            self.diameter, burst_diameter))
+        return self.diameter >= burst_diameter
 
     def match_ambient(self, atmosphere):
         ''' Update temperature (K), pressure (Pa), and density (kg/m^3) to
         match ambient air conditions at a given geopotential altitude (m).
         '''
         self.lift_gas.match_ambient(atmosphere)
+
+    def match_conditions(self, temperature, pressure):
+        ''' Update temperature (K), pressure (Pa) to match specific values.
+        '''
+        self.lift_gas.match_conditions(temperature, pressure)
 
 
 class Payload():
