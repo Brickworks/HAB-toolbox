@@ -3,9 +3,6 @@ import setuptools
 with open("README.md", "r") as f:
     long_description = f.read()
 
-with open('requirements.txt') as f:
-    requirements = f.read().splitlines()
-
 setuptools.setup(
     name="HAB-Toolbox",  # Replace with your own username
     version="0.0.1",
@@ -22,5 +19,15 @@ setuptools.setup(
         "Operating System :: OS Independent",
     ],
     python_requires='>=3.6',
-    install_requires=requirements,
+    install_requires=[
+        'numpy',
+        'ambiance',
+        'Click',
+        'matplotlib',
+    ],
+    extras_require={
+        'test': [
+            'pytest',
+        ]
+    },
 )
