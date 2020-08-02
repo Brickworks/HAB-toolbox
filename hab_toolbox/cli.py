@@ -5,8 +5,8 @@ import click
 import json
 import numpy as np
 
-from ascent_model import simulation
-import plot_tools
+from .ascent_model import simulation
+from . import plot_tools
 
 
 FORMAT = '%(module)-10s %(levelname)+8s: %(message)s'
@@ -86,4 +86,5 @@ def sim(config_file, save_output, plot):
 cli.add_command(sim)
 
 if __name__ == '__main__':
+    # pylint: disable=no-value-for-parameter
     cli()

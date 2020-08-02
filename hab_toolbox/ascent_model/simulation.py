@@ -2,7 +2,7 @@ import logging
 import numpy as np
 from ambiance.ambiance import Atmosphere
 
-from balloon_library.balloon import Balloon, Gas, Payload
+from ..balloon_library.balloon import Balloon, Gas, Payload
 
 
 log = logging.getLogger()
@@ -142,27 +142,3 @@ def run(sim_config):
         ascent_accel = np.append(ascent_accel, a)
     
     return np.squeeze(tspan), altitude, ascent_rate, ascent_accel
-
-if __name__ == '__main__':
-    import json
-    import os
-    config_file = os.path.dirname(__file__)+'/../sim_config.json'
-    save_output = os.path.dirname(__file__)+'/../test.csv'
-    with open(config_file) as f:
-        sim_config = json.load(f)
-    log.info(f'Loaded configuration from {config_file}')
-
-    t, h, v, a = run(sim_config)
-
-    output_array = np.vstack([t, h, v, a]).T
-    np.savetxt(
-        save_output, output_array, fmt='%.6f', delimiter=',', newline='\n',
-        header='time,altitude,ascent_rate,ascent_accel', footer='', 
-        comments='# ', encoding=None
-    )
-    log.warning(f'Simulation output saved to {save_output}')
-    
-    import plot_tools
-    log.warning('Plotting results...')
-    plot_tools.plot_ascent(t, h, v, a,
-                           title=sim_config['simulation']['id'], show=True)
