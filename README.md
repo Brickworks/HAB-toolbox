@@ -32,6 +32,9 @@ git clone git@github.com:Brickworks/HAB-toolbox.git
 # use pip to install local files (editable mode)
 cd HAB-toolbox
 pip install -e .
+
+# run unit tests to prove it's working
+pytest -vv tests
 ```
 
 ## Usage

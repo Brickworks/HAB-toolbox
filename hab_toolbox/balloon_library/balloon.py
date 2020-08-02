@@ -10,7 +10,8 @@ BALLOON_LIBRARY_DIR = os.path.dirname(__file__)
 BOLTZMANN_CONSTANT = 1.38e-23  # [J/K]
 AVOGADRO_CONSTANT = 3.022e23  # [1/mol]
 R = BOLTZMANN_CONSTANT * AVOGADRO_CONSTANT  # [J / K mol] Ideal Gas Constant
-
+STANDARD_TEMPERATURE_K = 273.15
+STANDARD_PRESSURE_Pa = 101.325e3
 GAS_PROPERTIES_CONFIG = {
     "units": "kg/mol",
     "gas_properties": [
@@ -76,7 +77,20 @@ def get_gas_properties():
     return known_species, units
 
 
+def list_known_species():
+    known_species, _ = get_gas_properties()
+    return list(known_species.keys())
+
+
+def is_valid_gas(species):
+    return species in list_known_species()
+
+
 def is_valid_balloon(spec_name):
+    ''' Returns true if SPEC_NAME matches the name of a known balloon 
+    definition. SPEC_NAME is case sensitive and does not include the file
+    extension. Only checks against JSON files in the balloon directory.
+    '''
     known_balloons = []
     for f in os.listdir(BALLOON_LIBRARY_DIR):
         if os.path.isfile(os.path.join(BALLOON_LIBRARY_DIR, f)):
@@ -88,6 +102,8 @@ def is_valid_balloon(spec_name):
 
 
 def get_balloon(spec_name):
+    ''' Get balloon spec sheet definitions as a dictionary.
+    '''
     if is_valid_balloon(spec_name):
         config_filename = '%s.json' % spec_name
         config_path = os.path.join(BALLOON_LIBRARY_DIR, config_filename)
@@ -106,10 +122,16 @@ def _radius_from_volume(volume):
 
 class Gas():
     def __init__(self, species, mass=0):
-        self.species = species
+        species = species.lower()
+        if is_valid_gas(species):
+            self.species = species
+        else:
+            raise ValueError(
+                '"%s" is not a member of the list of known gases: %s' % (
+                    species, list_known_species()))
         self.molar_mass = self._set_molar_mass()  # get molar mass from config
-        self.temperature = 273.15  # [K] standard temperature
-        self.pressure = 101.325e3  # [Pa] standard pressure
+        self.temperature = STANDARD_TEMPERATURE_K  # [K] standard temperature
+        self.pressure = STANDARD_PRESSURE_Pa  # [Pa] standard pressure
         self.mass = mass  # [kg] mass
 
     def _set_molar_mass(self):
@@ -147,6 +169,15 @@ class Gas():
         ))
         self.temperature = atmosphere.temperature
         self.pressure = atmosphere.pressure
+    
+    def match_conditions(self, temperature, pressure):
+        ''' Update temperature (K), pressure (Pa) to match specific values.
+        '''
+        log.debug('Matching %s temperature and pressure to %s K, %s Pa' % (
+            self.species, temperature, pressure
+        ))
+        self.temperature = temperature
+        self.pressure = pressure
 
 
 class Balloon():
@@ -158,6 +189,8 @@ class Balloon():
         self.spec = config_data['spec']
         if lift_gas is None:
             self.lift_gas = Gas(self.spec['lifting_gas'])
+        else:
+            self.lift_gas = lift_gas  # Gas object
         self.cd = self.spec['drag_coefficient']
         self.mass = self._get_value_from_spec('mass')
         self.burst_diameter = self._get_value_from_spec('diameter_burst')
@@ -188,14 +221,22 @@ class Balloon():
         ''' Check if the given volume (m^3) is greater than or equal to the 
         burst volume (m^3) from the spec sheet.
         '''
+        burst_diameter = self.spec['diameter_burst']['value']
         self.diameter = 2 * _radius_from_volume(self.volume)
-        return self.diameter >= self.spec['diameter_burst']['value']
+        log.debug('Balloon diameter is %s (burst at %s)' % (
+            self.diameter, burst_diameter))
+        return self.diameter >= burst_diameter
 
     def match_ambient(self, atmosphere):
         ''' Update temperature (K), pressure (Pa), and density (kg/m^3) to
         match ambient air conditions at a given geopotential altitude (m).
         '''
         self.lift_gas.match_ambient(atmosphere)
+
+    def match_conditions(self, temperature, pressure):
+        ''' Update temperature (K), pressure (Pa) to match specific values.
+        '''
+        self.lift_gas.match_conditions(temperature, pressure)
 
 
 class Payload():
