@@ -1,6 +1,5 @@
 import logging
 import numpy as np
-from scipy.integrate import odeint
 from ambiance.ambiance import Atmosphere
 
 from balloon_library.balloon import Balloon, Gas, Payload
@@ -39,9 +38,11 @@ def drag(atmosphere, balloon, ascent_rate):
     return direction * (1/2) * Cd * area * (ascent_rate ** 2) * atmosphere.density
 
 
-def step(dt, a, v, h, balloon, total_mass):
+def step(dt, a, v, h, balloon, payload):
     atmosphere = Atmosphere(h)
     balloon.match_ambient(atmosphere)
+    total_mass = balloon.mass + payload.total_mass
+
     f_weight = weight(atmosphere, total_mass)
     f_buoyancy = buoyancy(atmosphere, balloon)
     f_drag = drag(atmosphere, balloon, v)
@@ -50,36 +51,15 @@ def step(dt, a, v, h, balloon, total_mass):
     a = f_net/total_mass
     dv = a*dt
     dh = v*dt
-    log.debug(
-        f'f_net {f_net[0]} N | f_weight {f_weight[0]} N | f_buoyancy {f_buoyancy[0]} N | f_drag {f_drag[0]} N'
-    )
+    log.debug(' | '.join([
+        f'f_net {f_net[0]} N',
+        f'f_weight {f_weight[0]} N',
+        f'f_buoyancy {f_buoyancy[0]} N',
+        f'f_drag {f_drag[0]} N',
+        f''
+    ]))
     return a, dv, dh
 
-def model(x, t, balloon, payload):
-    ''' function that returns dy/dt
-    '''
-    dxdt = []
-    h = x[0]
-    v = x[1]
-    total_mass = balloon.mass + payload.total_mass
-    atmosphere = Atmosphere(h)
-    balloon.match_ambient(atmosphere)
-    f_weight = weight(atmosphere, total_mass)
-    f_buoyancy = buoyancy(atmosphere, balloon)
-    f_drag = drag(atmosphere, balloon, v)
-    f_net = f_weight + f_buoyancy + f_drag
-    log.debug(' | '.join([
-        f'f_net {f_net[0]} N | '
-        f'f_weight {f_weight[0]} N | '
-        f'f_buoyancy {f_buoyancy[0]} N | '
-        f'f_drag {f_drag[0]} N | '
-        f'bleed {balloon.bleed_mass_kg} kg |'
-        f'ballast {payload.ballast_mass} kg'
-    ]))
-
-    dxdt[0] = x[1]
-    dxdt[1] = f_net/total_mass
-    return dxdt
 
 def run(sim_config):
     ''' Start a simulation. Specify initial conditions and configurable 
@@ -102,6 +82,7 @@ def run(sim_config):
             "kd": Derivative gain
             "n":  Filter coefficient
     "simulation": {
+        "id": An identifier for the simulation
         "duration": Max time duration of simulation (seconds)
         "dt": Time step (seconds)
         "initial_altitude": Altitude at simulation start (m), [-5004 to 80000]
@@ -116,6 +97,9 @@ def run(sim_config):
     balloon.bleed_gas = sim_config['balloon']['bleed_mass_kg']
     balloon.lift_gas = Gas(balloon.spec['lifting_gas'],
                            mass=balloon.reserve_gas+balloon.bleed_gas)
+    bus_mass = sim_config['payload']['bus_mass_kg']
+    ballast_mass = sim_config['payload']['ballast_mass_kg']
+    payload = Payload(dry_mass=bus_mass, ballast_mass=ballast_mass)
 
     duration = sim_config['simulation']['duration']
     dt = sim_config['simulation']['dt']
@@ -130,13 +114,9 @@ def run(sim_config):
     
     tspan = np.arange(0, duration, step=dt)
 
-    h=sim_config['simulation']['initial_altitude']
-    v=sim_config['simulation']['initial_velocity']
-    a=Atmosphere(h).grav_accel
-
-    bus_mass = sim_config['payload']['bus_mass_kg']
-    ballast_mass = sim_config['payload']['ballast_mass_kg']
-    payload = Payload(dry_mass=bus_mass, ballast_mass=ballast_mass)
+    h = sim_config['simulation']['initial_altitude']
+    v = sim_config['simulation']['initial_velocity']
+    a = Atmosphere(h).grav_accel
 
     log.warning(
         f'Starting simulation: '
@@ -145,19 +125,17 @@ def run(sim_config):
         f'dt: {dt} s')
     for t in tspan:
         if balloon.burst_threshold_exceeded:
-            log.warning(
-                f'Balloon burst threshold exceeded: time {t}, '
-                f'altitude {h} m, diameter {balloon.diameter} m')
-            tspan = np.transpose(np.where(tspan<t))
+            log.warning('Balloon burst threshold exceeded: time %s, altitude %s m, diameter %s m' % (
+                t, h, balloon.diameter))
+            tspan = np.transpose(np.where(tspan < t))
             break
-        a, dv, dh = step(dt, a, v, h, balloon, balloon.mass+payload.total_mass)
+        a, dv, dh = step(dt, a, v, h, balloon, payload)
         v += dv
         h += dh
         log.info(' | '.join([
-            f'{t:6.1f} s'
+            f'{t:6.1f} s',
             f'{a} m/s^2',
-            f'{v} m/s',
-            f'{h} m'
+            f'{v} m/s | {h} m',
         ]))
         altitude = np.append(altitude, h)
         ascent_rate = np.append(ascent_rate, v)
