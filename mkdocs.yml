@@ -1,0 +1,21 @@
+site_name: HAB Toolbox
+nav:
+  - Home: index.md
+  - Ascent Model: ascent_model.md
+  - Reference: reference.md
+
+theme: material
+plugins:
+  - search
+  - mkdocstrings:
+      watch:
+        - hab_toolbox
+      default_handler: python
+      handlers:
+        python:
+          rendering:
+            show_source: true 
+markdown_extensions:
+  - toc
+  - admonition
+  - footnotes
