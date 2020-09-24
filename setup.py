@@ -24,6 +24,7 @@ setuptools.setup(
         'ambiance',
         'Click',
         'matplotlib',
+        'pynng'
     ],
     extras_require={
         'test': [
