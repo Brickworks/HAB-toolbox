@@ -36,7 +36,7 @@ def cli(verbose, debug):
 @click.option('-p', '--plot', is_flag=True, 
     help='Plot altitude, velocity, and acceleration after simulating.'
 )
-def sim(config_file, save_output, plot):
+def simple_ascent(config_file, save_output, plot):
     ''' Start a simulation. 
     
     Specify initial conditions and configurable parameters with a CONFIG_FILE 
@@ -83,7 +83,16 @@ def sim(config_file, save_output, plot):
             title=sim_config['simulation']['id'], show=True)
     log.warning('Done.')
 
-cli.add_command(sim)
+
+@cli.command()
+def pendulum():
+    ''' Simulate HAB motion as a spherical pendulum.
+    '''
+    log.error(
+        'Nothing happened because this function has not been written yet!')
+
+
+cli.add_command(simple_ascent)
 
 if __name__ == '__main__':
     # pylint: disable=no-value-for-parameter
