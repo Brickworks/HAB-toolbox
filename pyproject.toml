@@ -17,6 +17,9 @@ matplotlib = "^3.3.2"
 
 [tool.poetry.dev-dependencies]
 pytest = "^4.6"
+mkdocstrings = "^0.13.2"
+mkdocs = "^1.1.2"
+mkdocs-material = "^5.5.14"
 
 [tool.poetry.scripts]
 hab-toolbox = "hab_toolbox.cli:cli"
