@@ -1,0 +1,26 @@
+[tool.poetry]
+name = "hab_toolbox"
+version = "0.0.1"
+description = "Software to assist in mechanics calculations, and simulations of high altitude balloon payloads."
+authors = ["Philip Linden <lindenphilipj@gmail.com>", "David Breen", "Brickworks"]
+readme = "README.md"
+homepage = "https://brickworks.github.io"
+documentation = "https://brickworks.github.io/HAB-toolbox"
+license = "MIT"
+
+[tool.poetry.dependencies]
+python = "^3.6"
+numpy = "^1.19.2"
+ambiance = "^1.1.0"
+Click = "^7.1.2"
+matplotlib = "^3.3.2"
+
+[tool.poetry.dev-dependencies]
+pytest = "^4.6"
+
+[tool.poetry.scripts]
+hab-toolbox = "hab_toolbox.cli:cli"
+
+[build-system]
+requires = ["poetry>=0.12"]
+build-backend = "poetry.masonry.api"

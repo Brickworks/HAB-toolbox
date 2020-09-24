@@ -24,24 +24,20 @@ The HAB ascent model uses the 1976 US Standard Atmosphere (COESA)
 atmosphere model from the [Ambiance](https://github.com/airinnova/ambiance/) Python package to simulate the vertical ascent of a HAB.
 
 ## Installation
+_We don't have a PyPI package yet! For now use Poetry.)_
 
-```bash
-# clone the repo
-git clone git@github.com:Brickworks/HAB-toolbox.git
+Configuration management is handled by [Poetry](https://python-poetry.org/).
 
-# use pip to install local files (editable mode)
-cd HAB-toolbox
-pip install -e .
+1. Please [install Poetry](https://python-poetry.org/docs/#installation) to use
+   the HAB-toolbox.
+2. Clone this repository: `git clone git@github.com:Brickworks/HAB-toolbox.git`
+3. Install the package and its dependencies with Poetry: `poetry install`
 
-# run unit tests to prove it's working
-pytest -vv tests
-```
-
-## Usage
+## Usage (with Poetry)
 ```bash
 # run the simulation defined by sim_config.json
-python hab_toolbox/cli.py sim sim_config.json
+poetry run hab-toolbox sim sim_config.json
 
 # run the model with verbose output, plot and save results to a file
-python hab_toolbox/cli.py -v sim sim_config.json -o test.csv -p
+poetry run hab-toolbox -v sim sim_config.json -o test.csv -p
 ```
