@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Check out
-      - uses: actions/checkout@v2
+        uses: actions/checkout@v2
         with:
           fetch-depth: 1
       - name: Set up Python 3.6
@@ -31,4 +31,4 @@ jobs:
       - name: Install docs dependencies
         run: pip install mkdocs-material mkdocstrings
       - name: Deploy docs
-      - run: mkdocs gh-deploy --force
+        run: mkdocs gh-deploy --force
