@@ -1,10 +1,31 @@
 site_name: HAB Toolbox
+site_description: Software to assist in mechanics calculations, and simulations of high altitude baloon payloads.
+repo_url: https://github.com/Brickworks/HAB-toolbox
+repo_name: Brickworks/HAB-toolbox
 nav:
   - Home: index.md
   - Ascent Model: ascent_model.md
   - Reference: reference.md
 
-theme: material
+theme: 
+  name: material
+  icon:
+    logo: fontawesome/solid/tools
+  favicon: img/favicon.ico
+  palette:
+  - scheme: slate
+    primary: blue
+    accent: blue
+    toggle:
+      icon: material/toggle-switch
+      name: Switch to dark mode
+  - scheme: slate
+    primary: blue
+    accent: blue
+    toggle:
+      icon: material/toggle-switch-off-outline
+      name: Switch to light mode
+
 plugins:
   - search
   - mkdocstrings:
@@ -14,8 +35,8 @@ plugins:
       handlers:
         python:
           rendering:
-            show_source: true 
+            show_source: true
+
 markdown_extensions:
-  - toc
   - admonition
   - footnotes
