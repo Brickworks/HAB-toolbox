@@ -13,18 +13,9 @@ theme:
     logo: fontawesome/solid/tools
   favicon: img/favicon.ico
   palette:
-  - scheme: slate
+  - scheme: default
     primary: blue
     accent: blue
-    toggle:
-      icon: material/toggle-switch
-      name: Switch to dark mode
-  - scheme: slate
-    primary: blue
-    accent: blue
-    toggle:
-      icon: material/toggle-switch-off-outline
-      name: Switch to light mode
 
 plugins:
   - search
