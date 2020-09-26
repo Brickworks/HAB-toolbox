@@ -1,5 +1,5 @@
 # HAB-toolbox
-Software to assist in mechanics calculations, and simulations of high altitude baloon payloads. 
+Software to assist in mechanics calculations, and simulations of high altitude baloon payloads.
 
 ## Balloon Library
 A set of datasheets for [Kaymont high altitude balloons](https://www.kaymont.com/habphotography)
@@ -12,13 +12,16 @@ Python package to simulate the vertical ascent of a HAB.
 
 See also: [Nucleus/1D Atmospheric Flight Model](https://brickworks.github.io/Nucleus/habtoolbox_1d-ascent-model/)
 
+### Other experiments
+In addition to  helpful development tools, this repository contains
+experiments that were done to aid in HAB systems design.
+
 ## Kinematic Model
 
 The kinematics model attempts to emulate the motion of the HAB bus from the
 reference point of the balloon. Information from this model can be used to
 estimate the performance of future payloads such as active stabilization.
 
-### Spherical Pendulum
 For the first implementation of the kinematics model a spherical pendulum was
 used to simulate the box.  A spherical pendulum was selected as it is a simple
 demonstrator of the motion of the HAB from the reference frame of the balloon.
@@ -39,6 +42,12 @@ the Lagrange equations of motion.
 **[Runge-Kutta](https://en.wikipedia.org/wiki/Runge%E2%80%93Kutta_methods)**
 
 ![](https://wikimedia.org/api/rest_v1/media/math/render/svg/94677d7c780034e883b6b3f3d832cb12356a2fcc)
+
+## Flight Simulation with PID Altitude Control
+The same 1D atmospheric flight model was implemented in Simulink and
+integrated with a PID control system to simulate an open-loop altitude
+control system that bleeds gas from the balloon and drops ballast to
+maintain a set point altitude.
 
 ## Installation
 _We don't have a PyPI package yet! For now use Poetry._
