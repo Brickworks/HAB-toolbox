@@ -64,7 +64,7 @@ def step(dt, a, v, h, balloon, payload):
 def run(sim_config):
     ''' Start a simulation. Specify initial conditions and configurable 
     parameters with a SIM_CONFIG dictionary.
-
+    ```
     "balloon":
         "type": Part number of the balloon to import from balloon_library
         "reserve_mass_kg": Mass of lift gas to always keep in balloon (kg)
@@ -87,6 +87,7 @@ def run(sim_config):
         "dt": Time step (seconds)
         "initial_altitude": Altitude at simulation start (m), [-5004 to 80000]
         "initial_velocity": Velocity at simulation start (m/s)
+    ```
     '''
     altitude=np.array([])
     ascent_rate=np.array([])
