@@ -37,7 +37,8 @@ See also: [Nucleus/1D Atmospheric Flight Model](https://brickworks.github.io/Nuc
 
 ## Other experiments
 In addition to  helpful development tools, this repository contains
-experiments that were done to aid in HAB systems design.
+experiments that were done to aid in HAB systems design. You can find
+these experiments in the `etc` directory.
 
 ### Kinematic Model
 
