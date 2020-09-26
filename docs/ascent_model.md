@@ -39,7 +39,7 @@ model.
 
 #### Simulink with MATLAB Aerospace Toolbox
 
-![Simulink with MATLAB coesa model](img/hab_toolbox/atmosphere_model/atmo_no_control.jpg)
+![Simulink with MATLAB coesa model](img/atmo_no_control.jpg)
 
 #### Python with Ambiance
 
@@ -138,7 +138,7 @@ drag_force = 1/2 * (ascent_rate ** 2) * atmospheric_density * drag_coefficient *
 
 #### Sum of Forces / Net Force
 
-![free body diagram](img/hab_toolbox/atmosphere_model/Free_Body_Diagram.png)
+![free body diagram](img/Free_Body_Diagram.png)
 
 The net force on the balloon-payload system is the sum of three primary forces:
 buoyancy, weight, and drag.
@@ -188,7 +188,7 @@ implementation looks in terms of a HAB’s ascent profile.
 
 ### MATLAB
 
-![matlab simulation](img/hab_toolbox/atmosphere_model/alt_no_control.jpg)
+![matlab simulation](img/alt_no_control.jpg)
 
 ### Python
 
