@@ -5,8 +5,8 @@ log = logging.getLogger()
 
 
 def show_figure(save_fig=None):
-    ''' Show all plots. 
-    
+    ''' Show all plots.
+
     A simple wrapper for `matplotlib.pyplot.show()`
 
     Args:
@@ -34,19 +34,19 @@ def plot_ascent(time,
 
     Args:
         time (array): Array of time indices.
-        altitude (array): Array of altitudes. 
+        altitude (array): Array of altitudes.
             One entry for each time index.
-        velocity (array): Array of ascent velocities. 
+        velocity (array): Array of ascent velocities.
             One entry for each time index. Positive up.
         acceleration (array): Array of ascent accelerations.
             One entry for each time index. Positive up.
         title (string, optional): Plot title. Defaults to `''`.
-        show (bool, optional): Whether to display the plots (`True`, default) 
+        show (bool, optional): Whether to display the plots (`True`, default)
             or just create the plot objects and return them (`False`).
         save_fig (string, optional): Filename to use for a saved figure.
             If not specified, the figure is not saved.
             If no file extension is given, the figure will be saved as a `.png`
-    
+
     Returns:
         tuple: Figure and Axis plot objects.
     '''

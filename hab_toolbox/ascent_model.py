@@ -14,6 +14,14 @@ MIN_ALLOWED_DT = 0.001
 # All forces assume positive up coordinate frame.
 def weight(atmosphere, total_mass):
     ''' Weight (N) as a function of gropotential altitude (m) and mass (kg).
+
+    Args:
+        atmosphere (Atmosphere): Atmosphere object initialized at a specific
+            altitude.
+        total_mass (float): Total dry mass in kilograms.
+    
+    Returns:
+        float: Weight force (positive up) in Newtons.
     '''
     return -atmosphere.grav_accel * total_mass
 
@@ -21,6 +29,14 @@ def weight(atmosphere, total_mass):
 def buoyancy(atmosphere, balloon):
     ''' Buoyancy force (N) from air displaced by lift gas at a given 
     geometric altitude (m).
+
+    Args:
+        atmosphere (Atmosphere): Atmosphere object initialized at a specific
+            altitude.
+        balloon (Balloon): Balloon object.
+    
+    Returns:
+        float: Buoyancy force (positive up) in Newtons.
     '''
     balloon.lift_gas.match_ambient(atmosphere)
     density_diff = balloon.lift_gas.density - atmosphere.density
@@ -31,6 +47,15 @@ def buoyancy(atmosphere, balloon):
 def drag(atmosphere, balloon, ascent_rate):
     ''' Drag force (N) from air against the windward cross-sectional area (m^2)
     at a given geometric altitude (m).
+
+    Args:
+        atmosphere (Atmosphere): Atmosphere object initialized at a specific
+            altitude.
+        balloon (Balloon): Balloon object.
+        ascent_rate (float): Velocity (positive up) in meters/second.
+    
+    Returns:
+        float: Drag force (positive up) in Newtons.
     '''
     Cd = balloon.cd
     area = balloon.projected_area
@@ -39,6 +64,26 @@ def drag(atmosphere, balloon, ascent_rate):
 
 
 def step(dt, a, v, h, balloon, payload):
+    ''' Progress the simulation by one time step.
+
+    Args:
+        dt (float): Time step size in seconds.
+        a (float): Acceleration (positive up) in meters/second^2.
+        v (float): Velocity (positive up) in meters/second.
+        h (float): Altitude in meters.
+        balloon (Balloon): Balloon object.
+        payload (Payload): Payload object.
+    
+    Returns:
+        tuple: Tuple containing rates of change over the time step:
+
+        - `a` (`float`): Instantaneous acceleration (positive up) in 
+                meters/second^2.
+        - `dv` (`float`): Delta velocity (positive up) between the previous
+                time index and the latest one in meters/second.
+        - `dh` (`float`): Delta altitude between the previous time index and
+                the latest one in meters.
+    '''
     atmosphere = Atmosphere(h)
     balloon.match_ambient(atmosphere)
     total_mass = balloon.mass + payload.total_mass
@@ -64,30 +109,50 @@ def step(dt, a, v, h, balloon, payload):
 def run(sim_config):
     ''' Start a simulation. Specify initial conditions and configurable 
     parameters with a SIM_CONFIG dictionary.
-    ```
-    "balloon":
-        "type": Part number of the balloon to import from balloon_library
-        "reserve_mass_kg": Mass of lift gas to always keep in balloon (kg)
-        "bleed_mass_kg": Mass of lift gas allowed to be bled from balloon (kg)
-    "payload":
-        "bus_mass_kg": Mass of non-ballast payload mass (kg)
-        "ballast_mass_kg": Mass of ballast material (kg)
-    "pid":
-        "mode": Altitude controller mode. [pwm, continuous]
-        "bleed_rate_kgps": Mass flow rate of lift gas bleed (kg/s)
-        "ballast_rate_kgps": Mass flow rate of ballast release (kg/s)
-        "gains":
-            "kp": Proportional gain
-            "ki": Integral gain
-            "kd": Derivative gain
-            "n":  Filter coefficient
-    "simulation": {
-        "id": An identifier for the simulation
-        "duration": Max time duration of simulation (seconds)
-        "dt": Time step (seconds)
-        "initial_altitude": Altitude at simulation start (m), [-5004 to 80000]
-        "initial_velocity": Velocity at simulation start (m/s)
-    ```
+
+    Simulation starts at a time 0 and increments the time index in steps of
+    `dt` seconds until the `duration` is reached or a balloon burst event is
+    detected.
+
+    Args:
+        sim_config (dict): Dictionary of simulation config parameters. The
+            following key-value pairs are supported:
+            ```json
+            "balloon":
+                "type": Part number of the balloon to import from balloon_library
+                "reserve_mass_kg": Mass of lift gas to always keep in balloon (kg)
+                "bleed_mass_kg": Mass of lift gas allowed to be bled from balloon (kg)
+            "payload":
+                "bus_mass_kg": Mass of non-ballast payload mass (kg)
+                "ballast_mass_kg": Mass of ballast material (kg)
+            "pid":
+                "mode": Altitude controller mode. [pwm, continuous]
+                "bleed_rate_kgps": Mass flow rate of lift gas bleed (kg/s)
+                "ballast_rate_kgps": Mass flow rate of ballast release (kg/s)
+                "gains":
+                    "kp": Proportional gain
+                    "ki": Integral gain
+                    "kd": Derivative gain
+                    "n":  Filter coefficient
+            "simulation": {
+                "id": An identifier for the simulation
+                "duration": Max time duration of simulation (seconds)
+                "dt": Time step (seconds)
+                "initial_altitude": Altitude at simulation start (m), [-5004 to 80000]
+                "initial_velocity": Velocity at simulation start (m/s)
+            ```
+    Returns:
+        tuple: Tuple containing timeserieses of simulation values:
+
+        - `tspan` (`array`): Array of time indices in seconds.
+        - `altitude` (`array`): Instantaneous acceleration (positive up) in 
+                meters/second^2.
+        - `altitude` (`array`): Array of altitudes.
+            One entry for each time index.
+        - `velocity` (`array`): Array of ascent velocities.
+            One entry for each time index. Positive up.
+        - `acceleration` (`array`): Array of ascent accelerations.
+            One entry for each time index. Positive up.
     '''
     altitude=np.array([])
     ascent_rate=np.array([])

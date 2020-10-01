@@ -1,10 +1,25 @@
+''' Balloon and Gas properties.
+
+This module defines Balloon objects and Gas objects for use in high altitude
+balloon simulations.
+
+Balloon objects are initialized from a specification definition file, which
+is a JSON that lives in the same directory as this module. These definition
+files are generated from high altitude balloon specification datasheets
+provided by the balloon's manufacturer. It includes attributes such as the
+size, mass, volume limits, approximate drag coefficient, and other useful
+metrics. The Balloon object has class methods
+'''
+
 import logging
 import json
 import os
 import math
 
-
+# Logger (initialized by cli.py)
 log = logging.getLogger()
+
+# Constants
 PI = math.pi
 BALLOON_LIBRARY_DIR = os.path.dirname(__file__)
 BOLTZMANN_CONSTANT = 1.38e-23  # [J/K]
@@ -12,6 +27,8 @@ AVOGADRO_CONSTANT = 3.022e23  # [1/mol]
 R = BOLTZMANN_CONSTANT * AVOGADRO_CONSTANT  # [J / K mol] Ideal Gas Constant
 STANDARD_TEMPERATURE_K = 273.15
 STANDARD_PRESSURE_Pa = 101.325e3
+
+# Known properties of common gasses
 GAS_PROPERTIES_CONFIG = {
     "units": "kg/mol",
     "gas_properties": [
@@ -61,10 +78,30 @@ GAS_PROPERTIES_CONFIG = {
         }
     ]
 }
+''' Dictionary of gasses species and their special properties.
+
+Source: US Standard Atmosphere, 1976
+
+Key| Species          | Molar Weight (kg/mol)
+---|----------------- | ---------------------
+Air| Air              | 0.02897
+He | Helium           | 0.0040026
+H2 | Hydrogen         | 0.00201594
+N2 | Nitrogen         | 0.0280134
+O2 | Oxygen           | 0.0319988
+Ar | Argon            | 0.039948
+CO2| Carbon Dioxide   | 0.04400995
+Ne | Neon             | 0.020183
+Kr | Krypton          | 0.08380
+Xe | Xenon            | 0.13130
+CH4| Methane          | 0.01604303
+
+Note: All properties are measured from dry gasses at sea level.
+'''
 
 
 def get_gas_properties():
-    ''' Return a dictionary of gas species and their molar mass (kg/mol).
+    ''' Return the dictionary of gas species and their molar mass (kg/mol).
     '''
     gas_properties = GAS_PROPERTIES_CONFIG['gas_properties']
     units = GAS_PROPERTIES_CONFIG['units']
@@ -78,18 +115,42 @@ def get_gas_properties():
 
 
 def list_known_species():
+    ''' Return all species listed in `get_gas_properties`.
+    
+    Returns:
+        list: Keys of valid gas species.
+    '''
     known_species, _ = get_gas_properties()
     return list(known_species.keys())
 
 
 def is_valid_gas(species):
+    ''' Return True if there is a known molecular weight for the input 
+    `species`.
+
+    Args:
+        species (string): Name or abbreviation of a gas (i.e. `he` or `helium`)
+
+    Returns:
+        bool: Returns `True` if `species` is in the known list of gas species.
+    '''
     return species in list_known_species()
 
 
 def is_valid_balloon(spec_name):
-    ''' Returns true if SPEC_NAME matches the name of a known balloon 
-    definition. SPEC_NAME is case sensitive and does not include the file
-    extension. Only checks against JSON files in the balloon directory.
+    ''' Returns True if `spec_name` matches the name of a known balloon 
+    definition.
+
+    Balloon definition files are JSON files in the `balloon_library` directory.
+    
+    Args:
+        spec_name (string): Name of the balloon spec to use. Case sensitive and
+            does not include the file (i.e. `HAB-3000` corresponds to 
+            `ballon_library/HAB-3000.json`).
+
+    Returns:
+        bool: Returns True if `spec_name` matches the name of a known balloon 
+        definition.
     '''
     known_balloons = []
     for f in os.listdir(BALLOON_LIBRARY_DIR):
@@ -103,6 +164,16 @@ def is_valid_balloon(spec_name):
 
 def get_balloon(spec_name):
     ''' Get balloon spec sheet definitions as a dictionary.
+
+    Balloon definition files are JSON files in the `balloon_library` directory.
+    
+    Args:
+        spec_name (string): Name of the balloon spec to use. Case sensitive and
+            does not include the file (i.e. `HAB-3000` corresponds to 
+            `ballon_library/HAB-3000.json`).
+
+    Returns:
+        dict: Dictionary of balloon specification parameters.
     '''
     if is_valid_balloon(spec_name):
         config_filename = '%s.json' % spec_name
@@ -115,6 +186,8 @@ def get_balloon(spec_name):
 
 
 def _radius_from_volume(volume):
+    ''' Return the volume of a sphere given its radius.
+    '''
     if volume < 0:
         raise ValueError('Cannot have negative volume! (%s)' % volume)
     return (volume / (4/3 * PI)) ** (1/3)
@@ -169,7 +242,7 @@ class Gas():
         ))
         self.temperature = atmosphere.temperature
         self.pressure = atmosphere.pressure
-    
+
     def match_conditions(self, temperature, pressure):
         ''' Update temperature (K), pressure (Pa) to match specific values.
         '''
