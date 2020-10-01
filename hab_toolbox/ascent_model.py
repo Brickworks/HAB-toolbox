@@ -112,7 +112,7 @@ def run(sim_config):
         elif dt > MAX_ALLOWED_DT:
             dt = MAX_ALLOWED_DT
         log.warning(f'Using closest allowed time step: {dt} seconds')
-    
+
     tspan = np.arange(0, duration, step=dt)
 
     h = sim_config['simulation']['initial_altitude']
@@ -128,7 +128,8 @@ def run(sim_config):
         if balloon.burst_threshold_exceeded:
             log.warning('Balloon burst threshold exceeded: time %s, altitude %s m, diameter %s m' % (
                 t, h, balloon.diameter))
-            tspan = np.transpose(np.where(tspan < t))
+            # truncate timesteps that weren't simulated
+            tspan = np.transpose(tspan[np.where(tspan < t)])
             break
         a, dv, dh = step(dt, a, v, h, balloon, payload)
         v += dv
@@ -141,5 +142,5 @@ def run(sim_config):
         altitude = np.append(altitude, h)
         ascent_rate = np.append(ascent_rate, v)
         ascent_accel = np.append(ascent_accel, a)
-    
-    return np.squeeze(tspan), altitude, ascent_rate, ascent_accel
+
+    return tspan, altitude, ascent_rate, ascent_accel
