@@ -202,6 +202,8 @@ class Gas():
         species (string): Initialize the `Gas` object with a species of gas to
             use for ideal gas calculations. For a complete list of gasses to
             choose from, use `list_known_species()`
+        mass (float): Initialize the `Gas` object with positive nonzero mass in
+            kilograms. Optional, defaults to `0`.
 
     Note:
         While `Gas` objects function alone, they are best used when set as the
@@ -234,7 +236,11 @@ class Gas():
     @property
     def volume(self):
         ''' Ideal gas volume (m^3) from temperature (K) and pressure (Pa) for
-            a given mass (kg) of gas. 
+            a given mass (kg) of gas.
+
+        Note:
+            If `Gas.mass` is zero, volume is also zero. Likewise, a negative
+            (nonphysical) mass will result in a negative (nonphysical) volume.
         '''
         moles = (self.mass / self.molar_mass)
         V = moles * R * self.temperature / self.pressure
@@ -243,30 +249,102 @@ class Gas():
     @property
     def density(self):
         ''' Ideal gas density (kg/m^3) from temperature (K) and pressure (Pa).
+
+        Note:
+            Since density is a property per unit mass, this property is still
+            valid for an unspecified (or zero) `Gas.mass`.
         '''
         return (self.molar_mass * self.pressure) / (R * self.temperature)
 
     def match_ambient(self, atmosphere):
         ''' Update temperature (K), pressure (Pa), and density (kg/m^3) to
         match ambient air conditions at a given geopotential altitude (m).
+
+        Args:
+            atmosphere (Atmosphere): An `ambiance.Atmosphere` object with
+                valid `temperature` and `pressure` attributes.
+        
+        Returns:
+            Gas: Updates the `temperature` and `pressure` properties to be
+                equal to those of the input `atmosphere`, then returns itself.
         '''
         log.debug('Matching %s temperature and pressure to ambient at %s meters (geometric altitude)' % (
             self.species, atmosphere.h
         ))
         self.temperature = atmosphere.temperature
         self.pressure = atmosphere.pressure
+        return self
 
     def match_conditions(self, temperature, pressure):
         ''' Update temperature (K), pressure (Pa) to match specific values.
+
+        Args:
+            temperature (float): Temperature in Kelvin
+            pressure (float): Pressure in Pascals
+
+        Returns:
+            Gas: Updates the `temperature` and `pressure` properties to be
+                equal to the input `temperature` and `pressure`, then returns
+                itself.
         '''
         log.debug('Matching %s temperature and pressure to %s K, %s Pa' % (
             self.species, temperature, pressure
         ))
         self.temperature = temperature
         self.pressure = pressure
+        return self
 
 
 class Balloon():
+    ''' Object for handling properties of a `Balloon`.
+
+    A valid specification file is needed to initialize a balloon.
+    Specififcations are JSON files in the `balloon_library` directory.
+
+    | Property | Description |
+    | -------- | ----------- |
+    | `name` | Part name of the Balloon |
+    | `datasheet` | Link to the specification PDF |
+    | `part_number` | Part number of the Balloon |
+    | `lift_gas` | `Gas` object representing gas "inside" the balloon |
+    | `cd` | Approximate drag coefficient (assumes spherical balloon) |
+    | `mass` | Mass of the balloon itself |
+    | `burst_diameter` | Maximum diameter of the balloon before it bursts |
+
+    A dictionary of more specific manufacturer recommendations, estimate values
+    and other properties are contained within the `spec` property. This
+    property provides direct access to the `spec` portion of the specification
+    JSON, which is basically everything besides the naming metadata.
+    For example, `Balloon.spec.lifting_gas` returns the manufacturer
+    recommended species for lifting gas as a string.
+
+    In order to interact with the gas properties of the lift gas "inside" the
+    `Balloon`, access its properties and methods directly. For example,
+    ```python
+    b = Balloon('HAB-2000')  # initialize the Balloon object
+
+    print(b.lift_gas)        # Gas object is initialized inside the balloon,
+                             # where the species is set to the manufacturer
+                             # recommendation
+
+    b.lift_gas.mass = 1      # set the mass of the Gas object to 1 kg
+    ```
+
+    Args:
+        spec_name (string): Initialize the `Balloon` object with a specific
+            part number corresponding to a valid JSON in the `balloon_library`
+            directory. Balloon properties are imported from this JSON.
+        lift_gas (string): Initialize the `Balloon` object with `Gas` to use 
+            "inside" the balloon, specifying the species as a string. For a 
+            complete list of gasses to choose from, use `list_known_species()`.
+            Optional, defaults to the lift gas species identified in the 
+            specification JSON.
+
+    Note:
+        When initializing a `Balloon` with a `lift_gas`, it is just assigning a
+        gas type. To do volume calculations, make sure to "fill" the balloon by
+        assigning `Balloon.lift_gas.mass` a nonzero value.
+        '''
     def __init__(self, spec_name, lift_gas=None):
         config_data = get_balloon(spec_name)
         self.name = config_data['name']
