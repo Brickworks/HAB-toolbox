@@ -5,7 +5,7 @@ repo_name: Brickworks/HAB-toolbox
 nav:
   - Home: index.md
   - Ascent Model: ascent_model.md
-  - Reference: reference.md
+  - API Reference: reference.md
 
 theme: 
   name: material
@@ -31,3 +31,6 @@ plugins:
 markdown_extensions:
   - admonition
   - footnotes
+  - codehilite:
+      guess_lang: false
+      use_pygments: true
