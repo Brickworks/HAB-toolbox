@@ -12,7 +12,7 @@ MIN_ALLOWED_DT = 0.001
 
 
 # All forces assume positive up coordinate frame.
-def weight(atmosphere, total_mass):
+def weight(atmosphere, total_mass)->float:
     ''' Weight (N) as a function of gropotential altitude (m) and mass (kg).
 
     Args:
@@ -26,7 +26,7 @@ def weight(atmosphere, total_mass):
     return -atmosphere.grav_accel * total_mass
 
 
-def buoyancy(atmosphere, balloon):
+def buoyancy(atmosphere, balloon)->float:
     ''' Buoyancy force (N) from air displaced by lift gas at a given
     geometric altitude (m).
 
@@ -44,7 +44,7 @@ def buoyancy(atmosphere, balloon):
     return -atmosphere.grav_accel * displaced_air
 
 
-def drag(atmosphere, balloon, ascent_rate):
+def drag(atmosphere, balloon, ascent_rate)->float:
     ''' Drag force (N) from air against the windward cross-sectional area (m^2)
     at a given geometric altitude (m).
 
