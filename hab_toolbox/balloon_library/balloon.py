@@ -96,7 +96,8 @@ Kr | Krypton          | 0.08380
 Xe | Xenon            | 0.13130
 CH4| Methane          | 0.01604303
 
-Note: All properties are measured from dry gasses at sea level.
+Note:
+    All properties are measured from dry gasses at sea level.
 '''
 
 
@@ -194,6 +195,18 @@ def _radius_from_volume(volume):
 
 
 class Gas():
+    ''' Object for handling ideal gas properties of a finite volume of lift gas
+    inside a `Balloon`.
+
+    Args:
+        species (string): Initialize the `Gas` object with a species of gas to
+            use for ideal gas calculations. For a complete list of gasses to
+            choose from, use `list_known_species()`
+
+    Note:
+        While `Gas` objects function alone, they are best used when set as the
+        `lift_gas` attribute of a `Balloon`.
+    '''
     def __init__(self, species, mass=0):
         species = species.lower()
         if is_valid_gas(species):
