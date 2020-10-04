@@ -19,7 +19,7 @@ def weight(atmosphere, total_mass):
         atmosphere (Atmosphere): Atmosphere object initialized at a specific
             altitude.
         total_mass (float): Total dry mass in kilograms.
-    
+
     Returns:
         float: Weight force (positive up) in Newtons.
     '''
@@ -27,14 +27,14 @@ def weight(atmosphere, total_mass):
 
 
 def buoyancy(atmosphere, balloon):
-    ''' Buoyancy force (N) from air displaced by lift gas at a given 
+    ''' Buoyancy force (N) from air displaced by lift gas at a given
     geometric altitude (m).
 
     Args:
         atmosphere (Atmosphere): Atmosphere object initialized at a specific
             altitude.
         balloon (Balloon): Balloon object.
-    
+
     Returns:
         float: Buoyancy force (positive up) in Newtons.
     '''
@@ -53,7 +53,7 @@ def drag(atmosphere, balloon, ascent_rate):
             altitude.
         balloon (Balloon): Balloon object.
         ascent_rate (float): Velocity (positive up) in meters/second.
-    
+
     Returns:
         float: Drag force (positive up) in Newtons.
     '''
@@ -73,11 +73,11 @@ def step(dt, a, v, h, balloon, payload):
         h (float): Altitude in meters.
         balloon (Balloon): Balloon object.
         payload (Payload): Payload object.
-    
+
     Returns:
         tuple: Tuple containing rates of change over the time step:
 
-        - `a` (`float`): Instantaneous acceleration (positive up) in 
+        - `a` (`float`): Instantaneous acceleration (positive up) in
                 meters/second^2.
         - `dv` (`float`): Delta velocity (positive up) between the previous
                 time index and the latest one in meters/second.
@@ -107,45 +107,53 @@ def step(dt, a, v, h, balloon, payload):
 
 
 def run(sim_config):
-    ''' Start a simulation. Specify initial conditions and configurable 
-    parameters with a SIM_CONFIG dictionary.
+    ''' Start a simulation. Specify initial conditions and configurable
+    parameters with a dictionary containing special keys.
 
     Simulation starts at a time 0 and increments the time index in steps of
     `dt` seconds until the `duration` is reached or a balloon burst event is
     detected.
 
+    The following `sim_config` key-value pairs are supported:
+    ``` json
+    {
+        "balloon": {
+            "type": (string) Part number of the balloon to import from balloon_library,
+            "reserve_mass_kg": (float) Mass of lift gas to always keep in balloon (kg),
+            "bleed_mass_kg": (float) Mass of lift gas allowed to be bled from balloon (kg),
+        },
+        "payload": {
+            "bus_mass_kg": (float) Mass of non-ballast payload mass (kg),
+            "ballast_mass_kg": (float) Mass of ballast material (kg),
+        },
+        "pid": {
+            "mode": (string) Altitude controller mode. [pwm, continuous],
+            "bleed_rate_kgps": (float) Mass flow rate of lift gas bleed (kg/s),
+            "ballast_rate_kgps": (float) Mass flow rate of ballast release (kg/s),
+            "gains": {
+                "kp": (float) Proportional gain,
+                "ki": (float) Integral gain,
+                "kd": (float) Derivative gain,
+                "n":  (float) Filter coefficient,
+            }
+        },
+        "simulation": {
+            "id": (string) An identifier for the simulation,
+            "duration": (float) Max time duration of simulation (seconds),
+            "dt": (float) Time step (seconds),
+            "initial_altitude": (float) Altitude at simulation start (m), [-5004 to 80000],
+            "initial_velocity": (float) Velocity at simulation start (m/s)
+        }
+    }
+    ```
     Args:
-        sim_config (dict): Dictionary of simulation config parameters. The
-            following key-value pairs are supported:
-            ```json
-            "balloon":
-                "type": Part number of the balloon to import from balloon_library
-                "reserve_mass_kg": Mass of lift gas to always keep in balloon (kg)
-                "bleed_mass_kg": Mass of lift gas allowed to be bled from balloon (kg)
-            "payload":
-                "bus_mass_kg": Mass of non-ballast payload mass (kg)
-                "ballast_mass_kg": Mass of ballast material (kg)
-            "pid":
-                "mode": Altitude controller mode. [pwm, continuous]
-                "bleed_rate_kgps": Mass flow rate of lift gas bleed (kg/s)
-                "ballast_rate_kgps": Mass flow rate of ballast release (kg/s)
-                "gains":
-                    "kp": Proportional gain
-                    "ki": Integral gain
-                    "kd": Derivative gain
-                    "n":  Filter coefficient
-            "simulation": {
-                "id": An identifier for the simulation
-                "duration": Max time duration of simulation (seconds)
-                "dt": Time step (seconds)
-                "initial_altitude": Altitude at simulation start (m), [-5004 to 80000]
-                "initial_velocity": Velocity at simulation start (m/s)
-            ```
+        sim_config (dict): Dictionary of simulation config parameters.
+
     Returns:
         tuple: Tuple containing timeserieses of simulation values:
 
         - `tspan` (`array`): Array of time indices in seconds.
-        - `altitude` (`array`): Instantaneous acceleration (positive up) in 
+        - `altitude` (`array`): Instantaneous acceleration (positive up) in
                 meters/second^2.
         - `altitude` (`array`): Array of altitudes.
             One entry for each time index.

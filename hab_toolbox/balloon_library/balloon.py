@@ -117,7 +117,7 @@ def get_gas_properties():
 
 def list_known_species():
     ''' Return all species listed in `get_gas_properties`.
-    
+
     Returns:
         list: Keys of valid gas species.
     '''
@@ -126,7 +126,7 @@ def list_known_species():
 
 
 def is_valid_gas(species):
-    ''' Return True if there is a known molecular weight for the input 
+    ''' Return True if there is a known molecular weight for the input
     `species`.
 
     Args:
@@ -139,18 +139,18 @@ def is_valid_gas(species):
 
 
 def is_valid_balloon(spec_name):
-    ''' Returns True if `spec_name` matches the name of a known balloon 
+    ''' Returns True if `spec_name` matches the name of a known balloon
     definition.
 
     Balloon definition files are JSON files in the `balloon_library` directory.
-    
+
     Args:
         spec_name (string): Name of the balloon spec to use. Case sensitive and
-            does not include the file (i.e. `HAB-3000` corresponds to 
+            does not include the file (i.e. `HAB-3000` corresponds to
             `ballon_library/HAB-3000.json`).
 
     Returns:
-        bool: Returns True if `spec_name` matches the name of a known balloon 
+        bool: Returns True if `spec_name` matches the name of a known balloon
         definition.
     '''
     known_balloons = []
@@ -167,10 +167,10 @@ def get_balloon(spec_name):
     ''' Get balloon spec sheet definitions as a dictionary.
 
     Balloon definition files are JSON files in the `balloon_library` directory.
-    
+
     Args:
         spec_name (string): Name of the balloon spec to use. Case sensitive and
-            does not include the file (i.e. `HAB-3000` corresponds to 
+            does not include the file (i.e. `HAB-3000` corresponds to
             `ballon_library/HAB-3000.json`).
 
     Returns:
@@ -263,7 +263,7 @@ class Gas():
         Args:
             atmosphere (Atmosphere): An `ambiance.Atmosphere` object with
                 valid `temperature` and `pressure` attributes.
-        
+
         Returns:
             Gas: Updates the `temperature` and `pressure` properties to be
                 equal to those of the input `atmosphere`, then returns itself.
@@ -320,24 +320,24 @@ class Balloon():
 
     In order to interact with the gas properties of the lift gas "inside" the
     `Balloon`, access its properties and methods directly. For example,
-    ```python
+    ``` python
     b = Balloon('HAB-2000')  # initialize the Balloon object
 
     print(b.lift_gas)        # Gas object is initialized inside the balloon,
                              # where the species is set to the manufacturer
-                             # recommendation
+                             # recommendation since none was specified
 
-    b.lift_gas.mass = 1      # set the mass of the Gas object to 1 kg
+    b.lift_gas.mass = 1.0    # set the mass of the Gas object to 1 kg
     ```
 
     Args:
         spec_name (string): Initialize the `Balloon` object with a specific
             part number corresponding to a valid JSON in the `balloon_library`
             directory. Balloon properties are imported from this JSON.
-        lift_gas (string): Initialize the `Balloon` object with `Gas` to use 
-            "inside" the balloon, specifying the species as a string. For a 
+        lift_gas (string): Initialize the `Balloon` object with `Gas` to use
+            "inside" the balloon, specifying the species as a string. For a
             complete list of gasses to choose from, use `list_known_species()`.
-            Optional, defaults to the lift gas species identified in the 
+            Optional, defaults to the lift gas species identified in the
             specification JSON.
 
     Note:
@@ -366,23 +366,24 @@ class Balloon():
         return self.spec[key]['unit']
 
     @property
-    def volume(self):
+    def volume(self)->float:
         ''' Ideal gas volume (m^3) from temperature (K) and pressure (Pa) for
-            a given mass (kg) of gas. 
+            the current mass (kg) of lift gas in the balloon.
         '''
         return self.lift_gas.volume
 
     @property
-    def projected_area(self):
+    def projected_area(self)->float:
         ''' Projected cross-sectional area of the balloon (m^2) for use in drag
-        calculations assuming the balloon is a sphere with volume (m^3).
+        calculations assuming the balloon is a sphere with nonzero volume
+        (m^3).
         '''
         self.radius = _radius_from_volume(self.volume)
         return PI * (self.radius ** 2)
 
     @property
-    def burst_threshold_exceeded(self):
-        ''' Check if the given volume (m^3) is greater than or equal to the 
+    def burst_threshold_exceeded(self)->bool:
+        ''' Check if the given volume (m^3) is greater than or equal to the
         burst volume (m^3) from the spec sheet.
         '''
         burst_diameter = self.spec['diameter_burst']['value']
@@ -396,21 +397,33 @@ class Balloon():
         match ambient air conditions at a given geopotential altitude (m).
         '''
         self.lift_gas.match_ambient(atmosphere)
+        return self
 
     def match_conditions(self, temperature, pressure):
         ''' Update temperature (K), pressure (Pa) to match specific values.
         '''
         self.lift_gas.match_conditions(temperature, pressure)
+        return self
 
 
 class Payload():
     ''' The thing carried by a balloon.
+
+    Args:
+        dry_mass (float): Mass of the payload in kilograms. If there are
+            consumables on board like ballast, this is *not* included in dry
+            mass. Optional, default is `2.0`.
+        ballast_mass (float): Mass of ballast to be dropped (consumed) in
+            kilograms. It is assumed that the payload is an open-mass system
+            with respect to ballast. Optional, default is `0.0`.
     '''
 
-    def __init__(self, dry_mass=2, ballast_mass=0):
+    def __init__(self, dry_mass=2.0, ballast_mass=0.0):
         self.dry_mass = dry_mass  # [kg] cannot change in flight
         self.ballast_mass = ballast_mass  # [kg] can be dropped in flight
 
     @property
-    def total_mass(self):
+    def total_mass(self)->float:
+        ''' Get the total mass of the payload, including dry mass and ballast.
+        '''
         return self.dry_mass + self.ballast_mass

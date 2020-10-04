@@ -31,3 +31,6 @@ plugins:
 markdown_extensions:
   - admonition
   - footnotes
+  - codehilite:
+      guess_lang: false
+      use_pygments: true
