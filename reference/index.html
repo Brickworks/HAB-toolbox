@@ -1,0 +1,2367 @@
+
+<!DOCTYPE html>
+
+<html class="no-js" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1" name="viewport"/>
+<meta content="Software to assist in mechanics calculations, and simulations of high altitude baloon payloads." name="description"/>
+<link href="../img/favicon.ico" rel="shortcut icon"/>
+<meta content="mkdocs-1.1.2, mkdocs-material-5.5.14" name="generator"/>
+<title>API Reference - HAB Toolbox</title>
+<link href="../assets/stylesheets/main.d3202873.min.css" rel="stylesheet"/>
+<link href="../assets/stylesheets/palette.ff0a5ce4.min.css" rel="stylesheet"/>
+<meta content="#2094f3" name="theme-color"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&amp;display=fallback" rel="stylesheet"/>
+<style>body,input{font-family:"Roboto",-apple-system,BlinkMacSystemFont,Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono",SFMono-Regular,Consolas,Menlo,monospace}</style>
+</head>
+<body data-md-color-accent="blue" data-md-color-primary="blue" data-md-color-scheme="default" dir="ltr">
+<input autocomplete="off" class="md-toggle" data-md-toggle="drawer" id="__drawer" type="checkbox"/>
+<input autocomplete="off" class="md-toggle" data-md-toggle="search" id="__search" type="checkbox"/>
+<label class="md-overlay" for="__drawer"></label>
+<div data-md-component="skip">
+<a class="md-skip" href="#reference">
+          Skip to content
+        </a>
+</div>
+<div data-md-component="announce">
+</div>
+<header class="md-header" data-md-component="header">
+<nav aria-label="Header" class="md-header-nav md-grid">
+<a aria-label="HAB Toolbox" class="md-header-nav__button md-logo" href=".." title="HAB Toolbox">
+<svg viewbox="0 0 512 512" xmlns="http://www.w3.org/2000/svg"><path d="M501.1 395.7L384 278.6c-23.1-23.1-57.6-27.6-85.4-13.9L192 158.1V96L64 0 0 64l96 128h62.1l106.6 106.6c-13.6 27.8-9.2 62.3 13.9 85.4l117.1 117.1c14.6 14.6 38.2 14.6 52.7 0l52.7-52.7c14.5-14.6 14.5-38.2 0-52.7zM331.7 225c28.3 0 54.9 11 74.9 31l19.4 19.4c15.8-6.9 30.8-16.5 43.8-29.5 37.1-37.1 49.7-89.3 37.9-136.7-2.2-9-13.5-12.1-20.1-5.5l-74.4 74.4-67.9-11.3L334 98.9l74.4-74.4c6.6-6.6 3.4-17.9-5.7-20.2-47.4-11.7-99.6.9-136.6 37.9-28.5 28.5-41.9 66.1-41.2 103.6l82.1 82.1c8.1-1.9 16.5-2.9 24.7-2.9zm-103.9 82l-56.7-56.7L18.7 402.8c-25 25-25 65.5 0 90.5s65.5 25 90.5 0l123.6-123.6c-7.6-19.9-9.9-41.6-5-62.7zM64 472c-13.2 0-24-10.8-24-24 0-13.3 10.7-24 24-24s24 10.7 24 24c0 13.2-10.7 24-24 24z"></path></svg>
+</a>
+<label class="md-header-nav__button md-icon" for="__drawer">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"></path></svg>
+</label>
+<div class="md-header-nav__title" data-md-component="header-title">
+<div class="md-header-nav__ellipsis">
+<span class="md-header-nav__topic md-ellipsis">
+            HAB Toolbox
+          </span>
+<span class="md-header-nav__topic md-ellipsis">
+            
+              API Reference
+            
+          </span>
+</div>
+</div>
+<label class="md-header-nav__button md-icon" for="__search">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M9.5 3A6.5 6.5 0 0116 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 019.5 16 6.5 6.5 0 013 9.5 6.5 6.5 0 019.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"></path></svg>
+</label>
+<div class="md-search" data-md-component="search" role="dialog">
+<label class="md-search__overlay" for="__search"></label>
+<div class="md-search__inner" role="search">
+<form class="md-search__form" name="search">
+<input aria-label="Search" autocapitalize="off" autocomplete="off" autocorrect="off" class="md-search__input" data-md-component="search-query" data-md-state="active" name="query" placeholder="Search" spellcheck="false" type="text"/>
+<label class="md-search__icon md-icon" for="__search">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M9.5 3A6.5 6.5 0 0116 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 019.5 16 6.5 6.5 0 013 9.5 6.5 6.5 0 019.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"></path></svg>
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"></path></svg>
+</label>
+<button aria-label="Clear" class="md-search__icon md-icon" data-md-component="search-reset" tabindex="-1" type="reset">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"></path></svg>
+</button>
+</form>
+<div class="md-search__output">
+<div class="md-search__scrollwrap" data-md-scrollfix="">
+<div class="md-search-result" data-md-component="search-result">
+<div class="md-search-result__meta">
+            Initializing search
+          </div>
+<ol class="md-search-result__list"></ol>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="md-header-nav__source">
+<a class="md-source" href="https://github.com/Brickworks/HAB-toolbox/" title="Go to repository">
+<div class="md-source__icon md-icon">
+<svg viewbox="0 0 448 512" xmlns="http://www.w3.org/2000/svg"><path d="M439.55 236.05L244 40.45a28.87 28.87 0 00-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 01-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 000 40.81l195.61 195.6a28.86 28.86 0 0040.8 0l194.69-194.69a28.86 28.86 0 000-40.81z"></path></svg>
+</div>
+<div class="md-source__repository">
+    Brickworks/HAB-toolbox
+  </div>
+</a>
+</div>
+</nav>
+</header>
+<div class="md-container" data-md-component="container">
+<main class="md-main" data-md-component="main">
+<div class="md-main__inner md-grid">
+<div class="md-sidebar md-sidebar--primary" data-md-component="navigation">
+<div class="md-sidebar__scrollwrap">
+<div class="md-sidebar__inner">
+<nav aria-label="Navigation" class="md-nav md-nav--primary" data-md-level="0">
+<label class="md-nav__title" for="__drawer">
+<a aria-label="HAB Toolbox" class="md-nav__button md-logo" href=".." title="HAB Toolbox">
+<svg viewbox="0 0 512 512" xmlns="http://www.w3.org/2000/svg"><path d="M501.1 395.7L384 278.6c-23.1-23.1-57.6-27.6-85.4-13.9L192 158.1V96L64 0 0 64l96 128h62.1l106.6 106.6c-13.6 27.8-9.2 62.3 13.9 85.4l117.1 117.1c14.6 14.6 38.2 14.6 52.7 0l52.7-52.7c14.5-14.6 14.5-38.2 0-52.7zM331.7 225c28.3 0 54.9 11 74.9 31l19.4 19.4c15.8-6.9 30.8-16.5 43.8-29.5 37.1-37.1 49.7-89.3 37.9-136.7-2.2-9-13.5-12.1-20.1-5.5l-74.4 74.4-67.9-11.3L334 98.9l74.4-74.4c6.6-6.6 3.4-17.9-5.7-20.2-47.4-11.7-99.6.9-136.6 37.9-28.5 28.5-41.9 66.1-41.2 103.6l82.1 82.1c8.1-1.9 16.5-2.9 24.7-2.9zm-103.9 82l-56.7-56.7L18.7 402.8c-25 25-25 65.5 0 90.5s65.5 25 90.5 0l123.6-123.6c-7.6-19.9-9.9-41.6-5-62.7zM64 472c-13.2 0-24-10.8-24-24 0-13.3 10.7-24 24-24s24 10.7 24 24c0 13.2-10.7 24-24 24z"></path></svg>
+</a>
+    HAB Toolbox
+  </label>
+<div class="md-nav__source">
+<a class="md-source" href="https://github.com/Brickworks/HAB-toolbox/" title="Go to repository">
+<div class="md-source__icon md-icon">
+<svg viewbox="0 0 448 512" xmlns="http://www.w3.org/2000/svg"><path d="M439.55 236.05L244 40.45a28.87 28.87 0 00-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 01-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 000 40.81l195.61 195.6a28.86 28.86 0 0040.8 0l194.69-194.69a28.86 28.86 0 000-40.81z"></path></svg>
+</div>
+<div class="md-source__repository">
+    Brickworks/HAB-toolbox
+  </div>
+</a>
+</div>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href=".." title="Home">
+      Home
+    </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../ascent_model/" title="Ascent Model">
+      Ascent Model
+    </a>
+</li>
+<li class="md-nav__item md-nav__item--active">
+<input class="md-nav__toggle md-toggle" data-md-toggle="toc" id="__toc" type="checkbox"/>
+<label class="md-nav__link md-nav__link--active" for="__toc">
+        API Reference
+        <span class="md-nav__icon md-icon"></span>
+</label>
+<a class="md-nav__link md-nav__link--active" href="./" title="API Reference">
+      API Reference
+    </a>
+<nav aria-label="Table of contents" class="md-nav md-nav--secondary">
+<label class="md-nav__title" for="__toc">
+<span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#command-line-interface">
+    Command Line Interface
+  </a>
+<nav aria-label="Command Line Interface" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#simple-1-d-ascent-simulation">
+    Simple 1-D ascent simulation
+  </a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#api-reference">
+    API Reference
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#hab_toolbox">
+    hab_toolbox
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#hab_toolbox.ascent_model">
+    ascent_model
+  </a>
+<nav aria-label="ascent_model" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#hab_toolbox.ascent_model.buoyancy">
+    buoyancy()
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#hab_toolbox.ascent_model.drag">
+    drag()
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#hab_toolbox.ascent_model.run">
+    run()
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#hab_toolbox.ascent_model.step">
+    step()
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#hab_toolbox.ascent_model.weight">
+    weight()
+  </a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#hab_toolbox.balloon_library">
+    balloon_library
+  </a>
+<nav aria-label="balloon_library" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#hab_toolbox.balloon_library.balloon">
+    balloon
+  </a>
+<nav aria-label="balloon" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#hab_toolbox.balloon_library.balloon.GAS_PROPERTIES_CONFIG">
+    GAS_PROPERTIES_CONFIG
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#hab_toolbox.balloon_library.balloon.Balloon">
+    Balloon
+  </a>
+<nav aria-label="Balloon" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#hab_toolbox.balloon_library.balloon.Balloon.burst_threshold_exceeded">
+    burst_threshold_exceeded
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#hab_toolbox.balloon_library.balloon.Balloon.projected_area">
+    projected_area
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#hab_toolbox.balloon_library.balloon.Balloon.volume">
+    volume
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#hab_toolbox.balloon_library.balloon.Balloon.match_ambient">
+    match_ambient()
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#hab_toolbox.balloon_library.balloon.Balloon.match_conditions">
+    match_conditions()
+  </a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#hab_toolbox.balloon_library.balloon.Gas">
+    Gas
+  </a>
+<nav aria-label="Gas" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#hab_toolbox.balloon_library.balloon.Gas.density">
+    density
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#hab_toolbox.balloon_library.balloon.Gas.volume">
+    volume
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#hab_toolbox.balloon_library.balloon.Gas.match_ambient">
+    match_ambient()
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#hab_toolbox.balloon_library.balloon.Gas.match_conditions">
+    match_conditions()
+  </a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#hab_toolbox.balloon_library.balloon.Payload">
+    Payload
+  </a>
+<nav aria-label="Payload" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#hab_toolbox.balloon_library.balloon.Payload.total_mass">
+    total_mass
+  </a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#hab_toolbox.balloon_library.balloon.get_balloon">
+    get_balloon()
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#hab_toolbox.balloon_library.balloon.get_gas_properties">
+    get_gas_properties()
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#hab_toolbox.balloon_library.balloon.is_valid_balloon">
+    is_valid_balloon()
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#hab_toolbox.balloon_library.balloon.is_valid_gas">
+    is_valid_gas()
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#hab_toolbox.balloon_library.balloon.list_known_species">
+    list_known_species()
+  </a>
+</li>
+</ul>
+</nav>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#hab_toolbox.plot_tools">
+    plot_tools
+  </a>
+<nav aria-label="plot_tools" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#hab_toolbox.plot_tools.plot_ascent">
+    plot_ascent()
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#hab_toolbox.plot_tools.show_figure">
+    show_figure()
+  </a>
+</li>
+</ul>
+</nav>
+</li>
+</ul>
+</nav>
+</li>
+</ul>
+</nav>
+</div>
+</div>
+</div>
+<div class="md-sidebar md-sidebar--secondary" data-md-component="toc">
+<div class="md-sidebar__scrollwrap">
+<div class="md-sidebar__inner">
+<nav aria-label="Table of contents" class="md-nav md-nav--secondary">
+<label class="md-nav__title" for="__toc">
+<span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#command-line-interface">
+    Command Line Interface
+  </a>
+<nav aria-label="Command Line Interface" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#simple-1-d-ascent-simulation">
+    Simple 1-D ascent simulation
+  </a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#api-reference">
+    API Reference
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#hab_toolbox">
+    hab_toolbox
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#hab_toolbox.ascent_model">
+    ascent_model
+  </a>
+<nav aria-label="ascent_model" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#hab_toolbox.ascent_model.buoyancy">
+    buoyancy()
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#hab_toolbox.ascent_model.drag">
+    drag()
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#hab_toolbox.ascent_model.run">
+    run()
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#hab_toolbox.ascent_model.step">
+    step()
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#hab_toolbox.ascent_model.weight">
+    weight()
+  </a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#hab_toolbox.balloon_library">
+    balloon_library
+  </a>
+<nav aria-label="balloon_library" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#hab_toolbox.balloon_library.balloon">
+    balloon
+  </a>
+<nav aria-label="balloon" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#hab_toolbox.balloon_library.balloon.GAS_PROPERTIES_CONFIG">
+    GAS_PROPERTIES_CONFIG
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#hab_toolbox.balloon_library.balloon.Balloon">
+    Balloon
+  </a>
+<nav aria-label="Balloon" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#hab_toolbox.balloon_library.balloon.Balloon.burst_threshold_exceeded">
+    burst_threshold_exceeded
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#hab_toolbox.balloon_library.balloon.Balloon.projected_area">
+    projected_area
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#hab_toolbox.balloon_library.balloon.Balloon.volume">
+    volume
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#hab_toolbox.balloon_library.balloon.Balloon.match_ambient">
+    match_ambient()
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#hab_toolbox.balloon_library.balloon.Balloon.match_conditions">
+    match_conditions()
+  </a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#hab_toolbox.balloon_library.balloon.Gas">
+    Gas
+  </a>
+<nav aria-label="Gas" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#hab_toolbox.balloon_library.balloon.Gas.density">
+    density
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#hab_toolbox.balloon_library.balloon.Gas.volume">
+    volume
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#hab_toolbox.balloon_library.balloon.Gas.match_ambient">
+    match_ambient()
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#hab_toolbox.balloon_library.balloon.Gas.match_conditions">
+    match_conditions()
+  </a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#hab_toolbox.balloon_library.balloon.Payload">
+    Payload
+  </a>
+<nav aria-label="Payload" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#hab_toolbox.balloon_library.balloon.Payload.total_mass">
+    total_mass
+  </a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#hab_toolbox.balloon_library.balloon.get_balloon">
+    get_balloon()
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#hab_toolbox.balloon_library.balloon.get_gas_properties">
+    get_gas_properties()
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#hab_toolbox.balloon_library.balloon.is_valid_balloon">
+    is_valid_balloon()
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#hab_toolbox.balloon_library.balloon.is_valid_gas">
+    is_valid_gas()
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#hab_toolbox.balloon_library.balloon.list_known_species">
+    list_known_species()
+  </a>
+</li>
+</ul>
+</nav>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#hab_toolbox.plot_tools">
+    plot_tools
+  </a>
+<nav aria-label="plot_tools" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#hab_toolbox.plot_tools.plot_ascent">
+    plot_ascent()
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#hab_toolbox.plot_tools.show_figure">
+    show_figure()
+  </a>
+</li>
+</ul>
+</nav>
+</li>
+</ul>
+</nav>
+</div>
+</div>
+</div>
+<div class="md-content">
+<article class="md-content__inner md-typeset">
+<a class="md-content__button md-icon" href="https://github.com/Brickworks/HAB-toolbox/edit/master/docs/reference.md" title="Edit this page">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25z"></path></svg>
+</a>
+<h1 id="reference">Reference</h1>
+<!-- CONTRIBUTING --
+This repo uses mkdocstrings (pawamoy/mkdocstrings) to render function comments
+as API documentation.
+
+To get your functions to be automatically documented and included in the API
+Reference section, simply follow Google-style docstring conventions for python.
+
+You can see examples of Google-style docstrings in 
+[Napolion's documentation](https://sphinxcontrib-napoleon.readthedocs.io/en/latest/example_google.html)
+
+The full mkdocstrings documentation is available at 
+(pawamoy.github.io/mkdocstrings) and includes descriptions, API reference, and
+helpful examples.
+-->
+<h2 id="command-line-interface">Command Line Interface</h2>
+<h3 id="simple-1-d-ascent-simulation">Simple 1-D ascent simulation</h3>
+<div class="codehilite"><pre><span></span><code><span class="c1"># run the simulation defined by sim_config.json</span>
+poetry run hab-toolbox simple-ascent sim_config.json
+
+<span class="c1"># run the model with verbose output, plot and save results to a file</span>
+poetry run hab-toolbox -v simple-ascent sim_config.json -o test.csv -p
+</code></pre></div>
+<hr/>
+<h2 id="api-reference">API Reference</h2>
+<div class="doc doc-object doc-module">
+<h2 class="hidden-toc" href="#hab_toolbox" id="hab_toolbox" style="visibility: hidden; position: absolute;">
+</h2>
+<div class="doc doc-contents first">
+<div class="doc doc-children">
+<div class="doc doc-object doc-module">
+<h2 class="doc doc-heading" id="hab_toolbox.ascent_model">
+<code>ascent_model</code>
+</h2>
+<div class="doc doc-contents">
+<div class="doc doc-children">
+<div class="doc doc-object doc-function">
+<h3 class="doc doc-heading" id="hab_toolbox.ascent_model.buoyancy">
+<code class="highlight language-python">
+buoyancy<span class="p">(</span><span class="n">atmosphere</span><span class="p">,</span> <span class="n">balloon</span><span class="p">)</span> </code>
+</h3>
+<div class="doc doc-contents">
+<p>Buoyancy force (N) from air displaced by lift gas at a given
+geometric altitude (m).</p>
+<p><strong>Parameters:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>atmosphere</code></td>
+<td><code>Atmosphere</code></td>
+<td>
+<p>Atmosphere object initialized at a specific
+altitude.</p>
+</td>
+<td><em>required</em></td>
+</tr>
+<tr>
+<td><code>balloon</code></td>
+<td><code>Balloon</code></td>
+<td>
+<p>Balloon object.</p>
+</td>
+<td><em>required</em></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Returns:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>float</code></td>
+<td>
+<p>float: Buoyancy force (positive up) in Newtons.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<details class="quote">
+<summary>Source code in <code>hab_toolbox/ascent_model.py</code></summary>
+<div class="highlight">
+<pre><span></span><code><span class="k">def</span> <span class="nf">buoyancy</span><span class="p">(</span><span class="n">atmosphere</span><span class="p">,</span> <span class="n">balloon</span><span class="p">)</span><span class="o">-&gt;</span><span class="nb">float</span><span class="p">:</span>
+    <span class="sd">''' Buoyancy force (N) from air displaced by lift gas at a given</span>
+<span class="sd">    geometric altitude (m).</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        atmosphere (Atmosphere): Atmosphere object initialized at a specific</span>
+<span class="sd">            altitude.</span>
+<span class="sd">        balloon (Balloon): Balloon object.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        float: Buoyancy force (positive up) in Newtons.</span>
+<span class="sd">    '''</span>
+    <span class="n">balloon</span><span class="o">.</span><span class="n">lift_gas</span><span class="o">.</span><span class="n">match_ambient</span><span class="p">(</span><span class="n">atmosphere</span><span class="p">)</span>
+    <span class="n">density_diff</span> <span class="o">=</span> <span class="n">balloon</span><span class="o">.</span><span class="n">lift_gas</span><span class="o">.</span><span class="n">density</span> <span class="o">-</span> <span class="n">atmosphere</span><span class="o">.</span><span class="n">density</span>
+    <span class="n">displaced_air</span> <span class="o">=</span> <span class="n">balloon</span><span class="o">.</span><span class="n">lift_gas</span><span class="o">.</span><span class="n">volume</span> <span class="o">*</span> <span class="n">density_diff</span>
+    <span class="k">return</span> <span class="o">-</span><span class="n">atmosphere</span><span class="o">.</span><span class="n">grav_accel</span> <span class="o">*</span> <span class="n">displaced_air</span>
+</code></pre>
+</div>
+</details>
+</div>
+</div>
+<div class="doc doc-object doc-function">
+<h3 class="doc doc-heading" id="hab_toolbox.ascent_model.drag">
+<code class="highlight language-python">
+drag<span class="p">(</span><span class="n">atmosphere</span><span class="p">,</span> <span class="n">balloon</span><span class="p">,</span> <span class="n">ascent_rate</span><span class="p">)</span> </code>
+</h3>
+<div class="doc doc-contents">
+<p>Drag force (N) from air against the windward cross-sectional area (m^2)
+at a given geometric altitude (m).</p>
+<p><strong>Parameters:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>atmosphere</code></td>
+<td><code>Atmosphere</code></td>
+<td>
+<p>Atmosphere object initialized at a specific
+altitude.</p>
+</td>
+<td><em>required</em></td>
+</tr>
+<tr>
+<td><code>balloon</code></td>
+<td><code>Balloon</code></td>
+<td>
+<p>Balloon object.</p>
+</td>
+<td><em>required</em></td>
+</tr>
+<tr>
+<td><code>ascent_rate</code></td>
+<td><code>float</code></td>
+<td>
+<p>Velocity (positive up) in meters/second.</p>
+</td>
+<td><em>required</em></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Returns:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>float</code></td>
+<td>
+<p>float: Drag force (positive up) in Newtons.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<details class="quote">
+<summary>Source code in <code>hab_toolbox/ascent_model.py</code></summary>
+<div class="highlight">
+<pre><span></span><code><span class="k">def</span> <span class="nf">drag</span><span class="p">(</span><span class="n">atmosphere</span><span class="p">,</span> <span class="n">balloon</span><span class="p">,</span> <span class="n">ascent_rate</span><span class="p">)</span><span class="o">-&gt;</span><span class="nb">float</span><span class="p">:</span>
+    <span class="sd">''' Drag force (N) from air against the windward cross-sectional area (m^2)</span>
+<span class="sd">    at a given geometric altitude (m).</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        atmosphere (Atmosphere): Atmosphere object initialized at a specific</span>
+<span class="sd">            altitude.</span>
+<span class="sd">        balloon (Balloon): Balloon object.</span>
+<span class="sd">        ascent_rate (float): Velocity (positive up) in meters/second.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        float: Drag force (positive up) in Newtons.</span>
+<span class="sd">    '''</span>
+    <span class="n">Cd</span> <span class="o">=</span> <span class="n">balloon</span><span class="o">.</span><span class="n">cd</span>
+    <span class="n">area</span> <span class="o">=</span> <span class="n">balloon</span><span class="o">.</span><span class="n">projected_area</span>
+    <span class="n">direction</span> <span class="o">=</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">sign</span><span class="p">(</span><span class="n">ascent_rate</span><span class="p">)</span>  <span class="c1"># always oppose direction of motion</span>
+    <span class="k">return</span> <span class="n">direction</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="n">Cd</span> <span class="o">*</span> <span class="n">area</span> <span class="o">*</span> <span class="p">(</span><span class="n">ascent_rate</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="n">atmosphere</span><span class="o">.</span><span class="n">density</span>
+</code></pre>
+</div>
+</details>
+</div>
+</div>
+<div class="doc doc-object doc-function">
+<h3 class="doc doc-heading" id="hab_toolbox.ascent_model.run">
+<code class="highlight language-python">
+run<span class="p">(</span><span class="n">sim_config</span><span class="p">)</span> </code>
+</h3>
+<div class="doc doc-contents">
+<p>Start a simulation. Specify initial conditions and configurable
+parameters with a dictionary containing special keys.</p>
+<p>Simulation starts at a time 0 and increments the time index in steps of
+<code>dt</code> seconds until the <code>duration</code> is reached or a balloon burst event is
+detected.</p>
+<p>The following <code>sim_config</code> key-value pairs are supported:</p>
+<div class="codehilite">
+<pre><span></span><code><span class="p">{</span>
+    <span class="nt">"balloon"</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">"type"</span><span class="p">:</span> <span class="err">(string)</span> <span class="err">Part</span> <span class="err">number</span> <span class="err">of</span> <span class="err">the</span> <span class="err">balloon</span> <span class="err">to</span> <span class="err">import</span> <span class="err">from</span> <span class="err">balloon_library</span><span class="p">,</span>
+        <span class="nt">"reserve_mass_kg"</span><span class="p">:</span> <span class="err">(float)</span> <span class="err">Mass</span> <span class="err">of</span> <span class="err">lift</span> <span class="err">gas</span> <span class="err">to</span> <span class="err">always</span> <span class="err">keep</span> <span class="err">in</span> <span class="err">balloon</span> <span class="err">(kg)</span><span class="p">,</span>
+        <span class="nt">"bleed_mass_kg"</span><span class="p">:</span> <span class="err">(float)</span> <span class="err">Mass</span> <span class="err">of</span> <span class="err">lift</span> <span class="err">gas</span> <span class="err">allowed</span> <span class="err">to</span> <span class="err">be</span> <span class="err">bled</span> <span class="err">from</span> <span class="err">balloon</span> <span class="err">(kg)</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="nt">"payload"</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">"bus_mass_kg"</span><span class="p">:</span> <span class="err">(float)</span> <span class="err">Mass</span> <span class="err">of</span> <span class="err">non-ballast</span> <span class="err">payload</span> <span class="err">mass</span> <span class="err">(kg)</span><span class="p">,</span>
+        <span class="nt">"ballast_mass_kg"</span><span class="p">:</span> <span class="err">(float)</span> <span class="err">Mass</span> <span class="err">of</span> <span class="err">ballast</span> <span class="err">material</span> <span class="err">(kg)</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="nt">"pid"</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">"mode"</span><span class="p">:</span> <span class="err">(string)</span> <span class="err">Altitude</span> <span class="err">controller</span> <span class="err">mode.</span> <span class="p">[</span><span class="err">pwm</span><span class="p">,</span> <span class="err">continuous</span><span class="p">],</span>
+        <span class="nt">"bleed_rate_kgps"</span><span class="p">:</span> <span class="err">(float)</span> <span class="err">Mass</span> <span class="err">flow</span> <span class="err">rate</span> <span class="err">of</span> <span class="err">lift</span> <span class="err">gas</span> <span class="err">bleed</span> <span class="err">(kg/s)</span><span class="p">,</span>
+        <span class="nt">"ballast_rate_kgps"</span><span class="p">:</span> <span class="err">(float)</span> <span class="err">Mass</span> <span class="err">flow</span> <span class="err">rate</span> <span class="err">of</span> <span class="err">ballast</span> <span class="err">release</span> <span class="err">(kg/s)</span><span class="p">,</span>
+        <span class="nt">"gains"</span><span class="p">:</span> <span class="p">{</span>
+            <span class="nt">"kp"</span><span class="p">:</span> <span class="err">(float)</span> <span class="err">Proportional</span> <span class="err">gain</span><span class="p">,</span>
+            <span class="nt">"ki"</span><span class="p">:</span> <span class="err">(float)</span> <span class="err">Integral</span> <span class="err">gain</span><span class="p">,</span>
+            <span class="nt">"kd"</span><span class="p">:</span> <span class="err">(float)</span> <span class="err">Derivative</span> <span class="err">gain</span><span class="p">,</span>
+            <span class="nt">"n"</span><span class="p">:</span>  <span class="err">(float)</span> <span class="err">Filter</span> <span class="err">coefficient</span><span class="p">,</span>
+        <span class="p">}</span>
+    <span class="p">},</span>
+    <span class="nt">"simulation"</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">"id"</span><span class="p">:</span> <span class="err">(string)</span> <span class="err">An</span> <span class="err">identifier</span> <span class="err">for</span> <span class="err">the</span> <span class="err">simulation</span><span class="p">,</span>
+        <span class="nt">"duration"</span><span class="p">:</span> <span class="err">(float)</span> <span class="err">Max</span> <span class="err">time</span> <span class="err">duration</span> <span class="err">of</span> <span class="err">simulation</span> <span class="err">(seconds)</span><span class="p">,</span>
+        <span class="nt">"dt"</span><span class="p">:</span> <span class="err">(float)</span> <span class="err">Time</span> <span class="err">step</span> <span class="err">(seconds)</span><span class="p">,</span>
+        <span class="nt">"initial_altitude"</span><span class="p">:</span> <span class="err">(float)</span> <span class="err">Altitude</span> <span class="err">at</span> <span class="err">simulation</span> <span class="err">start</span> <span class="err">(m)</span><span class="p">,</span> <span class="err">[-5004</span> <span class="err">to</span> <span class="err">80000],</span>
+        <span class="nt">"initial_velocity"</span><span class="p">:</span> <span class="err">(float)</span> <span class="err">Velocity</span> <span class="err">at</span> <span class="err">simulation</span> <span class="err">start</span> <span class="err">(m/s)</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+</div>
+<p><strong>Parameters:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>sim_config</code></td>
+<td><code>dict</code></td>
+<td>
+<p>Dictionary of simulation config parameters.</p>
+</td>
+<td><em>required</em></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Returns:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>tuple</code></td>
+<td>
+<p>Tuple containing timeserieses of simulation values:</p>
+<ul>
+<li><code>tspan</code> (<code>array</code>): Array of time indices in seconds.</li>
+<li><code>altitude</code> (<code>array</code>): Instantaneous acceleration (positive up) in
+        meters/second^2.</li>
+<li><code>altitude</code> (<code>array</code>): Array of altitudes.
+    One entry for each time index.</li>
+<li><code>velocity</code> (<code>array</code>): Array of ascent velocities.
+    One entry for each time index. Positive up.</li>
+<li><code>acceleration</code> (<code>array</code>): Array of ascent accelerations.
+    One entry for each time index. Positive up.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<details class="quote">
+<summary>Source code in <code>hab_toolbox/ascent_model.py</code></summary>
+<div class="highlight">
+<pre><span></span><code><span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="n">sim_config</span><span class="p">):</span>
+    <span class="sd">''' Start a simulation. Specify initial conditions and configurable</span>
+<span class="sd">    parameters with a dictionary containing special keys.</span>
+
+<span class="sd">    Simulation starts at a time 0 and increments the time index in steps of</span>
+<span class="sd">    `dt` seconds until the `duration` is reached or a balloon burst event is</span>
+<span class="sd">    detected.</span>
+
+<span class="sd">    The following `sim_config` key-value pairs are supported:</span>
+<span class="sd">    ``` json</span>
+<span class="sd">    {</span>
+<span class="sd">        "balloon": {</span>
+<span class="sd">            "type": (string) Part number of the balloon to import from balloon_library,</span>
+<span class="sd">            "reserve_mass_kg": (float) Mass of lift gas to always keep in balloon (kg),</span>
+<span class="sd">            "bleed_mass_kg": (float) Mass of lift gas allowed to be bled from balloon (kg),</span>
+<span class="sd">        },</span>
+<span class="sd">        "payload": {</span>
+<span class="sd">            "bus_mass_kg": (float) Mass of non-ballast payload mass (kg),</span>
+<span class="sd">            "ballast_mass_kg": (float) Mass of ballast material (kg),</span>
+<span class="sd">        },</span>
+<span class="sd">        "pid": {</span>
+<span class="sd">            "mode": (string) Altitude controller mode. [pwm, continuous],</span>
+<span class="sd">            "bleed_rate_kgps": (float) Mass flow rate of lift gas bleed (kg/s),</span>
+<span class="sd">            "ballast_rate_kgps": (float) Mass flow rate of ballast release (kg/s),</span>
+<span class="sd">            "gains": {</span>
+<span class="sd">                "kp": (float) Proportional gain,</span>
+<span class="sd">                "ki": (float) Integral gain,</span>
+<span class="sd">                "kd": (float) Derivative gain,</span>
+<span class="sd">                "n":  (float) Filter coefficient,</span>
+<span class="sd">            }</span>
+<span class="sd">        },</span>
+<span class="sd">        "simulation": {</span>
+<span class="sd">            "id": (string) An identifier for the simulation,</span>
+<span class="sd">            "duration": (float) Max time duration of simulation (seconds),</span>
+<span class="sd">            "dt": (float) Time step (seconds),</span>
+<span class="sd">            "initial_altitude": (float) Altitude at simulation start (m), [-5004 to 80000],</span>
+<span class="sd">            "initial_velocity": (float) Velocity at simulation start (m/s)</span>
+<span class="sd">        }</span>
+<span class="sd">    }</span>
+<span class="sd">    ```</span>
+<span class="sd">    Args:</span>
+<span class="sd">        sim_config (dict): Dictionary of simulation config parameters.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        tuple: Tuple containing timeserieses of simulation values:</span>
+
+<span class="sd">        - `tspan` (`array`): Array of time indices in seconds.</span>
+<span class="sd">        - `altitude` (`array`): Instantaneous acceleration (positive up) in</span>
+<span class="sd">                meters/second^2.</span>
+<span class="sd">        - `altitude` (`array`): Array of altitudes.</span>
+<span class="sd">            One entry for each time index.</span>
+<span class="sd">        - `velocity` (`array`): Array of ascent velocities.</span>
+<span class="sd">            One entry for each time index. Positive up.</span>
+<span class="sd">        - `acceleration` (`array`): Array of ascent accelerations.</span>
+<span class="sd">            One entry for each time index. Positive up.</span>
+<span class="sd">    '''</span>
+    <span class="n">altitude</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([])</span>
+    <span class="n">ascent_rate</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([])</span>
+    <span class="n">ascent_accel</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([])</span>
+
+    <span class="n">balloon</span> <span class="o">=</span> <span class="n">Balloon</span><span class="p">(</span><span class="n">sim_config</span><span class="p">[</span><span class="s1">'balloon'</span><span class="p">][</span><span class="s1">'type'</span><span class="p">])</span>
+    <span class="n">balloon</span><span class="o">.</span><span class="n">reserve_gas</span> <span class="o">=</span> <span class="n">sim_config</span><span class="p">[</span><span class="s1">'balloon'</span><span class="p">][</span><span class="s1">'reserve_mass_kg'</span><span class="p">]</span>
+    <span class="n">balloon</span><span class="o">.</span><span class="n">bleed_gas</span> <span class="o">=</span> <span class="n">sim_config</span><span class="p">[</span><span class="s1">'balloon'</span><span class="p">][</span><span class="s1">'bleed_mass_kg'</span><span class="p">]</span>
+    <span class="n">balloon</span><span class="o">.</span><span class="n">lift_gas</span> <span class="o">=</span> <span class="n">Gas</span><span class="p">(</span><span class="n">balloon</span><span class="o">.</span><span class="n">spec</span><span class="p">[</span><span class="s1">'lifting_gas'</span><span class="p">],</span>
+                           <span class="n">mass</span><span class="o">=</span><span class="n">balloon</span><span class="o">.</span><span class="n">reserve_gas</span><span class="o">+</span><span class="n">balloon</span><span class="o">.</span><span class="n">bleed_gas</span><span class="p">)</span>
+    <span class="n">bus_mass</span> <span class="o">=</span> <span class="n">sim_config</span><span class="p">[</span><span class="s1">'payload'</span><span class="p">][</span><span class="s1">'bus_mass_kg'</span><span class="p">]</span>
+    <span class="n">ballast_mass</span> <span class="o">=</span> <span class="n">sim_config</span><span class="p">[</span><span class="s1">'payload'</span><span class="p">][</span><span class="s1">'ballast_mass_kg'</span><span class="p">]</span>
+    <span class="n">payload</span> <span class="o">=</span> <span class="n">Payload</span><span class="p">(</span><span class="n">dry_mass</span><span class="o">=</span><span class="n">bus_mass</span><span class="p">,</span> <span class="n">ballast_mass</span><span class="o">=</span><span class="n">ballast_mass</span><span class="p">)</span>
+
+    <span class="n">duration</span> <span class="o">=</span> <span class="n">sim_config</span><span class="p">[</span><span class="s1">'simulation'</span><span class="p">][</span><span class="s1">'duration'</span><span class="p">]</span>
+    <span class="n">dt</span> <span class="o">=</span> <span class="n">sim_config</span><span class="p">[</span><span class="s1">'simulation'</span><span class="p">][</span><span class="s1">'dt'</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">dt</span> <span class="o">&lt;</span> <span class="n">MIN_ALLOWED_DT</span> <span class="ow">or</span> <span class="n">dt</span> <span class="o">&gt;</span> <span class="n">MAX_ALLOWED_DT</span><span class="p">:</span>
+        <span class="c1"># solver gets unstable with time steps above 0.5</span>
+        <span class="n">log</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s1">'Time step must be between 0.001 and 0.5 seconds, not </span><span class="si">{</span><span class="n">dt</span><span class="si">}</span><span class="s1">'</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">dt</span> <span class="o">&lt;</span> <span class="n">MIN_ALLOWED_DT</span><span class="p">:</span>
+            <span class="n">dt</span> <span class="o">=</span> <span class="n">MIN_ALLOWED_DT</span>
+        <span class="k">elif</span> <span class="n">dt</span> <span class="o">&gt;</span> <span class="n">MAX_ALLOWED_DT</span><span class="p">:</span>
+            <span class="n">dt</span> <span class="o">=</span> <span class="n">MAX_ALLOWED_DT</span>
+        <span class="n">log</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="sa">f</span><span class="s1">'Using closest allowed time step: </span><span class="si">{</span><span class="n">dt</span><span class="si">}</span><span class="s1"> seconds'</span><span class="p">)</span>
+
+    <span class="n">tspan</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">duration</span><span class="p">,</span> <span class="n">step</span><span class="o">=</span><span class="n">dt</span><span class="p">)</span>
+
+    <span class="n">h</span> <span class="o">=</span> <span class="n">sim_config</span><span class="p">[</span><span class="s1">'simulation'</span><span class="p">][</span><span class="s1">'initial_altitude'</span><span class="p">]</span>
+    <span class="n">v</span> <span class="o">=</span> <span class="n">sim_config</span><span class="p">[</span><span class="s1">'simulation'</span><span class="p">][</span><span class="s1">'initial_velocity'</span><span class="p">]</span>
+    <span class="n">a</span> <span class="o">=</span> <span class="n">Atmosphere</span><span class="p">(</span><span class="n">h</span><span class="p">)</span><span class="o">.</span><span class="n">grav_accel</span>
+
+    <span class="n">log</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
+        <span class="sa">f</span><span class="s1">'Starting simulation: '</span>
+        <span class="sa">f</span><span class="s1">'balloon: </span><span class="si">{</span><span class="n">balloon</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s1"> | '</span>
+        <span class="sa">f</span><span class="s1">'duration: </span><span class="si">{</span><span class="n">duration</span><span class="si">}</span><span class="s1"> s | '</span>
+        <span class="sa">f</span><span class="s1">'dt: </span><span class="si">{</span><span class="n">dt</span><span class="si">}</span><span class="s1"> s'</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">tspan</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">balloon</span><span class="o">.</span><span class="n">burst_threshold_exceeded</span><span class="p">:</span>
+            <span class="n">log</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s1">'Balloon burst threshold exceeded: time </span><span class="si">%s</span><span class="s1">, altitude </span><span class="si">%s</span><span class="s1"> m, diameter </span><span class="si">%s</span><span class="s1"> m'</span> <span class="o">%</span> <span class="p">(</span>
+                <span class="n">t</span><span class="p">,</span> <span class="n">h</span><span class="p">,</span> <span class="n">balloon</span><span class="o">.</span><span class="n">diameter</span><span class="p">))</span>
+            <span class="c1"># truncate timesteps that weren't simulated</span>
+            <span class="n">tspan</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">tspan</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">tspan</span> <span class="o">&lt;</span> <span class="n">t</span><span class="p">)])</span>
+            <span class="k">break</span>
+        <span class="n">a</span><span class="p">,</span> <span class="n">dv</span><span class="p">,</span> <span class="n">dh</span> <span class="o">=</span> <span class="n">step</span><span class="p">(</span><span class="n">dt</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">h</span><span class="p">,</span> <span class="n">balloon</span><span class="p">,</span> <span class="n">payload</span><span class="p">)</span>
+        <span class="n">v</span> <span class="o">+=</span> <span class="n">dv</span>
+        <span class="n">h</span> <span class="o">+=</span> <span class="n">dh</span>
+        <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">' | '</span><span class="o">.</span><span class="n">join</span><span class="p">([</span>
+            <span class="sa">f</span><span class="s1">'</span><span class="si">{</span><span class="n">t</span><span class="si">:</span><span class="s1">6.1f</span><span class="si">}</span><span class="s1"> s'</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s1">'</span><span class="si">{</span><span class="n">a</span><span class="si">}</span><span class="s1"> m/s^2'</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s1">'</span><span class="si">{</span><span class="n">v</span><span class="si">}</span><span class="s1"> m/s | </span><span class="si">{</span><span class="n">h</span><span class="si">}</span><span class="s1"> m'</span><span class="p">,</span>
+        <span class="p">]))</span>
+        <span class="n">altitude</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">altitude</span><span class="p">,</span> <span class="n">h</span><span class="p">)</span>
+        <span class="n">ascent_rate</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ascent_rate</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
+        <span class="n">ascent_accel</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ascent_accel</span><span class="p">,</span> <span class="n">a</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">tspan</span><span class="p">,</span> <span class="n">altitude</span><span class="p">,</span> <span class="n">ascent_rate</span><span class="p">,</span> <span class="n">ascent_accel</span>
+</code></pre>
+</div>
+</details>
+</div>
+</div>
+<div class="doc doc-object doc-function">
+<h3 class="doc doc-heading" id="hab_toolbox.ascent_model.step">
+<code class="highlight language-python">
+step<span class="p">(</span><span class="n">dt</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">h</span><span class="p">,</span> <span class="n">balloon</span><span class="p">,</span> <span class="n">payload</span><span class="p">)</span> </code>
+</h3>
+<div class="doc doc-contents">
+<p>Progress the simulation by one time step.</p>
+<p><strong>Parameters:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>dt</code></td>
+<td><code>float</code></td>
+<td>
+<p>Time step size in seconds.</p>
+</td>
+<td><em>required</em></td>
+</tr>
+<tr>
+<td><code>a</code></td>
+<td><code>float</code></td>
+<td>
+<p>Acceleration (positive up) in meters/second^2.</p>
+</td>
+<td><em>required</em></td>
+</tr>
+<tr>
+<td><code>v</code></td>
+<td><code>float</code></td>
+<td>
+<p>Velocity (positive up) in meters/second.</p>
+</td>
+<td><em>required</em></td>
+</tr>
+<tr>
+<td><code>h</code></td>
+<td><code>float</code></td>
+<td>
+<p>Altitude in meters.</p>
+</td>
+<td><em>required</em></td>
+</tr>
+<tr>
+<td><code>balloon</code></td>
+<td><code>Balloon</code></td>
+<td>
+<p>Balloon object.</p>
+</td>
+<td><em>required</em></td>
+</tr>
+<tr>
+<td><code>payload</code></td>
+<td><code>Payload</code></td>
+<td>
+<p>Payload object.</p>
+</td>
+<td><em>required</em></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Returns:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>tuple</code></td>
+<td>
+<p>Tuple containing rates of change over the time step:</p>
+<ul>
+<li><code>a</code> (<code>float</code>): Instantaneous acceleration (positive up) in
+        meters/second^2.</li>
+<li><code>dv</code> (<code>float</code>): Delta velocity (positive up) between the previous
+        time index and the latest one in meters/second.</li>
+<li><code>dh</code> (<code>float</code>): Delta altitude between the previous time index and
+        the latest one in meters.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<details class="quote">
+<summary>Source code in <code>hab_toolbox/ascent_model.py</code></summary>
+<div class="highlight">
+<pre><span></span><code><span class="k">def</span> <span class="nf">step</span><span class="p">(</span><span class="n">dt</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">h</span><span class="p">,</span> <span class="n">balloon</span><span class="p">,</span> <span class="n">payload</span><span class="p">):</span>
+    <span class="sd">''' Progress the simulation by one time step.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        dt (float): Time step size in seconds.</span>
+<span class="sd">        a (float): Acceleration (positive up) in meters/second^2.</span>
+<span class="sd">        v (float): Velocity (positive up) in meters/second.</span>
+<span class="sd">        h (float): Altitude in meters.</span>
+<span class="sd">        balloon (Balloon): Balloon object.</span>
+<span class="sd">        payload (Payload): Payload object.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        tuple: Tuple containing rates of change over the time step:</span>
+
+<span class="sd">        - `a` (`float`): Instantaneous acceleration (positive up) in</span>
+<span class="sd">                meters/second^2.</span>
+<span class="sd">        - `dv` (`float`): Delta velocity (positive up) between the previous</span>
+<span class="sd">                time index and the latest one in meters/second.</span>
+<span class="sd">        - `dh` (`float`): Delta altitude between the previous time index and</span>
+<span class="sd">                the latest one in meters.</span>
+<span class="sd">    '''</span>
+    <span class="n">atmosphere</span> <span class="o">=</span> <span class="n">Atmosphere</span><span class="p">(</span><span class="n">h</span><span class="p">)</span>
+    <span class="n">balloon</span><span class="o">.</span><span class="n">match_ambient</span><span class="p">(</span><span class="n">atmosphere</span><span class="p">)</span>
+    <span class="n">total_mass</span> <span class="o">=</span> <span class="n">balloon</span><span class="o">.</span><span class="n">mass</span> <span class="o">+</span> <span class="n">payload</span><span class="o">.</span><span class="n">total_mass</span>
+
+    <span class="n">f_weight</span> <span class="o">=</span> <span class="n">weight</span><span class="p">(</span><span class="n">atmosphere</span><span class="p">,</span> <span class="n">total_mass</span><span class="p">)</span>
+    <span class="n">f_buoyancy</span> <span class="o">=</span> <span class="n">buoyancy</span><span class="p">(</span><span class="n">atmosphere</span><span class="p">,</span> <span class="n">balloon</span><span class="p">)</span>
+    <span class="n">f_drag</span> <span class="o">=</span> <span class="n">drag</span><span class="p">(</span><span class="n">atmosphere</span><span class="p">,</span> <span class="n">balloon</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
+    <span class="n">f_net</span> <span class="o">=</span> <span class="n">f_weight</span> <span class="o">+</span> <span class="n">f_buoyancy</span> <span class="o">+</span> <span class="n">f_drag</span>
+
+    <span class="n">a</span> <span class="o">=</span> <span class="n">f_net</span><span class="o">/</span><span class="n">total_mass</span>
+    <span class="n">dv</span> <span class="o">=</span> <span class="n">a</span><span class="o">*</span><span class="n">dt</span>
+    <span class="n">dh</span> <span class="o">=</span> <span class="n">v</span><span class="o">*</span><span class="n">dt</span>
+    <span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">' | '</span><span class="o">.</span><span class="n">join</span><span class="p">([</span>
+        <span class="sa">f</span><span class="s1">'f_net </span><span class="si">{</span><span class="n">f_net</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s1"> N'</span><span class="p">,</span>
+        <span class="sa">f</span><span class="s1">'f_weight </span><span class="si">{</span><span class="n">f_weight</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s1"> N'</span><span class="p">,</span>
+        <span class="sa">f</span><span class="s1">'f_buoyancy </span><span class="si">{</span><span class="n">f_buoyancy</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s1"> N'</span><span class="p">,</span>
+        <span class="sa">f</span><span class="s1">'f_drag </span><span class="si">{</span><span class="n">f_drag</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s1"> N'</span><span class="p">,</span>
+        <span class="sa">f</span><span class="s1">''</span>
+    <span class="p">]))</span>
+    <span class="k">return</span> <span class="n">a</span><span class="p">,</span> <span class="n">dv</span><span class="p">,</span> <span class="n">dh</span>
+</code></pre>
+</div>
+</details>
+</div>
+</div>
+<div class="doc doc-object doc-function">
+<h3 class="doc doc-heading" id="hab_toolbox.ascent_model.weight">
+<code class="highlight language-python">
+weight<span class="p">(</span><span class="n">atmosphere</span><span class="p">,</span> <span class="n">total_mass</span><span class="p">)</span> </code>
+</h3>
+<div class="doc doc-contents">
+<p>Weight (N) as a function of gropotential altitude (m) and mass (kg).</p>
+<p><strong>Parameters:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>atmosphere</code></td>
+<td><code>Atmosphere</code></td>
+<td>
+<p>Atmosphere object initialized at a specific
+altitude.</p>
+</td>
+<td><em>required</em></td>
+</tr>
+<tr>
+<td><code>total_mass</code></td>
+<td><code>float</code></td>
+<td>
+<p>Total dry mass in kilograms.</p>
+</td>
+<td><em>required</em></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Returns:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>float</code></td>
+<td>
+<p>float: Weight force (positive up) in Newtons.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<details class="quote">
+<summary>Source code in <code>hab_toolbox/ascent_model.py</code></summary>
+<div class="highlight">
+<pre><span></span><code><span class="k">def</span> <span class="nf">weight</span><span class="p">(</span><span class="n">atmosphere</span><span class="p">,</span> <span class="n">total_mass</span><span class="p">)</span><span class="o">-&gt;</span><span class="nb">float</span><span class="p">:</span>
+    <span class="sd">''' Weight (N) as a function of gropotential altitude (m) and mass (kg).</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        atmosphere (Atmosphere): Atmosphere object initialized at a specific</span>
+<span class="sd">            altitude.</span>
+<span class="sd">        total_mass (float): Total dry mass in kilograms.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        float: Weight force (positive up) in Newtons.</span>
+<span class="sd">    '''</span>
+    <span class="k">return</span> <span class="o">-</span><span class="n">atmosphere</span><span class="o">.</span><span class="n">grav_accel</span> <span class="o">*</span> <span class="n">total_mass</span>
+</code></pre>
+</div>
+</details>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="doc doc-object doc-module">
+<h2 class="doc doc-heading" id="hab_toolbox.balloon_library">
+<code>balloon_library</code>
+<span class="doc doc-properties">
+<small class="doc doc-property doc-property-special"><code>special</code></small>
+</span>
+</h2>
+<div class="doc doc-contents">
+<div class="doc doc-children">
+<div class="doc doc-object doc-module">
+<h3 class="doc doc-heading" id="hab_toolbox.balloon_library.balloon">
+<code>balloon</code>
+</h3>
+<div class="doc doc-contents">
+<p>Balloon and Gas properties.</p>
+<p>This module defines Balloon objects and Gas objects for use in high altitude
+balloon simulations.</p>
+<p>Balloon objects are initialized from a specification definition file, which
+is a JSON that lives in the same directory as this module. These definition
+files are generated from high altitude balloon specification datasheets
+provided by the balloon's manufacturer. It includes attributes such as the
+size, mass, volume limits, approximate drag coefficient, and other useful
+metrics. The Balloon object has class methods</p>
+<div class="doc doc-children">
+<div class="doc doc-object doc-attribute">
+<h4 class="doc doc-heading" id="hab_toolbox.balloon_library.balloon.GAS_PROPERTIES_CONFIG">
+<code class="highlight">
+GAS_PROPERTIES_CONFIG        </code>
+</h4>
+<div class="doc doc-contents">
+<p>Dictionary of gasses species and their special properties.</p>
+<p>Source: US Standard Atmosphere, 1976</p>
+<table>
+<thead>
+<tr>
+<th>Key</th>
+<th>Species</th>
+<th>Molar Weight (kg/mol)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Air</td>
+<td>Air</td>
+<td>0.02897</td>
+</tr>
+<tr>
+<td>He</td>
+<td>Helium</td>
+<td>0.0040026</td>
+</tr>
+<tr>
+<td>H2</td>
+<td>Hydrogen</td>
+<td>0.00201594</td>
+</tr>
+<tr>
+<td>N2</td>
+<td>Nitrogen</td>
+<td>0.0280134</td>
+</tr>
+<tr>
+<td>O2</td>
+<td>Oxygen</td>
+<td>0.0319988</td>
+</tr>
+<tr>
+<td>Ar</td>
+<td>Argon</td>
+<td>0.039948</td>
+</tr>
+<tr>
+<td>CO2</td>
+<td>Carbon Dioxide</td>
+<td>0.04400995</td>
+</tr>
+<tr>
+<td>Ne</td>
+<td>Neon</td>
+<td>0.020183</td>
+</tr>
+<tr>
+<td>Kr</td>
+<td>Krypton</td>
+<td>0.08380</td>
+</tr>
+<tr>
+<td>Xe</td>
+<td>Xenon</td>
+<td>0.13130</td>
+</tr>
+<tr>
+<td>CH4</td>
+<td>Methane</td>
+<td>0.01604303</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>All properties are measured from dry gasses at sea level.</p>
+</div>
+</div>
+</div>
+<div class="doc doc-object doc-class">
+<h4 class="doc doc-heading" id="hab_toolbox.balloon_library.balloon.Balloon">
+<code>Balloon</code>
+</h4>
+<div class="doc doc-contents">
+<p>Object for handling properties of a <code>Balloon</code>.</p>
+<p>A valid specification file is needed to initialize a balloon.
+Specififcations are JSON files in the <code>balloon_library</code> directory.</p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>name</code></td>
+<td>Part name of the Balloon</td>
+</tr>
+<tr>
+<td><code>datasheet</code></td>
+<td>Link to the specification PDF</td>
+</tr>
+<tr>
+<td><code>part_number</code></td>
+<td>Part number of the Balloon</td>
+</tr>
+<tr>
+<td><code>lift_gas</code></td>
+<td><code>Gas</code> object representing gas "inside" the balloon</td>
+</tr>
+<tr>
+<td><code>cd</code></td>
+<td>Approximate drag coefficient (assumes spherical balloon)</td>
+</tr>
+<tr>
+<td><code>mass</code></td>
+<td>Mass of the balloon itself</td>
+</tr>
+<tr>
+<td><code>burst_diameter</code></td>
+<td>Maximum diameter of the balloon before it bursts</td>
+</tr>
+</tbody>
+</table>
+<p>A dictionary of more specific manufacturer recommendations, estimate values
+and other properties are contained within the <code>spec</code> property. This
+property provides direct access to the <code>spec</code> portion of the specification
+JSON, which is basically everything besides the naming metadata.
+For example, <code>Balloon.spec.lifting_gas</code> returns the manufacturer
+recommended species for lifting gas as a string.</p>
+<p>In order to interact with the gas properties of the lift gas "inside" the
+<code>Balloon</code>, access its properties and methods directly. For example,</p>
+<div class="codehilite">
+<pre><span></span><code><span class="n">b</span> <span class="o">=</span> <span class="n">Balloon</span><span class="p">(</span><span class="s1">'HAB-2000'</span><span class="p">)</span>  <span class="c1"># initialize the Balloon object</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">b</span><span class="o">.</span><span class="n">lift_gas</span><span class="p">)</span>        <span class="c1"># Gas object is initialized inside the balloon,</span>
+                         <span class="c1"># where the species is set to the manufacturer</span>
+                         <span class="c1"># recommendation since none was specified</span>
+
+<span class="n">b</span><span class="o">.</span><span class="n">lift_gas</span><span class="o">.</span><span class="n">mass</span> <span class="o">=</span> <span class="mf">1.0</span>    <span class="c1"># set the mass of the Gas object to 1 kg</span>
+</code></pre>
+</div>
+<p><strong>Parameters:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>spec_name</code></td>
+<td><code>string</code></td>
+<td>
+<p>Initialize the <code>Balloon</code> object with a specific
+part number corresponding to a valid JSON in the <code>balloon_library</code>
+directory. Balloon properties are imported from this JSON.</p>
+</td>
+<td><em>required</em></td>
+</tr>
+<tr>
+<td><code>lift_gas</code></td>
+<td><code>string</code></td>
+<td>
+<p>Initialize the <code>Balloon</code> object with <code>Gas</code> to use
+"inside" the balloon, specifying the species as a string. For a
+complete list of gasses to choose from, use <code>list_known_species()</code>.
+Optional, defaults to the lift gas species identified in the
+specification JSON.</p>
+</td>
+<td><em>required</em></td>
+</tr>
+</tbody>
+</table>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>When initializing a <code>Balloon</code> with a <code>lift_gas</code>, it is just assigning a
+gas type. To do volume calculations, make sure to "fill" the balloon by
+assigning <code>Balloon.lift_gas.mass</code> a nonzero value.</p>
+</div>
+<div class="doc doc-children">
+<div class="doc doc-object doc-attribute">
+<h5 class="doc doc-heading" id="hab_toolbox.balloon_library.balloon.Balloon.burst_threshold_exceeded">
+<code class="highlight">
+burst_threshold_exceeded: <span class="nb">bool</span> </code>
+<span class="doc doc-properties">
+<small class="doc doc-property doc-property-property"><code>property</code></small>
+<small class="doc doc-property doc-property-readonly"><code>readonly</code></small>
+</span>
+</h5>
+<div class="doc doc-contents">
+<p>Check if the given volume (m^3) is greater than or equal to the
+burst volume (m^3) from the spec sheet.</p>
+</div>
+</div>
+<div class="doc doc-object doc-attribute">
+<h5 class="doc doc-heading" id="hab_toolbox.balloon_library.balloon.Balloon.projected_area">
+<code class="highlight">
+projected_area: <span class="nb">float</span> </code>
+<span class="doc doc-properties">
+<small class="doc doc-property doc-property-property"><code>property</code></small>
+<small class="doc doc-property doc-property-readonly"><code>readonly</code></small>
+</span>
+</h5>
+<div class="doc doc-contents">
+<p>Projected cross-sectional area of the balloon (m^2) for use in drag
+calculations assuming the balloon is a sphere with nonzero volume
+(m^3).</p>
+</div>
+</div>
+<div class="doc doc-object doc-attribute">
+<h5 class="doc doc-heading" id="hab_toolbox.balloon_library.balloon.Balloon.volume">
+<code class="highlight">
+volume: <span class="nb">float</span> </code>
+<span class="doc doc-properties">
+<small class="doc doc-property doc-property-property"><code>property</code></small>
+<small class="doc doc-property doc-property-readonly"><code>readonly</code></small>
+</span>
+</h5>
+<div class="doc doc-contents">
+<p>Ideal gas volume (m^3) from temperature (K) and pressure (Pa) for
+the current mass (kg) of lift gas in the balloon.</p>
+</div>
+</div>
+<div class="doc doc-object doc-method">
+<h5 class="doc doc-heading" id="hab_toolbox.balloon_library.balloon.Balloon.match_ambient">
+<code class="highlight language-python">
+match_ambient<span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">atmosphere</span><span class="p">)</span> </code>
+</h5>
+<div class="doc doc-contents">
+<p>Update temperature (K), pressure (Pa), and density (kg/m^3) to
+match ambient air conditions at a given geopotential altitude (m).</p>
+<details class="quote">
+<summary>Source code in <code>hab_toolbox/balloon_library/balloon.py</code></summary>
+<div class="highlight">
+<pre><span></span><code><span class="k">def</span> <span class="nf">match_ambient</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">atmosphere</span><span class="p">):</span>
+    <span class="sd">''' Update temperature (K), pressure (Pa), and density (kg/m^3) to</span>
+<span class="sd">    match ambient air conditions at a given geopotential altitude (m).</span>
+<span class="sd">    '''</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">lift_gas</span><span class="o">.</span><span class="n">match_ambient</span><span class="p">(</span><span class="n">atmosphere</span><span class="p">)</span>
+    <span class="k">return</span> <span class="bp">self</span>
+</code></pre>
+</div>
+</details>
+</div>
+</div>
+<div class="doc doc-object doc-method">
+<h5 class="doc doc-heading" id="hab_toolbox.balloon_library.balloon.Balloon.match_conditions">
+<code class="highlight language-python">
+match_conditions<span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">temperature</span><span class="p">,</span> <span class="n">pressure</span><span class="p">)</span> </code>
+</h5>
+<div class="doc doc-contents">
+<p>Update temperature (K), pressure (Pa) to match specific values.</p>
+<details class="quote">
+<summary>Source code in <code>hab_toolbox/balloon_library/balloon.py</code></summary>
+<div class="highlight">
+<pre><span></span><code><span class="k">def</span> <span class="nf">match_conditions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">temperature</span><span class="p">,</span> <span class="n">pressure</span><span class="p">):</span>
+    <span class="sd">''' Update temperature (K), pressure (Pa) to match specific values.</span>
+<span class="sd">    '''</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">lift_gas</span><span class="o">.</span><span class="n">match_conditions</span><span class="p">(</span><span class="n">temperature</span><span class="p">,</span> <span class="n">pressure</span><span class="p">)</span>
+    <span class="k">return</span> <span class="bp">self</span>
+</code></pre>
+</div>
+</details>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="doc doc-object doc-class">
+<h4 class="doc doc-heading" id="hab_toolbox.balloon_library.balloon.Gas">
+<code>Gas</code>
+</h4>
+<div class="doc doc-contents">
+<p>Object for handling ideal gas properties of a finite volume of lift gas
+inside a <code>Balloon</code>.</p>
+<p><strong>Parameters:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>species</code></td>
+<td><code>string</code></td>
+<td>
+<p>Initialize the <code>Gas</code> object with a species of gas to
+use for ideal gas calculations. For a complete list of gasses to
+choose from, use <code>list_known_species()</code></p>
+</td>
+<td><em>required</em></td>
+</tr>
+<tr>
+<td><code>mass</code></td>
+<td><code>float</code></td>
+<td>
+<p>Initialize the <code>Gas</code> object with positive nonzero mass in
+kilograms. Optional, defaults to <code>0</code>.</p>
+</td>
+<td><em>required</em></td>
+</tr>
+</tbody>
+</table>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>While <code>Gas</code> objects function alone, they are best used when set as the
+<code>lift_gas</code> attribute of a <code>Balloon</code>.</p>
+</div>
+<div class="doc doc-children">
+<div class="doc doc-object doc-attribute">
+<h5 class="doc doc-heading" id="hab_toolbox.balloon_library.balloon.Gas.density">
+<code class="highlight">
+density        </code>
+<span class="doc doc-properties">
+<small class="doc doc-property doc-property-property"><code>property</code></small>
+<small class="doc doc-property doc-property-readonly"><code>readonly</code></small>
+</span>
+</h5>
+<div class="doc doc-contents">
+<p>Ideal gas density (kg/m^3) from temperature (K) and pressure (Pa).</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Since density is a property per unit mass, this property is still
+valid for an unspecified (or zero) <code>Gas.mass</code>.</p>
+</div>
+</div>
+</div>
+<div class="doc doc-object doc-attribute">
+<h5 class="doc doc-heading" id="hab_toolbox.balloon_library.balloon.Gas.volume">
+<code class="highlight">
+volume        </code>
+<span class="doc doc-properties">
+<small class="doc doc-property doc-property-property"><code>property</code></small>
+<small class="doc doc-property doc-property-readonly"><code>readonly</code></small>
+</span>
+</h5>
+<div class="doc doc-contents">
+<p>Ideal gas volume (m^3) from temperature (K) and pressure (Pa) for
+    a given mass (kg) of gas.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If <code>Gas.mass</code> is zero, volume is also zero. Likewise, a negative
+(nonphysical) mass will result in a negative (nonphysical) volume.</p>
+</div>
+</div>
+</div>
+<div class="doc doc-object doc-method">
+<h5 class="doc doc-heading" id="hab_toolbox.balloon_library.balloon.Gas.match_ambient">
+<code class="highlight language-python">
+match_ambient<span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">atmosphere</span><span class="p">)</span> </code>
+</h5>
+<div class="doc doc-contents">
+<p>Update temperature (K), pressure (Pa), and density (kg/m^3) to
+match ambient air conditions at a given geopotential altitude (m).</p>
+<p><strong>Parameters:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>atmosphere</code></td>
+<td><code>Atmosphere</code></td>
+<td>
+<p>An <code>ambiance.Atmosphere</code> object with
+valid <code>temperature</code> and <code>pressure</code> attributes.</p>
+</td>
+<td><em>required</em></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Returns:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Gas</code></td>
+<td>
+<p>Updates the <code>temperature</code> and <code>pressure</code> properties to be
+    equal to those of the input <code>atmosphere</code>, then returns itself.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<details class="quote">
+<summary>Source code in <code>hab_toolbox/balloon_library/balloon.py</code></summary>
+<div class="highlight">
+<pre><span></span><code><span class="k">def</span> <span class="nf">match_ambient</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">atmosphere</span><span class="p">):</span>
+    <span class="sd">''' Update temperature (K), pressure (Pa), and density (kg/m^3) to</span>
+<span class="sd">    match ambient air conditions at a given geopotential altitude (m).</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        atmosphere (Atmosphere): An `ambiance.Atmosphere` object with</span>
+<span class="sd">            valid `temperature` and `pressure` attributes.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Gas: Updates the `temperature` and `pressure` properties to be</span>
+<span class="sd">            equal to those of the input `atmosphere`, then returns itself.</span>
+<span class="sd">    '''</span>
+    <span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">'Matching </span><span class="si">%s</span><span class="s1"> temperature and pressure to ambient at </span><span class="si">%s</span><span class="s1"> meters (geometric altitude)'</span> <span class="o">%</span> <span class="p">(</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">species</span><span class="p">,</span> <span class="n">atmosphere</span><span class="o">.</span><span class="n">h</span>
+    <span class="p">))</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">temperature</span> <span class="o">=</span> <span class="n">atmosphere</span><span class="o">.</span><span class="n">temperature</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">pressure</span> <span class="o">=</span> <span class="n">atmosphere</span><span class="o">.</span><span class="n">pressure</span>
+    <span class="k">return</span> <span class="bp">self</span>
+</code></pre>
+</div>
+</details>
+</div>
+</div>
+<div class="doc doc-object doc-method">
+<h5 class="doc doc-heading" id="hab_toolbox.balloon_library.balloon.Gas.match_conditions">
+<code class="highlight language-python">
+match_conditions<span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">temperature</span><span class="p">,</span> <span class="n">pressure</span><span class="p">)</span> </code>
+</h5>
+<div class="doc doc-contents">
+<p>Update temperature (K), pressure (Pa) to match specific values.</p>
+<p><strong>Parameters:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>temperature</code></td>
+<td><code>float</code></td>
+<td>
+<p>Temperature in Kelvin</p>
+</td>
+<td><em>required</em></td>
+</tr>
+<tr>
+<td><code>pressure</code></td>
+<td><code>float</code></td>
+<td>
+<p>Pressure in Pascals</p>
+</td>
+<td><em>required</em></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Returns:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Gas</code></td>
+<td>
+<p>Updates the <code>temperature</code> and <code>pressure</code> properties to be
+    equal to the input <code>temperature</code> and <code>pressure</code>, then returns
+    itself.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<details class="quote">
+<summary>Source code in <code>hab_toolbox/balloon_library/balloon.py</code></summary>
+<div class="highlight">
+<pre><span></span><code><span class="k">def</span> <span class="nf">match_conditions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">temperature</span><span class="p">,</span> <span class="n">pressure</span><span class="p">):</span>
+    <span class="sd">''' Update temperature (K), pressure (Pa) to match specific values.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        temperature (float): Temperature in Kelvin</span>
+<span class="sd">        pressure (float): Pressure in Pascals</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Gas: Updates the `temperature` and `pressure` properties to be</span>
+<span class="sd">            equal to the input `temperature` and `pressure`, then returns</span>
+<span class="sd">            itself.</span>
+<span class="sd">    '''</span>
+    <span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">'Matching </span><span class="si">%s</span><span class="s1"> temperature and pressure to </span><span class="si">%s</span><span class="s1"> K, </span><span class="si">%s</span><span class="s1"> Pa'</span> <span class="o">%</span> <span class="p">(</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">species</span><span class="p">,</span> <span class="n">temperature</span><span class="p">,</span> <span class="n">pressure</span>
+    <span class="p">))</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">temperature</span> <span class="o">=</span> <span class="n">temperature</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">pressure</span> <span class="o">=</span> <span class="n">pressure</span>
+    <span class="k">return</span> <span class="bp">self</span>
+</code></pre>
+</div>
+</details>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="doc doc-object doc-class">
+<h4 class="doc doc-heading" id="hab_toolbox.balloon_library.balloon.Payload">
+<code>Payload</code>
+</h4>
+<div class="doc doc-contents">
+<p>The thing carried by a balloon.</p>
+<p><strong>Parameters:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>dry_mass</code></td>
+<td><code>float</code></td>
+<td>
+<p>Mass of the payload in kilograms. If there are
+consumables on board like ballast, this is <em>not</em> included in dry
+mass. Optional, default is <code>2.0</code>.</p>
+</td>
+<td><em>required</em></td>
+</tr>
+<tr>
+<td><code>ballast_mass</code></td>
+<td><code>float</code></td>
+<td>
+<p>Mass of ballast to be dropped (consumed) in
+kilograms. It is assumed that the payload is an open-mass system
+with respect to ballast. Optional, default is <code>0.0</code>.</p>
+</td>
+<td><em>required</em></td>
+</tr>
+</tbody>
+</table>
+<div class="doc doc-children">
+<div class="doc doc-object doc-attribute">
+<h5 class="doc doc-heading" id="hab_toolbox.balloon_library.balloon.Payload.total_mass">
+<code class="highlight">
+total_mass: <span class="nb">float</span> </code>
+<span class="doc doc-properties">
+<small class="doc doc-property doc-property-property"><code>property</code></small>
+<small class="doc doc-property doc-property-readonly"><code>readonly</code></small>
+</span>
+</h5>
+<div class="doc doc-contents">
+<p>Get the total mass of the payload, including dry mass and ballast.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="doc doc-object doc-function">
+<h4 class="doc doc-heading" id="hab_toolbox.balloon_library.balloon.get_balloon">
+<code class="highlight language-python">
+get_balloon<span class="p">(</span><span class="n">spec_name</span><span class="p">)</span> </code>
+</h4>
+<div class="doc doc-contents">
+<p>Get balloon spec sheet definitions as a dictionary.</p>
+<p>Balloon definition files are JSON files in the <code>balloon_library</code> directory.</p>
+<p><strong>Parameters:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>spec_name</code></td>
+<td><code>string</code></td>
+<td>
+<p>Name of the balloon spec to use. Case sensitive and
+does not include the file (i.e. <code>HAB-3000</code> corresponds to
+<code>ballon_library/HAB-3000.json</code>).</p>
+</td>
+<td><em>required</em></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Returns:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>dict</code></td>
+<td>
+<p>Dictionary of balloon specification parameters.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<details class="quote">
+<summary>Source code in <code>hab_toolbox/balloon_library/balloon.py</code></summary>
+<div class="highlight">
+<pre><span></span><code><span class="k">def</span> <span class="nf">get_balloon</span><span class="p">(</span><span class="n">spec_name</span><span class="p">):</span>
+    <span class="sd">''' Get balloon spec sheet definitions as a dictionary.</span>
+
+<span class="sd">    Balloon definition files are JSON files in the `balloon_library` directory.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        spec_name (string): Name of the balloon spec to use. Case sensitive and</span>
+<span class="sd">            does not include the file (i.e. `HAB-3000` corresponds to</span>
+<span class="sd">            `ballon_library/HAB-3000.json`).</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        dict: Dictionary of balloon specification parameters.</span>
+<span class="sd">    '''</span>
+    <span class="k">if</span> <span class="n">is_valid_balloon</span><span class="p">(</span><span class="n">spec_name</span><span class="p">):</span>
+        <span class="n">config_filename</span> <span class="o">=</span> <span class="s1">'</span><span class="si">%s</span><span class="s1">.json'</span> <span class="o">%</span> <span class="n">spec_name</span>
+        <span class="n">config_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">BALLOON_LIBRARY_DIR</span><span class="p">,</span> <span class="n">config_filename</span><span class="p">)</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">config_path</span><span class="p">)</span> <span class="k">as</span> <span class="n">config_json_data</span><span class="p">:</span>
+            <span class="n">config_data</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">config_json_data</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">config_data</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">'No valid balloon named </span><span class="si">%s</span><span class="s1">'</span> <span class="o">%</span> <span class="n">spec_name</span><span class="p">)</span>
+</code></pre>
+</div>
+</details>
+</div>
+</div>
+<div class="doc doc-object doc-function">
+<h4 class="doc doc-heading" id="hab_toolbox.balloon_library.balloon.get_gas_properties">
+<code class="highlight language-python">
+get_gas_properties<span class="p">()</span> </code>
+</h4>
+<div class="doc doc-contents">
+<p>Return the dictionary of gas species and their molar mass (kg/mol).</p>
+<details class="quote">
+<summary>Source code in <code>hab_toolbox/balloon_library/balloon.py</code></summary>
+<div class="highlight">
+<pre><span></span><code><span class="k">def</span> <span class="nf">get_gas_properties</span><span class="p">():</span>
+    <span class="sd">''' Return the dictionary of gas species and their molar mass (kg/mol).</span>
+<span class="sd">    '''</span>
+    <span class="n">gas_properties</span> <span class="o">=</span> <span class="n">GAS_PROPERTIES_CONFIG</span><span class="p">[</span><span class="s1">'gas_properties'</span><span class="p">]</span>
+    <span class="n">units</span> <span class="o">=</span> <span class="n">GAS_PROPERTIES_CONFIG</span><span class="p">[</span><span class="s1">'units'</span><span class="p">]</span>
+
+    <span class="n">known_species</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">gas</span> <span class="ow">in</span> <span class="n">gas_properties</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">gas_name</span> <span class="ow">in</span> <span class="n">gas</span><span class="p">[</span><span class="s1">'species'</span><span class="p">]:</span>
+            <span class="n">known_species</span><span class="p">[</span><span class="n">gas_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">gas</span><span class="p">[</span><span class="s1">'molar_mass'</span><span class="p">]</span>
+    <span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">'Known gas species: </span><span class="si">%s</span><span class="s1">'</span> <span class="o">%</span> <span class="n">known_species</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">known_species</span><span class="p">,</span> <span class="n">units</span>
+</code></pre>
+</div>
+</details>
+</div>
+</div>
+<div class="doc doc-object doc-function">
+<h4 class="doc doc-heading" id="hab_toolbox.balloon_library.balloon.is_valid_balloon">
+<code class="highlight language-python">
+is_valid_balloon<span class="p">(</span><span class="n">spec_name</span><span class="p">)</span> </code>
+</h4>
+<div class="doc doc-contents">
+<p>Returns True if <code>spec_name</code> matches the name of a known balloon
+definition.</p>
+<p>Balloon definition files are JSON files in the <code>balloon_library</code> directory.</p>
+<p><strong>Parameters:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>spec_name</code></td>
+<td><code>string</code></td>
+<td>
+<p>Name of the balloon spec to use. Case sensitive and
+does not include the file (i.e. <code>HAB-3000</code> corresponds to
+<code>ballon_library/HAB-3000.json</code>).</p>
+</td>
+<td><em>required</em></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Returns:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>bool</code></td>
+<td>
+<p>Returns True if <code>spec_name</code> matches the name of a known balloon
+definition.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<details class="quote">
+<summary>Source code in <code>hab_toolbox/balloon_library/balloon.py</code></summary>
+<div class="highlight">
+<pre><span></span><code><span class="k">def</span> <span class="nf">is_valid_balloon</span><span class="p">(</span><span class="n">spec_name</span><span class="p">):</span>
+    <span class="sd">''' Returns True if `spec_name` matches the name of a known balloon</span>
+<span class="sd">    definition.</span>
+
+<span class="sd">    Balloon definition files are JSON files in the `balloon_library` directory.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        spec_name (string): Name of the balloon spec to use. Case sensitive and</span>
+<span class="sd">            does not include the file (i.e. `HAB-3000` corresponds to</span>
+<span class="sd">            `ballon_library/HAB-3000.json`).</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        bool: Returns True if `spec_name` matches the name of a known balloon</span>
+<span class="sd">        definition.</span>
+<span class="sd">    '''</span>
+    <span class="n">known_balloons</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">BALLOON_LIBRARY_DIR</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">BALLOON_LIBRARY_DIR</span><span class="p">,</span> <span class="n">f</span><span class="p">)):</span>
+            <span class="n">fileparts</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">splitext</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">fileparts</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s1">'.json'</span><span class="p">:</span>
+                <span class="n">known_balloons</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">fileparts</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">'Known balloons: </span><span class="si">%s</span><span class="s1">'</span> <span class="o">%</span> <span class="n">known_balloons</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">spec_name</span> <span class="ow">in</span> <span class="n">known_balloons</span>
+</code></pre>
+</div>
+</details>
+</div>
+</div>
+<div class="doc doc-object doc-function">
+<h4 class="doc doc-heading" id="hab_toolbox.balloon_library.balloon.is_valid_gas">
+<code class="highlight language-python">
+is_valid_gas<span class="p">(</span><span class="n">species</span><span class="p">)</span> </code>
+</h4>
+<div class="doc doc-contents">
+<p>Return True if there is a known molecular weight for the input
+<code>species</code>.</p>
+<p><strong>Parameters:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>species</code></td>
+<td><code>string</code></td>
+<td>
+<p>Name or abbreviation of a gas (i.e. <code>he</code> or <code>helium</code>)</p>
+</td>
+<td><em>required</em></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Returns:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>bool</code></td>
+<td>
+<p>Returns <code>True</code> if <code>species</code> is in the known list of gas species.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<details class="quote">
+<summary>Source code in <code>hab_toolbox/balloon_library/balloon.py</code></summary>
+<div class="highlight">
+<pre><span></span><code><span class="k">def</span> <span class="nf">is_valid_gas</span><span class="p">(</span><span class="n">species</span><span class="p">):</span>
+    <span class="sd">''' Return True if there is a known molecular weight for the input</span>
+<span class="sd">    `species`.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        species (string): Name or abbreviation of a gas (i.e. `he` or `helium`)</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        bool: Returns `True` if `species` is in the known list of gas species.</span>
+<span class="sd">    '''</span>
+    <span class="k">return</span> <span class="n">species</span> <span class="ow">in</span> <span class="n">list_known_species</span><span class="p">()</span>
+</code></pre>
+</div>
+</details>
+</div>
+</div>
+<div class="doc doc-object doc-function">
+<h4 class="doc doc-heading" id="hab_toolbox.balloon_library.balloon.list_known_species">
+<code class="highlight language-python">
+list_known_species<span class="p">()</span> </code>
+</h4>
+<div class="doc doc-contents">
+<p>Return all species listed in <code>get_gas_properties</code>.</p>
+<p><strong>Returns:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>list</code></td>
+<td>
+<p>Keys of valid gas species.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<details class="quote">
+<summary>Source code in <code>hab_toolbox/balloon_library/balloon.py</code></summary>
+<div class="highlight">
+<pre><span></span><code><span class="k">def</span> <span class="nf">list_known_species</span><span class="p">():</span>
+    <span class="sd">''' Return all species listed in `get_gas_properties`.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        list: Keys of valid gas species.</span>
+<span class="sd">    '''</span>
+    <span class="n">known_species</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">get_gas_properties</span><span class="p">()</span>
+    <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="n">known_species</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+</code></pre>
+</div>
+</details>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="doc doc-object doc-module">
+<h2 class="doc doc-heading" id="hab_toolbox.plot_tools">
+<code>plot_tools</code>
+</h2>
+<div class="doc doc-contents">
+<div class="doc doc-children">
+<div class="doc doc-object doc-function">
+<h3 class="doc doc-heading" id="hab_toolbox.plot_tools.plot_ascent">
+<code class="highlight language-python">
+plot_ascent<span class="p">(</span><span class="n">time</span><span class="p">,</span> <span class="n">altitude</span><span class="p">,</span> <span class="n">velocity</span><span class="p">,</span> <span class="n">acceleration</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s1">''</span><span class="p">,</span> <span class="n">show</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">save_fig</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> </code>
+</h3>
+<div class="doc doc-contents">
+<p>Create plots for altitude, velocity, and acceleration over time.</p>
+<p>Expects all input arrays to be the same length. Best results when used
+with <code>hab_toolbox.cli.simple_ascent</code> or <code>hab_toolbox.cli.plot_ascent</code>.</p>
+<p><strong>Parameters:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>time</code></td>
+<td><code>array</code></td>
+<td>
+<p>Array of time indices.</p>
+</td>
+<td><em>required</em></td>
+</tr>
+<tr>
+<td><code>altitude</code></td>
+<td><code>array</code></td>
+<td>
+<p>Array of altitudes.
+One entry for each time index.</p>
+</td>
+<td><em>required</em></td>
+</tr>
+<tr>
+<td><code>velocity</code></td>
+<td><code>array</code></td>
+<td>
+<p>Array of ascent velocities.
+One entry for each time index. Positive up.</p>
+</td>
+<td><em>required</em></td>
+</tr>
+<tr>
+<td><code>acceleration</code></td>
+<td><code>array</code></td>
+<td>
+<p>Array of ascent accelerations.
+One entry for each time index. Positive up.</p>
+</td>
+<td><em>required</em></td>
+</tr>
+<tr>
+<td><code>title</code></td>
+<td><code>string</code></td>
+<td>
+<p>Plot title. Defaults to <code>''</code>.</p>
+</td>
+<td><code>''</code></td>
+</tr>
+<tr>
+<td><code>show</code></td>
+<td><code>bool</code></td>
+<td>
+<p>Whether to display the plots (<code>True</code>, default)
+or just create the plot objects and return them (<code>False</code>).</p>
+</td>
+<td><code>True</code></td>
+</tr>
+<tr>
+<td><code>save_fig</code></td>
+<td><code>string</code></td>
+<td>
+<p>Filename to use for a saved figure.
+If not specified, the figure is not saved.
+If no file extension is given, the figure will be saved as a <code>.png</code></p>
+</td>
+<td><code>None</code></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Returns:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>tuple</code></td>
+<td>
+<p>Figure and Axis plot objects.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<details class="quote">
+<summary>Source code in <code>hab_toolbox/plot_tools.py</code></summary>
+<div class="highlight">
+<pre><span></span><code><span class="k">def</span> <span class="nf">plot_ascent</span><span class="p">(</span><span class="n">time</span><span class="p">,</span>
+                <span class="n">altitude</span><span class="p">,</span>
+                <span class="n">velocity</span><span class="p">,</span>
+                <span class="n">acceleration</span><span class="p">,</span>
+                <span class="n">title</span><span class="o">=</span><span class="s1">''</span><span class="p">,</span>
+                <span class="n">show</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                <span class="n">save_fig</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">''' Create plots for altitude, velocity, and acceleration over time.</span>
+
+<span class="sd">    Expects all input arrays to be the same length. Best results when used</span>
+<span class="sd">    with `hab_toolbox.cli.simple_ascent` or `hab_toolbox.cli.plot_ascent`.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        time (array): Array of time indices.</span>
+<span class="sd">        altitude (array): Array of altitudes.</span>
+<span class="sd">            One entry for each time index.</span>
+<span class="sd">        velocity (array): Array of ascent velocities.</span>
+<span class="sd">            One entry for each time index. Positive up.</span>
+<span class="sd">        acceleration (array): Array of ascent accelerations.</span>
+<span class="sd">            One entry for each time index. Positive up.</span>
+<span class="sd">        title (string, optional): Plot title. Defaults to `''`.</span>
+<span class="sd">        show (bool, optional): Whether to display the plots (`True`, default)</span>
+<span class="sd">            or just create the plot objects and return them (`False`).</span>
+<span class="sd">        save_fig (string, optional): Filename to use for a saved figure.</span>
+<span class="sd">            If not specified, the figure is not saved.</span>
+<span class="sd">            If no file extension is given, the figure will be saved as a `.png`</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        tuple: Figure and Axis plot objects.</span>
+<span class="sd">    '''</span>
+    <span class="n">fig</span><span class="p">,</span> <span class="n">axs</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">title</span><span class="p">:</span>
+        <span class="n">fig</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="n">title</span><span class="p">)</span>
+
+    <span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">time</span><span class="p">,</span> <span class="n">altitude</span><span class="p">)</span>
+    <span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">'Altitude (m)'</span><span class="p">)</span>
+
+    <span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">time</span><span class="p">,</span> <span class="n">velocity</span><span class="p">)</span>
+    <span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">'Velocity (m/s)'</span><span class="p">)</span>
+
+    <span class="n">axs</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">time</span><span class="p">,</span> <span class="n">acceleration</span><span class="p">)</span>
+    <span class="n">axs</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">'Acceleration (m/s^2)'</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">ax</span> <span class="ow">in</span> <span class="n">axs</span><span class="p">:</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">'Time (s)'</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_frame_on</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">show</span><span class="p">:</span>
+        <span class="n">show_figure</span><span class="p">(</span><span class="n">save_fig</span><span class="o">=</span><span class="n">save_fig</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">fig</span><span class="p">,</span> <span class="n">axs</span>
+</code></pre>
+</div>
+</details>
+</div>
+</div>
+<div class="doc doc-object doc-function">
+<h3 class="doc doc-heading" id="hab_toolbox.plot_tools.show_figure">
+<code class="highlight language-python">
+show_figure<span class="p">(</span><span class="n">save_fig</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> </code>
+</h3>
+<div class="doc doc-contents">
+<p>Show all plots.</p>
+<p>A simple wrapper for <code>matplotlib.pyplot.show()</code></p>
+<p><strong>Parameters:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>save_fig</code></td>
+<td><code>string</code></td>
+<td>
+<p>Filename to use for a saved figure.
+If not specified, the figure is not saved.
+If no file extension is given, the figure will be saved as a <code>.png</code></p>
+</td>
+<td><code>None</code></td>
+</tr>
+</tbody>
+</table>
+<details class="quote">
+<summary>Source code in <code>hab_toolbox/plot_tools.py</code></summary>
+<div class="highlight">
+<pre><span></span><code><span class="k">def</span> <span class="nf">show_figure</span><span class="p">(</span><span class="n">save_fig</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">''' Show all plots.</span>
+
+<span class="sd">    A simple wrapper for `matplotlib.pyplot.show()`</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        save_fig (string, optional): Filename to use for a saved figure.</span>
+<span class="sd">            If not specified, the figure is not saved.</span>
+<span class="sd">            If no file extension is given, the figure will be saved as a `.png`</span>
+<span class="sd">    '''</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">save_fig</span><span class="p">:</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">save_fig</span><span class="p">)</span>
+        <span class="n">log</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="sa">f</span><span class="s1">'Plot saved to </span><span class="si">{</span><span class="n">save_fig</span><span class="si">}</span><span class="s1">.png'</span><span class="p">)</span>
+</code></pre>
+</div>
+</details>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</article>
+</div>
+</div>
+</main>
+<footer class="md-footer">
+<div class="md-footer-nav">
+<nav aria-label="Footer" class="md-footer-nav__inner md-grid">
+<a class="md-footer-nav__link md-footer-nav__link--prev" href="../ascent_model/" rel="prev" title="Ascent Model">
+<div class="md-footer-nav__button md-icon">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"></path></svg>
+</div>
+<div class="md-footer-nav__title">
+<div class="md-ellipsis">
+<span class="md-footer-nav__direction">
+                  Previous
+                </span>
+                Ascent Model
+              </div>
+</div>
+</a>
+</nav>
+</div>
+<div class="md-footer-meta md-typeset">
+<div class="md-footer-meta__inner md-grid">
+<div class="md-footer-copyright">
+        
+        Made with
+        <a href="https://squidfunk.github.io/mkdocs-material/" rel="noopener" target="_blank">
+          Material for MkDocs
+        </a>
+</div>
+</div>
+</div>
+</footer>
+</div>
+<script src="../assets/javascripts/vendor.2d1db4bd.min.js"></script>
+<script src="../assets/javascripts/bundle.6627ddf3.min.js"></script><script id="__lang" type="application/json">{"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents"}</script>
+<script>
+        app = initialize({
+          base: "..",
+          features: [],
+          search: Object.assign({
+            worker: "../assets/javascripts/worker/search.5eca75d3.min.js"
+          }, typeof search !== "undefined" && search)
+        })
+      </script>
+</body>
+</html>
