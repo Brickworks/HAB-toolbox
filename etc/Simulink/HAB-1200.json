@@ -1,0 +1,82 @@
+{
+    "name": "HAB-1200",
+    "datasheet": "https://f02c6e65-2400-409c-b83f-d95f5ff89a44.filesusr.com/ugd/a13aac_8b5ad5a2fa1743979067a5074763e8cf.pdf",
+    "part_number": [
+        {
+            "manufacturer": "Kaymont",
+            "model": "KCI-1200"
+        },
+        {
+            "manufacturer": "Kaymont",
+            "model": "HAB-1200"
+        },
+        {
+            "manufacturer": "Totex",
+            "model": "TA1200"
+        }
+    ],
+    "spec": {
+        "lifting_gas": "Helium",
+        "drag_coefficient": 0.25,
+        "mass": {
+            "value": 1.200,
+            "unit": "kg"
+        },
+        "neck_diameter": {
+            "value": 0.03,
+            "unit": "m"
+        },
+        "neck_length": {
+            "value": 0.12,
+            "unit": "m"
+        },
+        "flaccid_length": {
+            "value": 2.26,
+            "unit": "m"
+        },
+        "diameter_barely_inflated": {
+            "value": 1.44,
+            "unit": "m"
+        },
+        "payload": {
+            "value": 1.050,
+            "unit": "kg"
+        },
+        "free_lift_recommended": {
+            "value": 1.190,
+            "unit": "kg"
+        },
+        "nozzle_lift": {
+            "value": 2.240,
+            "unit": "kg"
+        },
+        "gross_lift": {
+            "value": 3.440,
+            "unit": "kg"
+        },
+        "diameter_release": {
+            "value": 1.79,
+            "unit": "m"
+        },
+        "volume_release": {
+            "value": 2.99,
+            "unit": "m^3"
+        },
+        "ascent_rate": {
+            "value": 5.333,
+            "unit": "m/s"
+        },
+        "diameter_burst": {
+            "value": 8.63,
+            "unit": "m"
+        },
+        "altitude_burst": {
+            "value": 33200,
+            "unit": "m"
+        },
+        "pressure_burst": {
+            "value": 730,
+            "unit": "Pa"
+        }
+    }
+}
