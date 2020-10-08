@@ -1,13 +1,10 @@
-#!/usr/bin/env python3
-
 import logging
 import click
 import json
+import os
 import numpy as np
-
 from hab_toolbox import ascent_model
 from hab_toolbox import plot_tools
-
 
 FORMAT = '%(module)-10s %(levelname)+8s: %(message)s'
 logging.basicConfig(format=FORMAT, datefmt="%Y-%m-%dT%H:%M:%S%z")
@@ -15,11 +12,21 @@ log = logging.getLogger()
 
 
 @click.group()
-@click.option('-v', '--verbose', is_flag=True, 
-    help='Show log messages at the INFO level and above.')
-@click.option('--debug', is_flag=True, 
-    help='Show log messages at the DEBUG level and above.')
+@click.option('-v',
+              '--verbose',
+              is_flag=True,
+              help='Show log messages at the INFO level and above.')
+@click.option('-vv',
+              '--debug',
+              is_flag=True,
+              help='Show log messages at the DEBUG level and above.')
 def cli(verbose, debug):
+    ''' The HAB-toolbox Command Line Interface (CLI).
+
+    Execute with Python Poetry -> $ poetry run hab-toolbox
+
+    Execute with Plain Python  -> $ python hab_toolbox/cli.py
+    '''
     if debug:
         log.setLevel(logging.DEBUG)
     elif verbose:
@@ -30,14 +37,18 @@ def cli(verbose, debug):
 
 @cli.command()
 @click.argument('config_file', type=click.File('rb'))
-@click.option('-o', '--save_output', type=click.Path(), 
-    help='Save output to file.'
-)
-@click.option('-p', '--plot', is_flag=True, 
-    help='Plot altitude, velocity, and acceleration after simulating.'
-)
+@click.option(
+    '-o',
+    '--save_output',
+    type=click.Path(),
+    help='Save output to file. (Name only, data will be saved as CSV)')
+@click.option(
+    '-p',
+    '--plot',
+    is_flag=True,
+    help='Plot altitude, velocity, and acceleration after simulating.')
 def simple_ascent(config_file, save_output, plot):
-    ''' Start a simulation. 
+    ''' Start a 1D ascent simulation.
     
     Specify initial conditions and configurable parameters with a CONFIG_FILE 
     formatted as a JSON.
@@ -71,28 +82,72 @@ def simple_ascent(config_file, save_output, plot):
     if save_output:
         # vertical stack single rows then transpose so they are columns
         output_array = np.vstack([t, h, v, a]).T
-        np.savetxt(
-            save_output, output_array, fmt='%.6f', delimiter=',', newline='\n',
-            header='time,altitude,ascent_rate,ascent_accel', footer='', 
-            comments='# ', encoding=None
-        )
-        log.warning(f'Simulation output saved to {save_output}')
+        output_filename, _ = os.path.splitext(save_output)
+        output_filename = f'{output_filename}.csv'
+        np.savetxt(output_filename,
+                   output_array,
+                   fmt='%.6f',
+                   delimiter=',',
+                   newline='\n',
+                   header='time,altitude,ascent_rate,ascent_accel',
+                   footer='',
+                   comments='# ',
+                   encoding=None)
+        log.warning(f'Simulation output saved to {output_filename}')
     if plot:
         log.warning('Plotting results...')
-        plot_tools.plot_ascent(t, h, v, a, 
-            title=sim_config['simulation']['id'], show=True)
+        if save_output:
+            output_filename, _ = os.path.splitext(save_output)
+            save_fig = output_filename
+        else:
+            save_fig = None
+        plot_tools.plot_ascent(t,
+                               h,
+                               v,
+                               a,
+                               title=sim_config['simulation']['id'],
+                               show=True,
+                               save_fig=save_fig)
     log.warning('Done.')
 
 
 @cli.command()
-def pendulum():
-    ''' Simulate HAB motion as a spherical pendulum.
+@click.argument('csv_file', type=click.File('rb'))
+@click.option('-o',
+              '--save_output',
+              type=click.Path(),
+              help='Save output to file. Creates a .png by default.')
+def plot_ascent(csv_file, save_output):
+    ''' Plot altitude, velocity, and acceleration from a CSV file.
     '''
-    log.error(
-        'Nothing happened because this function has not been written yet!')
+    data = np.genfromtxt(csv_file, delimiter=',')
+    log.info(f'Loaded data from {csv_file}.')
+    time = data[:, 0]
+    altitude = data[:, 1]
+    ascent_rate = data[:, 2]
+    ascent_accel = data[:, 3]
+    log.warning('Plotting results...')
+    plot_tools.plot_ascent(time,
+                           altitude,
+                           ascent_rate,
+                           ascent_accel,
+                           title=csv_file,
+                           show=True,
+                           save_fig=save_output)
+    log.warning('Done.')
 
+
+# @cli.command()
+# def pendulum():
+#     ''' Simulate HAB motion as a spherical pendulum.
+#     '''
+#     log.error(
+#         '''Nothing happened because this feature has not been implemented yet!
+#         See `etc/kinematics_model`
+#         ''')
 
 cli.add_command(simple_ascent)
+cli.add_command(plot_ascent)
 
 if __name__ == '__main__':
     # pylint: disable=no-value-for-parameter
